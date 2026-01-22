@@ -1,0 +1,24 @@
+# Sample similarity ranking data for Aether Atlas
+# Format: CSV with header row. Comments (lines starting with #) are ignored by humans but this script expects a standard CSV.
+# Required columns:
+# id,title,artist,album,genre,producer,releaseType,linkedAlbumId,trackId,<feature columns...>
+# Feature columns should be numeric scores (e.g., 0-10) representing perceptual characteristics.
+# Recommended features: texture_grit,warmth,dissonance,ethereal_factor,rhythmic_intensity,melancholy
+# Example rows below (no leading # on data rows):
+
+id,title,artist,album,genre,producer,releaseType,linkedAlbumId,trackId,texture_grit,warmth,dissonance,ethereal_factor,rhythmic_intensity,melancholy
+ik-1,Something Good,Ivy Knight,Feet of Mud,Indie Bedroom Pop,,EP,ivy-knight-feet-of-mud,ik-1,9,3,7,6,2,8
+ik-2,Cut the String,Ivy Knight,Feet of Mud,Indie Bedroom Pop,,EP,ivy-knight-feet-of-mud,ik-2,8,2,6,5,3,9
+ik-3,Salvation,Ivy Knight,Feet of Mud,Indie Bedroom Pop,,EP,ivy-knight-feet-of-mud,ik-3,7,4,5,7,2,8
+st-1,Milk,Sweet Trip,You Will Never Know Why,Dream Pop,,Album,sweet-trip-ywnkw,st-1,3,9,2,8,4,5
+st-2,Pretending,Sweet Trip,You Will Never Know Why,Dream Pop,,Album,sweet-trip-ywnkw,st-2,2,8,1,9,3,4
+db-2,Greaser,The Crying Nudes,The Crying Nudes,Experimental,Dean Blunt,Album,dean-blunt-crying-nudes,db-2,8,4,5,7,3,7
+ca-1,Marina,Cities Aviv,Man Plays the Horn,Experimental Hip Hop,,Album,cities-aviv-man-plays-horn,ca-1,6,5,4,8,5,6
+fo-1,White Ferrari,Frank Ocean,Blonde,R&B,,Album,frank-ocean-blonde,fo-1,1,7,1,9,1,8
+rh-3,Creep,Radiohead,Pablo Honey,Grunge,,Single,radiohead-in-rainbows,rh-3,6,3,8,1,8,6
+nt-1,Neon Tide,New Wave,Night Beaches,Synthwave,,Album,night-beaches,nt-1,4,6,3,7,6,4
+nt-2,Midnight Drip,New Wave,Night Beaches,Synthwave,,Album,night-beaches,nt-2,5,5,4,6,5,5
+av-1,Glass Harbor,Avalon,Glass Harbor,Ambient,,Album,glass-harbor,av-1,2,8,1,9,1,7
+pj-1,Rusted Halo,PJ Reed,Small Fires,Lo-Fi,,Album,small-fires,pj-1,8,2,6,4,2,9
+lv-1,Blue Static,Liquid Void,Blue Static,Experimental Ambient,,Album,blue-static,lv-1,3,9,2,9,1,6
+sk-1,Concrete Bloom,Skylark,Concrete Bloom,Post-Rock,,Album,concrete-bloom,sk-1,7,4,7,3,6,5
