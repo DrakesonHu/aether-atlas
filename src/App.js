@@ -28,7 +28,10 @@ const INITIAL_ALBUMS = [
         releaseType: 'EP',
         date: '2023-10-14',
         genre: 'Indie Bedroom Pop',
-        links: { spotify: '#', apple: '#', youtube: '#' },
+        links: { 
+            spotify: 'https://open.spotify.com/album/1t1ly0P478lm9FPxeYUIzc?si=e0fT1gmmT06SsVzZnomBnA', 
+            apple: 'https://music.apple.com/us/album/feet-of-mud-ep/1633317771', 
+            youtube: 'https://www.youtube.com/watch?v=E2LBuCzSGBA&list=OLAK5uy_nWQordJULKVvjZudt9ZDQHmLzIgBXa5nY&pp=0gcJCbYEOCosWNin' },
         overview: [
             { type: 'text', value: "The album feels like the essence of a blurry memory. Each song isn't just music; it's a scene laid out in non-physical space with the noises of the world acting as a window." },
             { type: 'text', value: "This makes my list because of how raw it is. The lyrics read very poetically. Literal description and plain prose is mixed in with lyrics which I feel are much more evocative than syntactically meaningful." },
@@ -91,7 +94,10 @@ const INITIAL_ALBUMS = [
         releaseType: 'Album',
         date: '2023-11-02',
         genre: 'Dream Pop',
-        links: { spotify: '#', apple: '#', youtube: '#' },
+        links: { 
+            spotify: 'https://open.spotify.com/album/0kmPn6M3cue7rec6Unw6BD?si=WYBq0MlTTh6STn2XfpMXKg', 
+            apple: 'https://music.apple.com/us/album/you-will-never-know-why-2021-remaster/1546560761', 
+            youtube: 'https://www.youtube.com/watch?v=57MOxcW7iqo&list=OLAK5uy_luQpEG_NkTi7-z57k9qVGX95vghXAqrCI' },
         overview: [
             { type: 'text', value: "A radical departure from Sweet Trip’s electronic heart in Velocity: Design: Comfort, this album is, at its core, acoustic. It leans into Sweet Trip’s lining of innocent-sounding whimsy, abandoning the complex glitch-pop sound for a lullaby-esque quality." }
         ],
@@ -116,7 +122,10 @@ const INITIAL_ALBUMS = [
         releaseType: 'Album',
         date: '2023-09-10',
         genre: 'Experimental / Art Pop',
-        links: { spotify: '#', apple: '#', youtube: '#' },
+        links: { 
+            spotify: 'https://open.spotify.com/album/2z41sP07YkiqqdZEY9gU56?si=JKaRBVURTYWxrfX09KA_Lg', 
+            apple: 'https://music.apple.com/us/album/the-crying-nudes/1766386907', 
+            youtube: 'https://www.youtube.com/watch?v=FZ5L7oLMiE0&list=OLAK5uy_m1ToGxVRtoRL-Kt9mL823BUD3UQtusQfk' },
         overview: [
             { type: 'text', value: "Divergent from most of Dean Blunt's work, The Crying Nudes embodies a gentler, more pop-y persona. While produced by Dean Blunt, this project features Fine, whose voice brings a persistent contrast to Blunt's production." },
             { type: 'text', value: "Blunt’s production fittingly takes on a slightly more optimistic (not always), rhythmic style, but he opts to keep a low-fidelity sound reminiscent of his earlier projects Hype Williams and “Black is Beautiful”." }
@@ -140,7 +149,10 @@ const INITIAL_ALBUMS = [
         releaseType: 'Album',
         date: '2023-08-15',
         genre: 'Experimental Hip Hop',
-        links: { spotify: '#', apple: '#', youtube: '#' },
+        links: { 
+            spotify: 'https://open.spotify.com/album/1OmF3bAtGjsC8TH7ebyE0f?si=87qZcdPcQHiy_qD9EzszeA', 
+            apple: 'https://music.apple.com/us/album/man-plays-the-horn/1607838012', 
+            youtube: 'https://www.youtube.com/watch?v=XgiA2tj8S74&list=OLAK5uy_keZb_ofPbEZembcwi6uBLJPbly_5p0FpI' },
         overview: [
             { type: 'text', value: "Cities Aviv has albums ranging from more lyrically-oriented Earl-esque projects such as Working Title for the Album Secret Waters, and albums almost entirely composed of experimental glitchy ambient instrumentals. Man Plays the Horn lies somewhere in between." },
             { type: 'text', value: "Somewhere within this behemoth of a project, there exists pieces of music which feel truly special to me." }
@@ -178,7 +190,7 @@ const INITIAL_ALBUMS = [
         releaseType: 'Album',
         date: '2016-08-20',
         genre: 'R&B / Soul',
-        links: { spotify: '#' },
+        links: { spotify: 'https://open.spotify.com/album/3mH6qwIy9crq0I9YQbOuDf?si=4Qx4HDvnTROflNfGTpLZBA' },
         overview: [{ type: 'text', value: "Male adolescence, love, identity. A minimalist masterpiece. Review coming soon." }],
         tracks: [
             { id: 'fo-1', title: 'White Ferrari', content: [] },
@@ -287,10 +299,35 @@ const Background = () => {
                 className="absolute bottom-[-10%] right-[10%] w-[40%] h-[40%] bg-[#062c26]/60 rounded-full blur-[100px]"
             />
 
-            {/* VISIBLE GRAIN: Removed mix-blend-overlay to ensure visibility on dark background */}
-            <div className="absolute inset-0 opacity-[0.2] pointer-events-none" style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
-            }} />
+            {/* VISIBLE GRAIN: full-bleed SVG so noise always reaches edges */}
+            {/*
+              Use the inline SVG below instead of a CSS background-image when you need
+              the noise to reliably cover the entire viewport (no tiling gaps).
+
+              Tweakable parameters (inside the <feTurbulence> element):
+              - baseFrequency: finer grain -> larger number (0.6-0.9). coarser -> smaller (0.02-0.2).
+              - numOctaves: 1 = simple, 2-4 = more detail.
+              - opacity on the SVG: overall strength (0.02 subtle -> 0.3 strong).
+              - preserveAspectRatio='none' ensures the SVG stretches to every edge.
+
+              Performance: high baseFrequency + many octaves can be GPU/CPU heavy on some devices.
+              For best performance, lower baseFrequency or pre-render a rasterized grain image.
+            */}
+            {/* Pre-rendered grain overlay */}
+            <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                    top: '-10%',
+                    left: 0,
+                    width: '100%',
+                    height: '120%',
+                    opacity: 0.2,
+                    backgroundImage: 'url(/grain_turbulence_f0.4_o4.png)',
+                    backgroundRepeat: 'repeat',
+                    transform: `translateY(${offset * -0.01}px)`
+                }}
+                aria-hidden="true"
+            />
 
             {/* Cinematic Vignette */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(1,10,8,0.9)_100%)] pointer-events-none" />
@@ -538,12 +575,127 @@ const TrackView = ({ track, album, onBack }) => {
 /* --- THE ATLAS (MDS VISUALIZATION) --- */
 
 const AtlasMap = ({ songs, onSelectSong }) => {
+    
     const [category, setCategory] = useState(null);
     const [selection, setSelection] = useState(null);
     const [hoveredNode, setHoveredNode] = useState(null);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const [isSelectionOpen, setIsSelectionOpen] = useState(false);
     const dropdownRef = useRef(null);
+
+    // NEW: Zoom and pan state
+    const [zoom, setZoom] = useState(1);
+    const [pan, setPan] = useState({ x: 0, y: 0 });
+    const [isPanning, setIsPanning] = useState(false);
+    const [panStart, setPanStart] = useState({ x: 0, y: 0 });
+    const mapRef = useRef(null);
+    const zoomRef = useRef(1);
+    const panRef = useRef({ x: 0, y: 0 });
+
+    const MIN_ZOOM = 0.5;
+    const MAX_ZOOM = 4;
+
+    // Keep refs synced
+    useEffect(() => {
+        zoomRef.current = zoom;
+    }, [zoom]);
+
+    useEffect(() => {
+        panRef.current = pan;
+    }, [pan]);
+
+    // Wheel zoom handler
+    useEffect(() => {
+        const mapEl = mapRef.current;
+        if (!mapEl) return;
+        
+        const wheelHandler = (e) => {
+            e.preventDefault();
+            
+            const currentZoom = zoomRef.current;
+            const currentPan = panRef.current;
+            
+            const rect = mapEl.getBoundingClientRect();
+            
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            
+            const contentX = (mouseX - currentPan.x) / currentZoom;
+            const contentY = (mouseY - currentPan.y) / currentZoom;
+            
+            const delta = e.deltaY > 0 ? 0.9 : 1.1;
+            const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, currentZoom * delta));
+            
+            const newPanX = mouseX - contentX * newZoom;
+            const newPanY = mouseY - contentY * newZoom;
+            
+            setZoom(newZoom);
+            setPan({ x: newPanX, y: newPanY });
+        };
+        
+        mapEl.addEventListener('wheel', wheelHandler, { passive: false });
+        return () => mapEl.removeEventListener('wheel', wheelHandler);
+    }, []);
+    // Handle pan start
+    const handleMouseDown = (e) => {
+        if (e.button !== 0) return; // left click only
+        setIsPanning(true);
+        setPanStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+    };
+
+    // Handle pan move
+    const handleMouseMove = (e) => {
+        if (!isPanning) return;
+        setPan({
+            x: e.clientX - panStart.x,
+            y: e.clientY - panStart.y
+        });
+    };
+
+    // Handle pan end
+    const handleMouseUp = () => {
+        setIsPanning(false);
+    };
+
+    // Reset view
+    const resetView = () => {
+        setZoom(1);
+        setPan({ x: 0, y: 0 });
+    };
+
+    // Attach wheel listener (need passive: false to preventDefault)
+        useEffect(() => {
+            const mapEl = mapRef.current;
+            if (!mapEl) return;
+            
+            const wheelHandler = (e) => {
+                e.preventDefault();
+                
+                const rect = mapEl.getBoundingClientRect();
+                
+                // Mouse position relative to container
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                // Point in content space before zoom
+                const contentX = (mouseX - pan.x) / zoom;
+                const contentY = (mouseY - pan.y) / zoom;
+                
+                // New zoom level
+                const delta = e.deltaY > 0 ? 0.9 : 1.1;
+                const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom * delta));
+                
+                // Adjust pan so the point under mouse stays in place
+                const newPanX = mouseX - contentX * newZoom;
+                const newPanY = mouseY - contentY * newZoom;
+                
+                setZoom(newZoom);
+                setPan({ x: newPanX, y: newPanY });
+            };
+            
+            mapEl.addEventListener('wheel', wheelHandler, { passive: false });
+            return () => mapEl.removeEventListener('wheel', wheelHandler);
+        }, [zoom, pan]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -555,11 +707,6 @@ const AtlasMap = ({ songs, onSelectSong }) => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
-
-    const options = useMemo(() => {
-        if (!category || !songs) return [];
-        return [...new Set(songs.map(s => s[category]))].sort();
-    }, [category, songs]);
 
     // Prepare display coordinates: auto-center and uniform scale to fit map nicely
     const prepared = useMemo(() => {
@@ -601,6 +748,11 @@ const AtlasMap = ({ songs, onSelectSong }) => {
         });
     }, [songs]);
 
+    const options = useMemo(() => {
+    if (!category || !prepared) return [];
+    return [...new Set(prepared.map(s => s[category]))].filter(Boolean).sort();
+}, [category, prepared]);
+
     // Use nearest neighbors to create a constellation mesh based on prepared coords
     const connections = useMemo(() => {
         const edges = [];
@@ -612,7 +764,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                 return { idx: j, dist: Math.sqrt(dx * dx + dy * dy) };
             });
             distances.sort((a, b) => a.dist - b.dist);
-            distances.slice(0, 2).forEach(d => {
+            distances.slice(0, 4).forEach(d => {
                 const songB = prepared[d.idx];
                 edges.push({ start: songA, end: songB });
             });
@@ -635,8 +787,8 @@ const AtlasMap = ({ songs, onSelectSong }) => {
             if (dist > maxDist) maxDist = dist;
         });
 
-        const radius = Math.max(maxDist + 6, 4);
-        const hue = Math.floor((avgX * 3 + avgY * 2) % 360);
+        const radius = Math.max(maxDist, 2);
+        const hue = 120 + Math.floor((avgX * 2 + avgY) % 100);
         return { x: avgX, y: avgY, radius, hue };
     }, [selection, category, prepared]);
 
@@ -704,113 +856,250 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                 )}
             </div>
 
-            <div className="flex-grow relative overflow-visible bg-[#010a08]/0">
-                {/* Map Grid */}
-                <div className="absolute inset-0 opacity-[0.03]" style={{
-                    backgroundImage: `radial-gradient(circle, #fff 1px, transparent 1px)`,
-                    backgroundSize: '60px 60px'
-                }}></div>
+    {/* Map container with zoom/pan */}
+    <div
+        ref={mapRef}
+        className={`flex-grow relative overflow-hidden ${isPanning ? 'cursor-grabbing' : 'cursor-grab'}`}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+    >
+    <div
+        className="absolute inset-0 origin-top-left transition-transform duration-75"
+        style={{
+            transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+        }}
+    >
+    {/* Map Grid - scales with zoom, fades at edges */}
+    <div 
+        className="absolute inset-0 opacity-[0.08]" 
+        style={{
+            backgroundImage: `radial-gradient(circle, #fff 1px, transparent 2px)`,
+            backgroundSize: `${60 / zoom}px ${60 / zoom}px`,
+            maskImage: `radial-gradient(ellipse 80% 80% at center, black 40%, transparent 100%)`,
+            WebkitMaskImage: `radial-gradient(ellipse 80% 80% at center, black 40%, transparent 100%)`
+        }}
+    />
 
-                {/* CLUSTER HIGHLIGHT */}
-                {clusterData && (
-                    <div
-                        className="absolute rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-all duration-1000 ease-in-out"
-                        style={{
-                            left: `${clusterData.x}%`,
-                            top: `${clusterData.y}%`,
-                            width: `${clusterData.radius * 2.5}%`,
-                            height: `${clusterData.radius * 2.5}%`,
-                            background: `radial-gradient(circle, hsla(170, 70%, 40%, 0.15) 0%, transparent 70%)`,
-                            // Removed Border
-                        }}
-                    />
-                )}
+        {/* CLUSTER HIGHLIGHT */}
+        {clusterData && (
+            <div
+                className="absolute rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-all duration-700 ease-out"
+                style={{
+                    left: `${clusterData.x}%`,
+                    top: `${clusterData.y}%`,
+                    width: `${clusterData.radius + 5}%`,
+                    height: `${clusterData.radius + 5}%`,
+                    backgroundColor: `hsla(${clusterData.hue}, 25%, 30%, 0.3)`,
+                    filter: `blur(${clusterData.radius * 7}px)`,
+                    borderRadius: '50%',
+                }}
+            />
+        )}
 
-                {/* CONSTELLATION MESH (Nearest Neighbors) */}
-                {/* Added overflow-visible to SVG */}
-                <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
-                    {connections.map((edge, i) => {
-                        const startSelected = selection && edge.start[category] === selection;
-                        const endSelected = selection && edge.end[category] === selection;
-                        const isHoveredConnection = hoveredNode && (edge.start.id === hoveredNode || edge.end.id === hoveredNode);
+        {/* CONSTELLATION MESH */}
+<svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
+    <defs>
+        {connections.map((edge, i) => {
+            const isHoveredConnection = hoveredNode && (edge.start.id === hoveredNode || edge.end.id === hoveredNode);
+            const startSelected = selection && edge.start[category] === selection;
+            const endSelected = selection && edge.end[category] === selection;
+            const isFilteredConnection = startSelected && endSelected;
+            const isPartialConnection = (startSelected || endSelected) && !(startSelected && endSelected);
+            
+            // Only create gradients for special states
+            if (!isHoveredConnection && !isFilteredConnection && !isPartialConnection) return null;
+            
+            let startColor, midColor, endColor;
+            
+            if (isHoveredConnection) {
+                // Hover: bright at hovered node
+                startColor = edge.start.id === hoveredNode ? "rgba(255,255,255,0.9)" : "rgba(45,212,191,0.2)";
+                endColor = edge.end.id === hoveredNode ? "rgba(255,255,255,0.9)" : "rgba(45,212,191,0.2)";
+                midColor = "rgba(45,212,191,0.7)";
+            } else if (isFilteredConnection) {
+                // Both ends in filter: full gradient
+                startColor = "rgba(45,212,191,0.7)";
+                midColor = "rgba(94,234,212,0.4)";
+                endColor = "rgba(45,212,191,0.7)";
+            } else if (isPartialConnection) {
+                // One end in filter: fade out to non-selected
+                startColor = startSelected ? "rgba(45,212,191,0.5)" : "rgba(16,185,129,0.05)";
+                endColor = endSelected ? "rgba(45,212,191,0.5)" : "rgba(16,185,129,0.05)";
+                midColor = "rgba(20,184,166,0.2)";
+            }
+            
+            return (
+                <linearGradient
+                    key={`grad-${i}`}
+                    id={`lineGrad-${i}`}
+                    gradientUnits="userSpaceOnUse"
+                    x1={`${edge.start.displayX}%`}
+                    y1={`${edge.start.displayY}%`}
+                    x2={`${edge.end.displayX}%`}
+                    y2={`${edge.end.displayY}%`}
+                >
+                    <stop offset="0%" stopColor={startColor} />
+                    <stop offset="50%" stopColor={midColor} />
+                    <stop offset="100%" stopColor={endColor} />
+                </linearGradient>
+            );
+        })}
+    </defs>
+    
+    {connections.map((edge, i) => {
+        const startSelected = selection && edge.start[category] === selection;
+        const endSelected = selection && edge.end[category] === selection;
+        const isHoveredConnection = hoveredNode && (edge.start.id === hoveredNode || edge.end.id === hoveredNode);
+        const isFilteredConnection = startSelected && endSelected;
+        const isPartialConnection = (startSelected || endSelected) && !(startSelected && endSelected);
 
-                        let strokeClass = "text-emerald-900/40"; // Default faint
-                        let strokeWidth = "0.5";
+        let strokeColor = "rgba(16, 185, 129, 0.4)";
+        let strokeWidth = 0.5;
+        let useGradient = false;
+        let glowFilter = 'none';
 
-                        if (selection) {
-                            if (startSelected && endSelected) {
-                                strokeClass = "text-teal-400/60"; // Highlighted connection
-                                strokeWidth = "1";
-                            } else if (startSelected || endSelected) {
-                                strokeClass = "text-emerald-900/20"; // Connected to cluster but external
-                            } else {
-                                strokeClass = "text-emerald-950/10"; // Background noise
-                            }
-                        }
+        if (selection) {
+            if (isFilteredConnection) {
+                strokeWidth = 1.5;
+                useGradient = true;
+                glowFilter = 'drop-shadow(0 0 4px rgba(45,212,191,0.4))';
+            } else if (isPartialConnection) {
+                strokeWidth = 0.8;
+                useGradient = true;
+            } else {
+                strokeColor = "rgba(6, 78, 59, 0.1)";
+            }
+        }
 
-                        if (isHoveredConnection) {
-                            // INCREASED GLOW INTENSITY and stroke width for connections
-                            strokeClass = "text-teal-200 drop-shadow-[0_0_8px_rgba(45,212,191,0.8)] opacity-100";
-                            strokeWidth = "2";
-                        }
+        if (isHoveredConnection) {
+            strokeWidth = 2;
+            useGradient = true;
+            glowFilter = 'drop-shadow(0 0 8px rgba(45,212,191,0.8))';
+        }
 
-                        return (
-                            <line
-                                key={i}
-                                x1={`${edge.start.displayX}%`}
-                                y1={`${edge.start.displayY}%`}
-                                x2={`${edge.end.displayX}%`}
-                                y2={`${edge.end.displayY}%`}
-                                stroke="currentColor"
-                                strokeWidth={strokeWidth}
-                                className={`transition-all duration-300 ${strokeClass}`}
-                            />
-                        );
-                    })}
-                </svg>
+        const scaledStrokeWidth = strokeWidth / zoom;
 
-                {/* NODES (Stars) */}
-                {prepared.map((song) => {
-                    const isDimmed = selection && song[category] !== selection;
-                    const isHovered = hoveredNode === song.id;
-                    const rotation = (song.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) * 13) % 360;
+        return (
+            <line
+                key={i}
+                x1={`${edge.start.displayX}%`}
+                y1={`${edge.start.displayY}%`}
+                x2={`${edge.end.displayX}%`}
+                y2={`${edge.end.displayY}%`}
+                stroke={useGradient ? `url(#lineGrad-${i})` : strokeColor}
+                strokeWidth={scaledStrokeWidth}
+                className="transition-all duration-150"
+                style={{ filter: glowFilter }}
+            />
+        );
+    })}
+</svg>
 
-                    return (
-                        <div
-                            key={song.id}
-                            className={`absolute transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all duration-500 cursor-pointer group z-10`}
-                            style={{ left: `${song.displayX}%`, top: `${song.displayY}%`, opacity: isDimmed ? 0.3 : 1, scale: isDimmed ? '0.8' : '1' }}
-                            onMouseEnter={() => setHoveredNode(song.id)}
-                            onMouseLeave={() => setHoveredNode(null)}
-                            onClick={() => onSelectSong(song.linkedAlbumId, song.trackId)}
+
+            {/* NODES */}
+            {prepared.map((song) => {
+            const isDimmed = selection && song[category] !== selection;
+            const isSelected = selection && song[category] === selection;
+            const isHovered = hoveredNode === song.id;
+            const rotation = (song.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) * 13) % 360;
+
+            // Determine scale based on state
+            let nodeScale = 1;
+            if (isDimmed) nodeScale = 0.7;
+            if (isSelected) nodeScale = 1.3;
+            if (isHovered) nodeScale = 1.8;
+
+            // Determine glow based on state
+            let starClass = 'text-emerald-500 drop-shadow-[0_0_5px_rgba(20,184,166,0.3)]';
+            if (isSelected) starClass = 'text-teal-300 drop-shadow-[0_0_10px_rgba(45,212,191,0.6)]';
+            if (isHovered) starClass = 'text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.9)]';
+
+            return (
+                <div
+                    key={song.id}
+                    className="absolute transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center transition-all duration-300 cursor-pointer group z-10"
+                    style={{ 
+                        left: `${song.displayX}%`, 
+                        top: `${song.displayY}%`, 
+                        opacity: isDimmed ? 0.25 : 1,
+                        width: `${40 / zoom}px`,
+                        height: `${40 / zoom}px`,
+                    }}
+                    onMouseEnter={() => setHoveredNode(song.id)}
+                    onMouseLeave={() => setHoveredNode(null)}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onSelectSong(song.linkedAlbumId, song.trackId);
+                    }}
+                >
+                    <div 
+                        style={{ 
+                            transform: `rotate(${rotation}deg) scale(${nodeScale / zoom})`,
+                        }} 
+                        className="transition-all duration-300 ease-out"
+                    >
+                        <svg 
+                            viewBox="0 0 24 24" 
+                            className={`relative w-3 h-3 transition-all duration-300 ease-out ${starClass}`} 
+                            fill="currentColor"
                         >
-                            {/* Star Shape */}
-                            <div style={{ transform: `rotate(${rotation}deg)` }} className="transition-transform duration-300">
-                                <svg viewBox="0 0 24 24" className={`relative w-2.5 h-2.5 transition-all duration-300 ease-out ${isHovered ? 'text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] scale-[2]' : 'text-emerald-500 drop-shadow-[0_0_5px_rgba(20,184,166,0.3)]'}`} fill="currentColor">
-                                    <path d="M12 4L14 10L20 12L14 14L12 20L10 14L4 12L10 10Z" />
-                                </svg>
-                            </div>
+                            <path d="M12 4L14 10L20 12L14 14L12 20L10 14L4 12L10 10Z" />
+                        </svg>
+                    </div>
 
-                            {/* Tooltip */}
-                            <div className={`absolute top-8 left-1/2 -translate-x-1/2 w-max max-w-[240px] bg-[#021a15]/95 border border-emerald-900 px-4 py-3 shadow-2xl pointer-events-none transition-all duration-300 z-50 ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
-                                <div className="text-[10px] text-teal-500 font-display uppercase tracking-widest mb-1 flex flex-col">
-                                    <span className="font-medium normal-case">{song.artist || 'Unknown Artist'}</span>
-                                    {song.producer && <span className="text-emerald-700 text-[9px] normal-case tracking-wide">Prod. {song.producer}</span>}
-                                </div>
-                                <div className="text-sm font-body text-white mb-2 leading-tight font-semibold">{song.title || song.trackId || 'Unknown Track'}</div>
-                                <div className="pt-2 border-t border-emerald-900/50 flex flex-col gap-0.5">
-                                    <div className="text-[9px] text-emerald-600 uppercase tracking-wider font-display">
-                                        {song.releaseType === 'Single' ? 'Single' : (song.album || 'Album')}
-                                    </div>
-                                    <div className="text-[9px] text-emerald-800 uppercase tracking-wider font-display">
-                                        {song.genre || ''}
-                                    </div>
-                                </div>
+                    {/* Tooltip */}
+                    <div 
+                        className={`absolute top-8 left-1/2 w-max max-w-[240px] bg-[#021a15]/95 border border-emerald-900 px-4 py-3 shadow-2xl pointer-events-none transition-all duration-300 z-50 ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
+                        style={{ transform: `translateX(-50%) scale(${1 / zoom})`, transformOrigin: 'top center' }}
+                    >
+                        <div className="text-[10px] text-teal-500 font-display uppercase tracking-widest mb-1 flex flex-col">
+                            <span className="font-medium normal-case">{song.artist || 'Unknown Artist'}</span>
+                            {song.producer && <span className="text-emerald-700 text-[9px] normal-case tracking-wide">Prod. {song.producer}</span>}
+                        </div>
+                        <div className="text-sm font-body text-white mb-2 leading-tight font-semibold">{song.title || song.trackId || 'Unknown Track'}</div>
+                        <div className="pt-2 border-t border-emerald-900/50 flex flex-col gap-0.5">
+                            <div className="text-[9px] text-emerald-600 uppercase tracking-wider font-display">
+                                {song.releaseType === 'Single' ? 'Single' : (song.album || 'Album')}
+                            </div>
+                            <div className="text-[9px] text-emerald-800 uppercase tracking-wider font-display">
+                                {song.genre || ''}
                             </div>
                         </div>
-                    );
-                })}
+                    </div>
+                </div>
+            );
+        })}
+        </div>
+
+        {/* Zoom controls */}
+        <div className="absolute bottom-8 right-8 flex flex-col gap-2 z-30">
+            <button
+                onClick={() => setZoom(z => Math.min(MAX_ZOOM, z * 1.2))}
+                className="w-10 h-10 bg-[#021a15] border border-emerald-900 text-emerald-500 hover:text-white hover:border-teal-700 transition-colors flex items-center justify-center text-lg font-bold"
+            >
+                +
+            </button>
+            <button
+                onClick={() => setZoom(z => Math.max(MIN_ZOOM, z / 1.2))}
+                className="w-10 h-10 bg-[#021a15] border border-emerald-900 text-emerald-500 hover:text-white hover:border-teal-700 transition-colors flex items-center justify-center text-lg font-bold"
+            >
+                −
+            </button>
+            <button
+                onClick={resetView}
+                className="w-10 h-10 bg-[#021a15] border border-emerald-900 text-emerald-500 hover:text-white hover:border-teal-700 transition-colors flex items-center justify-center text-xs font-display"
+            >
+                1:1
+            </button>
+        </div>
+
+            {/* Zoom indicator */}
+            <div className="absolute top-24 right-8 text-xs text-emerald-700 font-display">
+                {Math.round(zoom * 100)}%
             </div>
+        </div>
 
             <div className="absolute bottom-8 left-8 text-[10px] text-emerald-800 font-display uppercase tracking-widest max-w-xs leading-relaxed">
                 Visualization generated via Similarity Ranking (NMDS). <br />
@@ -861,7 +1150,7 @@ export default function AetherAtlas() {
         if (currentView === 'about') {
             return (
                 <div className="min-h-screen pt-32 px-6 max-w-2xl mx-auto animate-fade-in">
-                    <h1 className="text-4xl font-display font-light text-white mb-8 uppercase tracking-widest">About Aether</h1>
+                    <h1 className="text-4xl font-display font-light text-white mb-8 uppercase tracking-widest">About the Aether</h1>
                     <div className="prose prose-invert prose-p:font-body prose-p:text-xl prose-p:text-emerald-200/80 prose-p:leading-relaxed">
                         <p>Aether Atlas is a digital garden focused on experimental music, film, and the phenomenology of aesthetic experience.</p>
                         <p>Operating within algorithmic curation parameters, this space slows down data consumption. It serves as a static repository for deep listening.</p>

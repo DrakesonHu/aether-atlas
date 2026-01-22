@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Grain Generator</title>
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: monospace;
+      padding: 20px;
+    }
+    .controls {
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 12px;
+      color: #888;
+    }
+    input, select {
+      background: #222;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 8px;
+      width: 150px;
+    }
+    button {
+      background: #2dd4bf;
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    button:hover {
+      background: #5eead4;
+    }
+    #preview {
+      border: 1px solid #333;
+      margin-top: 20px;
+    }
+    .row {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+  </style>
+</head>
+<body>
+  <h1>Grain Generator</h1>
+  
+  <div class="controls">
+    <div>
+      <label>Type</label>
+      <select id="type">
+        <option value="turbulence">turbulence</option>
+        <option value="fractalNoise">fractalNoise</option>
+      </select>
+    </div>
+    <div>
+      <label>Base Frequency</label>
+      <input type="number" id="baseFrequency" value="3" step="0.1" min="0.01" max="10">
+    </div>
+    <div>
+      <label>Octaves</label>
+      <input type="number" id="numOctaves" value="5" min="1" max="8">
+    </div>
+    <div>
+      <label>Size (px)</label>
+      <input type="number" id="size" value="512" min="64" max="2048" step="64">
+    </div>
+    <div>
+      <label>Seed (optional)</label>
+      <input type="number" id="seed" value="" placeholder="random">
+    </div>
+  </div>
+
+  <button onclick="updatePreview()">Update Preview</button>
+  <button onclick="download()">Download PNG</button>
+
+  <div class="row">
+    <div>
+      <h3>Preview</h3>
+      <svg id="preview" width="512" height="512"></svg>
+    </div>
+    <div>
+      <h3>Tiled Preview</h3>
+      <div id="tiled" style="width: 512px; height: 512px; border: 1px solid #333;"></div>
+    </div>
+  </div>
+
+  <canvas id="canvas" style="display: none;"></canvas>
+
+<script>
+function getSettings() {
+  return {
+    type: document.getElementById('type').value,
+    baseFrequency: document.getElementById('baseFrequency').value,
+    numOctaves: document.getElementById('numOctaves').value,
+    size: parseInt(document.getElementById('size').value),
+    seed: document.getElementById('seed').value
+  };
+}
+
+function buildSVG(settings) {
+  const seedAttr = settings.seed ? `seed="${settings.seed}"` : '';
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${settings.size}" height="${settings.size}">
+      <filter id="grain" x="0" y="0" width="100%" height="100%">
+        <feTurbulence 
+          type="${settings.type}" 
+          baseFrequency="${settings.baseFrequency}" 
+          numOctaves="${settings.numOctaves}" 
+          stitchTiles="stitch"
+          ${seedAttr}
+        />
+      </filter>
+      <rect width="100%" height="100%" filter="url(#grain)" />
+    </svg>
+  `;
+}
+
+function updatePreview() {
+  const settings = getSettings();
+  const preview = document.getElementById('preview');
+  const seedAttr = settings.seed ? `seed="${settings.seed}"` : '';
+  
+  preview.setAttribute('width', settings.size);
+  preview.setAttribute('height', settings.size);
+  preview.innerHTML = `
+    <filter id="grainPreview" x="0" y="0" width="100%" height="100%">
+      <feTurbulence 
+        type="${settings.type}" 
+        baseFrequency="${settings.baseFrequency}" 
+        numOctaves="${settings.numOctaves}" 
+        stitchTiles="stitch"
+        ${seedAttr}
+      />
+    </filter>
+    <rect width="100%" height="100%" filter="url(#grainPreview)" />
+  `;
+
+  // Update tiled preview
+  renderToCanvas(settings).then(dataUrl => {
+    document.getElementById('tiled').style.backgroundImage = `url(${dataUrl})`;
+    document.getElementById('tiled').style.backgroundRepeat = 'repeat';
+    document.getElementById('tiled').style.backgroundSize = `${settings.size / 2}px`;
+  });
+}
+
+function renderToCanvas(settings) {
+  return new Promise((resolve) => {
+    const svg = buildSVG(settings);
+    const blob = new Blob([svg], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+
+    img.onload = () => {
+      const canvas = document.getElementById('canvas');
+      canvas.width = settings.size;
+      canvas.height = settings.size;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL('image/png'));
+    };
+
+    img.src = url;
+  });
+}
+
+function download() {
+  const settings = getSettings();
+  renderToCanvas(settings).then(dataUrl => {
+    const link = document.createElement('a');
+    link.download = `grain_${settings.type}_f${settings.baseFrequency}_o${settings.numOctaves}.png`;
+    link.href = dataUrl;
+    link.click();
+  });
+}
+
+// Initial render
+updatePreview();
+</script>
+</body>
+</html>
