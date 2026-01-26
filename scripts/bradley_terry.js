@@ -22,7 +22,6 @@ function readPairwise(inputPath) {
 }
 
 function buildCounts(triples, K = 100) {
-    // triples may express proportions in [0,1] or raw counts. Detect if value <= 1
     const ids = [];
     const idIndex = new Map();
     function addId(id) { if (!idIndex.has(id)) { idIndex.set(id, ids.length); ids.push(id); } }
@@ -46,11 +45,10 @@ function buildCounts(triples, K = 100) {
             comps[i][j] += K;
             comps[j][i] += K;
         } else {
-            // treat as counts: interpret as wins for first id
+            // treat as counts
             const winsA = Math.round(v);
             wins[i][j] += winsA;
             comps[i][j] += winsA;
-            // we don't know total comparisons; assume symmetric counts are included elsewhere
         }
     }
     // ensure diagonal zeros
@@ -87,7 +85,13 @@ function bradleyTerry(wins, comps, maxIter = 1000, tol = 1e-9) {
             if (rel > maxRel) maxRel = rel;
             p[i] = pNew[i];
         }
-        if (maxRel < tol) break;
+        if (iter % 100 === 0 || iter === maxIter - 1) {
+            console.log(`    Iteration ${iter + 1}/${maxIter}, max relative change: ${maxRel.toExponential(2)}`);
+        }
+        if (maxRel < tol) {
+            console.log(`  ✓ Converged at iteration ${iter + 1}`);
+            break;
+        }
     }
     const beta = p.map(v => Math.log(v + 1e-16));
     return { p, beta };
@@ -95,7 +99,6 @@ function bradleyTerry(wins, comps, maxIter = 1000, tol = 1e-9) {
 
 function computeSimilarityFromBeta(beta) {
     const n = beta.length;
-    // similarity = 1 / (1 + abs(diff)) in (0,1]
     const sim = Array.from({ length: n }, () => Array(n).fill(0));
     let maxVal = 0;
     for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
@@ -108,23 +111,49 @@ function computeSimilarityFromBeta(beta) {
     return sim;
 }
 
-// --- CLI ---
+// CLI
 const args = process.argv.slice(2);
 if (args.length < 1) {
     console.log('Usage: node scripts/bradley_terry.js <input_pairwise.csv> [output_pairwise_sim.csv]');
-    console.log('Input rows: idA,idB,value  where value is proportion in [0,1] or raw counts.');
+    console.log('');
+    console.log('Input format:');
+    console.log('  idA,idB,value');
+    console.log('  where value is a proportion in [0,1] or raw counts');
+    console.log('');
+    console.log('Output:');
+    console.log('  Pairwise similarity scores derived from Bradley-Terry model');
+    console.log('  Also generates bt_scores.csv with strength parameters');
     process.exit(1);
 }
+
 const input = args[0];
 const output = args[1] || path.join('data', 'pairwise_bt.csv');
-const K = 100; // pseudo-count multiplier for proportions
+const K = 100;
+
+if (!fs.existsSync(input)) {
+    console.error('Error: Input file not found:', input);
+    process.exit(1);
+}
+
+console.log('\n' + '='.repeat(70));
+console.log('  BRADLEY-TERRY MODEL');
+console.log('='.repeat(70));
+console.log(`\n  Input:  ${input}`);
+console.log(`  Output: ${output}`);
 
 const triples = readPairwise(input);
+console.log(`\n  Loaded ${triples.length} pairwise comparisons`);
+
 const { ids, idIndex, wins, comps } = buildCounts(triples, K);
+console.log(`  Items: ${ids.length}`);
+
+console.log('\n  Running Bradley-Terry optimization...');
 const { p, beta } = bradleyTerry(wins, comps, 1000, 1e-9);
+
+console.log('\n  Computing similarity matrix...');
 const sim = computeSimilarityFromBeta(beta);
 
-// write pairwise similarity CSV (idA,idB,similarity)
+// Write pairwise similarity CSV
 const outLines = [];
 for (let i = 0; i < ids.length; i++) {
     for (let j = i + 1; j < ids.length; j++) {
@@ -132,9 +161,15 @@ for (let i = 0; i < ids.length; i++) {
     }
 }
 fs.writeFileSync(output, outLines.join('\n') + '\n', 'utf8');
-// write scores
+
+// Write scores
 const scoreLines = ['id,p_normalized,beta'];
-for (let i = 0; i < ids.length; i++) scoreLines.push(`${ids[i]},${p[i].toFixed(6)},${beta[i].toFixed(6)}`);
-fs.writeFileSync(path.join(path.dirname(output), 'bt_scores.csv'), scoreLines.join('\n') + '\n', 'utf8');
-console.log(`Wrote ${outLines.length} pairwise similarities to ${output}`);
-console.log('Wrote bt_scores.csv');
+for (let i = 0; i < ids.length; i++) {
+    scoreLines.push(`${ids[i]},${p[i].toFixed(6)},${beta[i].toFixed(6)}`);
+}
+const scoresPath = path.join(path.dirname(output), 'bt_scores.csv');
+fs.writeFileSync(scoresPath, scoreLines.join('\n') + '\n', 'utf8');
+
+console.log(`\n  ✓ Wrote ${outLines.length} pairwise similarities to ${output}`);
+console.log(`  ✓ Wrote strength parameters to ${scoresPath}\n`);
+console.log('='.repeat(70) + '\n');

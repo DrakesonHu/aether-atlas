@@ -7,25 +7,50 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                'void': {
-                    950: '#010a08',
-                    900: '#0f1613',
-                    800: '#1a2420',
+                'void': '#02141a',
+                'void-deeper': '#010b0f',
+                'cream': '#faf8f5',
+                'cream-warm': '#f5f3ef',
+                'charcoal': '#1f2937',
+                'charcoal-dark': '#111827',
+                'slate-dark': '#0f172a',
+                'terracotta': '#c2410c',
+                'rust': '#b45309',
+                'warm-gray': '#e7e5e0',
+                'slate-cool': {
+                    400: '#94a3b8',
+                    500: '#64748b',
+                    600: '#475569',
+                    700: '#334155',
                 },
-                'neon-teal': '#2dd4bf',
-                'oxidized-teal': '#0d9488',
+                'emerald': {
+                    50: '#f0fdfa',
+                    100: '#ccfbf1',
+                    200: '#99f6e4',
+                    300: '#5eead4',
+                    400: '#2dd4bf',
+                    500: '#14b8a6',
+                    600: '#0d9488',
+                    700: '#0f766e',
+                    800: '#115e59',
+                    900: '#134e4a',
+                    950: '#042f2e',
+                },
+                'neon-teal': '#22d3ee', // brighter blue-green (cyan-400)
+                'neon-gold': '#fb923c', // warm orange accent
             },
             backgroundColor: {
-                'void-deep': '#010a08',
-                'void-dark': '#0f1613',
+                'void-deep': '#01080a',
+                'void-dark': '#06161a',
             },
             textColor: {
                 'emerald-muted': '#a7f3d0',
                 'emerald-dim': 'rgb(167, 243, 208, 0.5)',
             },
             fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+                body: ['"Cormorant Garamond"', 'serif'],
                 display: ['Inter', 'sans-serif'],
-                body: ['Inter', 'sans-serif'],
             },
             fontSize: {
                 'xs': ['0.75rem', { lineHeight: '1rem' }],

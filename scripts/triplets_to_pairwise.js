@@ -34,6 +34,10 @@ function toPairwise(triples) {
         const a = cols[2];
         const b = cols[3];
         const chosen = cols[4];
+        // skip 'both close'/'both far' in non-weighted converter
+        if (!chosen) continue;
+        const lc = String(chosen).toLowerCase();
+        if (lc === 'close' || lc === 'far') continue;
         if (!a || !b || !chosen) continue;
         if (a === b) continue;
         const k = key(a, b);

@@ -1,223 +1,212 @@
 [
   {
-    "id": "ik-1",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "ik-1",
-    "x": 60.08,
-    "y": 78.98
+    "id": "bi-hot-1",
+    "x": 5.0,
+    "y": 15.7
   },
   {
-    "id": "st-3",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "st-3",
-    "x": 54.52,
-    "y": 76.93
+    "id": "bi-hot-2",
+    "x": 20.97,
+    "y": 65.13
   },
   {
-    "id": "db-3",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "db-3",
-    "x": 52.91,
-    "y": 78.09
+    "id": "bi-hot-3",
+    "x": 10.51,
+    "y": 56.03
   },
   {
-    "id": "st-1",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "st-1",
-    "x": 54.33,
-    "y": 77.07
+    "id": "bo-always-let-you-down",
+    "x": 61.96,
+    "y": 46.56
   },
   {
-    "id": "fo-2",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "fo-2",
-    "x": 51.08,
-    "y": 79.83
+    "id": "bo-benzo",
+    "x": 42.33,
+    "y": 23.0
   },
   {
-    "id": "ik-3",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "ik-3",
-    "x": 71.6,
-    "y": 86.22
+    "id": "bo-minetta-creek",
+    "x": 57.57,
+    "y": 46.52
   },
   {
-    "id": "ca-2",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "ca-2",
-    "x": 77.19,
-    "y": 94.27
+    "id": "bo-orlando",
+    "x": 52.11,
+    "y": 47.12
   },
   {
-    "id": "rh-3",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "rh-3",
-    "x": 77.47,
-    "y": 92.77
+    "id": "bo-youre-not-good-enough",
+    "x": 58.45,
+    "y": 34.05
   },
   {
-    "id": "rh-1",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "rh-1",
-    "x": 39.1,
-    "y": 92.71
+    "id": "cc-knights",
+    "x": 80.99,
+    "y": 73.06
   },
   {
-    "id": "ca-1",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "ca-1",
-    "x": 17.26,
-    "y": 83.77
+    "id": "cc-vanished",
+    "x": 95.0,
+    "y": 37.19
   },
   {
-    "id": "db-2",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "db-2",
-    "x": 50.86,
-    "y": 79.84
-  },
-  {
-    "id": "st-2",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "st-2",
-    "x": 5,
-    "y": 84.87
-  },
-  {
-    "id": "ik-4",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "ik-4",
-    "x": 78.21,
-    "y": 95
-  },
-  {
-    "id": "ik-2",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "ik-2",
-    "x": 34.36,
-    "y": 94.03
-  },
-  {
-    "id": "fo-1",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "fo-1",
-    "x": 51.01,
-    "y": 79.98
-  },
-  {
-    "id": "rh-2",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "rh-2",
-    "x": 34.38,
-    "y": 93.88
+    "id": "cn-1",
+    "x": 66.58,
+    "y": 58.92
   },
   {
     "id": "db-1",
-    "title": "",
-    "artist": "",
-    "album": "",
-    "genre": "",
-    "producer": null,
-    "releaseType": "Single",
-    "linkedAlbumId": "",
-    "trackId": "db-1",
-    "x": 14.54,
-    "y": 79.44
+    "x": 76.31,
+    "y": 53.93
+  },
+  {
+    "id": "db-bm-1",
+    "x": 83.34,
+    "y": 27.91
+  },
+  {
+    "id": "db-bm2-1",
+    "x": 68.57,
+    "y": 57.12
+  },
+  {
+    "id": "db-pii-1",
+    "x": 62.48,
+    "y": 5.0
+  },
+  {
+    "id": "db-rch-1",
+    "x": 80.4,
+    "y": 13.89
+  },
+  {
+    "id": "dbt-rinsed-1",
+    "x": 58.66,
+    "y": 9.57
+  },
+  {
+    "id": "dh-fucking-your-girl",
+    "x": 54.17,
+    "y": 29.8
+  },
+  {
+    "id": "dh-neon-kitchen",
+    "x": 60.38,
+    "y": 35.45
+  },
+  {
+    "id": "ia-asleep-among-endives",
+    "x": 20.11,
+    "y": 53.55
+  },
+  {
+    "id": "ia-dawn-in-the-adan",
+    "x": 58.14,
+    "y": 75.91
+  },
+  {
+    "id": "ia-iam-pod-0",
+    "x": 44.36,
+    "y": 66.72
+  },
+  {
+    "id": "ik-1",
+    "x": 34.95,
+    "y": 22.22
+  },
+  {
+    "id": "ik-2",
+    "x": 58.52,
+    "y": 42.94
+  },
+  {
+    "id": "ik-3",
+    "x": 36.2,
+    "y": 35.91
+  },
+  {
+    "id": "ik-4",
+    "x": 14.28,
+    "y": 53.38
+  },
+  {
+    "id": "ik-5",
+    "x": 33.36,
+    "y": 25.7
+  },
+  {
+    "id": "kg-kg-1",
+    "x": 41.98,
+    "y": 70.36
+  },
+  {
+    "id": "kg-kg-2",
+    "x": 24.76,
+    "y": 79.19
+  },
+  {
+    "id": "kg-kg-3",
+    "x": 66.88,
+    "y": 62.39
+  },
+  {
+    "id": "lcc-kk-1",
+    "x": 35.47,
+    "y": 56.32
+  },
+  {
+    "id": "lcc-kk-2",
+    "x": 39.37,
+    "y": 53.21
+  },
+  {
+    "id": "rh-1",
+    "x": 38.81,
+    "y": 54.39
+  },
+  {
+    "id": "rh-2",
+    "x": 35.67,
+    "y": 79.86
+  },
+  {
+    "id": "rh-3",
+    "x": 69.68,
+    "y": 62.54
+  },
+  {
+    "id": "sjb-cdl-1",
+    "x": 44.31,
+    "y": 36.13
+  },
+  {
+    "id": "sjb-cdl-2",
+    "x": 40.54,
+    "y": 21.42
+  },
+  {
+    "id": "ss-fantasy",
+    "x": 77.47,
+    "y": 45.23
+  },
+  {
+    "id": "ss-genocide",
+    "x": 57.79,
+    "y": 82.16
+  },
+  {
+    "id": "st-1",
+    "x": 27.7,
+    "y": 64.61
+  },
+  {
+    "id": "st-3",
+    "x": 50.18,
+    "y": 95.0
+  },
+  {
+    "id": "tcn-tcn-1",
+    "x": 54.19,
+    "y": 19.48
   }
 ]

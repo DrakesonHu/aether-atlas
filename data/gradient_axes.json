@@ -1,0 +1,721 @@
+{
+  "metadata": {
+    "generated": "2026-01-26T02:44:38.034Z",
+    "numSongs": 42,
+    "method": "PCA on 2D atlas coordinates"
+  },
+  "pca": {
+    "pc1": {
+      "x": 0.4067049167548293,
+      "y": -0.9135595824506726,
+      "variance": 527.8363809160713,
+      "variancePercent": 57.5858020161516
+    },
+    "pc2": {
+      "x": 0.9135595824506726,
+      "y": 0.4067049167548293,
+      "variance": 388.77216222451807,
+      "variancePercent": 42.4141979838484
+    },
+    "mean": {
+      "x": 50.97190476190477,
+      "y": 50.18642857142858
+    }
+  },
+  "songs": [
+    {
+      "id": "bi-hot-1",
+      "title": "Coy Boy",
+      "artist": "Blue Iverson",
+      "album": "Hotep",
+      "genre": "R&B",
+      "x": 5,
+      "y": 20.73,
+      "pc1_score": 8.213202886950935,
+      "pc2_score": -53.97814844878524,
+      "pc1_normalized": 0.5729649939469896,
+      "pc2_normalized": 0
+    },
+    {
+      "id": "bi-hot-2",
+      "title": "Jennah",
+      "artist": "Blue Iverson",
+      "album": "Hotep",
+      "genre": "R&B",
+      "x": 22.4,
+      "y": 67.93,
+      "pc1_score": -27.830143853186787,
+      "pc2_score": -18.885739643315596,
+      "pc1_normalized": 0.1524754596419672,
+      "pc2_normalized": 0.37601174332031456
+    },
+    {
+      "id": "bi-hot-3",
+      "title": "Fake Loathe",
+      "artist": "Blue Iverson",
+      "album": "Hotep",
+      "genre": "R&B",
+      "x": 15.57,
+      "y": 58.3,
+      "pc1_score": -21.810359655622285,
+      "pc2_score": -29.0419199398027,
+      "pc1_normalized": 0.22270357336570845,
+      "pc2_normalized": 0.267189260374592
+    },
+    {
+      "id": "bo-always-let-you-down",
+      "title": "Always Let You Down",
+      "artist": "Blood Orange",
+      "album": "Cupid Deluxe",
+      "genre": "R&B",
+      "x": 65.57,
+      "y": 48.94,
+      "pc1_score": 7.075803873857471,
+      "pc2_score": 12.829301161905725,
+      "pc1_normalized": 0.55969584930338,
+      "pc2_normalized": 0.7158353173802254
+    },
+    {
+      "id": "bo-benzo",
+      "title": "Benzo",
+      "artist": "Blood Orange",
+      "album": "Angel\\",
+      "genre": "R&B",
+      "x": 41.68,
+      "y": 25.34,
+      "pc1_score": 18.919629558420475,
+      "pc2_score": -18.593873298254806,
+      "pc1_normalized": 0.6978684996512408,
+      "pc2_normalized": 0.3791390627879292
+    },
+    {
+      "id": "bo-minetta-creek",
+      "title": "Minetta Creek",
+      "artist": "Blood Orange",
+      "album": "Negro Swan",
+      "genre": "R&B",
+      "x": 56.03,
+      "y": 51.69,
+      "pc1_score": 0.6835501162770534,
+      "pc2_score": 5.232381266402095,
+      "pc1_normalized": 0.48512242455835447,
+      "pc2_normalized": 0.6344350604298427
+    },
+    {
+      "id": "bo-orlando",
+      "title": "Orlando",
+      "artist": "Blood Orange",
+      "album": "Negro Swan",
+      "genre": "R&B",
+      "x": 53.32,
+      "y": 49.92,
+      "pc1_score": 1.1983802528091527,
+      "pc2_score": 2.0367670953047265,
+      "pc1_normalized": 0.4911285450753347,
+      "pc2_normalized": 0.6001943657509942
+    },
+    {
+      "id": "bo-youre-not-good-enough",
+      "title": "You",
+      "artist": "Blood Orange",
+      "album": "Cupid Deluxe",
+      "genre": "R&B",
+      "x": 60.2,
+      "y": 34.45,
+      "pc1_score": 18.12927682059428,
+      "pc2_score": 2.030331960368149,
+      "pc1_normalized": 0.6886480724511455,
+      "pc2_normalized": 0.6001254139067529
+    },
+    {
+      "id": "cc-knights",
+      "title": "Knights",
+      "artist": "Crystal Castles",
+      "album": "Crystal Castles",
+      "genre": "Electronic",
+      "x": 81.36,
+      "y": 78.68,
+      "pc1_score": -13.671587472666783,
+      "pc2_score": 39.349811193090474,
+      "pc1_normalized": 0.31765226250102135,
+      "pc2_normalized": 1
+    },
+    {
+      "id": "cc-vanished",
+      "title": "Vanished",
+      "artist": "Crystal Castles",
+      "album": "Crystal Castles",
+      "genre": "Electronic",
+      "x": 95,
+      "y": 27.96,
+      "pc1_score": 38.21160961376721,
+      "pc2_score": 31.182690519912704,
+      "pc1_normalized": 0.92293294130202,
+      "pc2_normalized": 0.9124900972386283
+    },
+    {
+      "id": "cn-1",
+      "title": "Greaser",
+      "artist": "The Crying Nudes",
+      "album": "The Crying Nudes",
+      "genre": "Experimental",
+      "x": 66.3,
+      "y": 61.81,
+      "pc1_score": -4.384813363051661,
+      "pc2_score": 18.730491935729376,
+      "pc1_normalized": 0.42599379217921346,
+      "pc2_normalized": 0.7790660019089356
+    },
+    {
+      "id": "db-1",
+      "title": "100",
+      "artist": "Dean Blunt",
+      "album": "Black Metal",
+      "genre": "Experimental",
+      "x": 76.18,
+      "y": 56.07,
+      "pc1_score": 4.877263217752917,
+      "pc2_score": 25.421974388169307,
+      "pc1_normalized": 0.5340471951064992,
+      "pc2_normalized": 0.850764584821462
+    },
+    {
+      "id": "db-bm-1",
+      "title": "Lush",
+      "artist": "Dean Blunt",
+      "album": "Black Metal",
+      "genre": "Experimental",
+      "x": 83.59,
+      "y": 34.3,
+      "pc1_score": 27.779138760857347,
+      "pc2_score": 23.337484856376154,
+      "pc1_normalized": 0.8012254638522157,
+      "pc2_normalized": 0.8284294824599415
+    },
+    {
+      "id": "db-bm2-1",
+      "title": "Dash Snow",
+      "artist": "Dean Blunt",
+      "album": "Black Metal 2",
+      "genre": "Electronic",
+      "x": 68.98,
+      "y": 57.85,
+      "pc1_score": 0.3228517603559471,
+      "pc2_score": 19.56828014634806,
+      "pc1_normalized": 0.4809144389681331,
+      "pc2_normalized": 0.7880428210083086
+    },
+    {
+      "id": "db-pii-1",
+      "title": "Direct Line 2",
+      "artist": "Dean Blunt",
+      "album": "The Narcissist II",
+      "genre": "Ambient",
+      "x": 59.58,
+      "y": 6.83,
+      "pc1_score": 43.109635439493864,
+      "pc2_score": -9.76926478151966,
+      "pc1_normalized": 0.9800743775100024,
+      "pc2_normalized": 0.47369388377188215
+    },
+    {
+      "id": "db-rch-1",
+      "title": "Felony",
+      "artist": "Dean Blunt",
+      "album": "Roaches 2012-2019",
+      "genre": "Experimental",
+      "x": 78.47,
+      "y": 13.37,
+      "pc1_score": 44.81761164776519,
+      "pc2_score": 10.14772588655013,
+      "pc1_normalized": 1,
+      "pc2_normalized": 0.6871024994160749
+    },
+    {
+      "id": "dbt-rinsed-1",
+      "title": "Rinsed",
+      "artist": "Dean Blunt",
+      "album": "Rinsed",
+      "genre": "R&B",
+      "x": 51.27,
+      "y": 5,
+      "pc1_score": 41.40173161714596,
+      "pc2_score": -18.10521490934608,
+      "pc1_normalized": 0.9601495994899552,
+      "pc2_normalized": 0.3843749898432708
+    },
+    {
+      "id": "dh-fucking-your-girl",
+      "title": "Fucking Your Girl",
+      "artist": "Devon Hendryx",
+      "album": "\\u2764\\ufe0f",
+      "genre": "Hip-hop",
+      "x": 56.69,
+      "y": 33.35,
+      "pc1_score": 17.70665810348057,
+      "pc2_score": -1.6236375824640303,
+      "pc1_normalized": 0.6837177104392894,
+      "pc2_normalized": 0.5609734860509052
+    },
+    {
+      "id": "dh-neon-kitchen",
+      "title": "Neon Kitchen",
+      "artist": "Devon Hendryx",
+      "album": "JOECHILLWORLD",
+      "genre": "Hip-hop",
+      "x": 61.5,
+      "y": 40.85,
+      "pc1_score": 12.811211884691257,
+      "pc2_score": 5.8208708847849255,
+      "pc1_normalized": 0.6266063684877474,
+      "pc2_normalized": 0.640740669388198
+    },
+    {
+      "id": "ia-asleep-among-endives",
+      "title": "Asleep Among Endives",
+      "artist": "Ichiko Aoba",
+      "album": "Asleep Among Endives",
+      "genre": "Folk",
+      "x": 21.39,
+      "y": 56.33,
+      "pc1_score": -17.643624662681354,
+      "pc2_score": -24.526211855946794,
+      "pc1_normalized": 0.27131361142310884,
+      "pc2_normalized": 0.3155746327880025
+    },
+    {
+      "id": "ia-dawn-in-the-adan",
+      "title": "Dawn in the Adan",
+      "artist": "Ichiko Aoba",
+      "album": "Windswept Adan",
+      "genre": "Folk",
+      "x": 59.46,
+      "y": 77.77,
+      "pc1_score": -21.747085929567422,
+      "pc2_score": 18.97275486317385,
+      "pc1_normalized": 0.22344173843662637,
+      "pc2_normalized": 0.7816618255867929
+    },
+    {
+      "id": "ia-iam-pod-0",
+      "title": "iam POD (0%)",
+      "artist": "Ichiko Aoba",
+      "album": "0",
+      "genre": "Folk",
+      "x": 45.3,
+      "y": 68.42,
+      "pc1_score": -18.964245454902024,
+      "pc2_score": 2.2340602040146713,
+      "pc1_normalized": 0.2559069615934466,
+      "pc2_normalized": 0.6023083421999277
+    },
+    {
+      "id": "ik-1",
+      "title": "Something Good",
+      "artist": "Ivy Knight",
+      "album": "Feet of Mud",
+      "genre": "Pop",
+      "x": 36.44,
+      "y": 29.32,
+      "pc1_score": 13.152528656471489,
+      "pc2_score": -21.762239941612112,
+      "pc1_normalized": 0.6305882442955381,
+      "pc2_normalized": 0.3451903227156595
+    },
+    {
+      "id": "ik-2",
+      "title": "Cut the String",
+      "artist": "Ivy Knight",
+      "album": "Feet of Mud",
+      "genre": "Pop",
+      "x": 58.57,
+      "y": 46.41,
+      "pc1_score": 6.540175200173872,
+      "pc2_score": 5.405420645361304,
+      "pc1_normalized": 0.5534470885214955,
+      "pc2_normalized": 0.6362891605261397
+    },
+    {
+      "id": "ik-3",
+      "title": "Salvation",
+      "artist": "Ivy Knight",
+      "album": "Feet of Mud",
+      "genre": "Pop",
+      "x": 41.82,
+      "y": 39.71,
+      "pc1_score": 5.848717046949984,
+      "pc2_score": -12.621625302944814,
+      "pc1_normalized": 0.5453803870873376,
+      "pc2_normalized": 0.44313111852585707
+    },
+    {
+      "id": "ik-4",
+      "title": "Be Your Dog",
+      "artist": "Ivy Knight",
+      "album": "Feet of Mud",
+      "genre": "Pop",
+      "x": 15.62,
+      "y": 57.2,
+      "pc1_score": -20.78510886908881,
+      "pc2_score": -29.443617369110477,
+      "pc1_normalized": 0.23466437236929377,
+      "pc2_normalized": 0.2628851115337816
+    },
+    {
+      "id": "ik-5",
+      "title": "Gun",
+      "artist": "Ivy Knight",
+      "album": "Feet of Mud",
+      "genre": "Pop",
+      "x": 35.19,
+      "y": 29.07,
+      "pc1_score": 12.872537406140621,
+      "pc2_score": -23.00586564886416,
+      "pc1_normalized": 0.6273218053793649,
+      "pc2_normalized": 0.33186499435721084
+    },
+    {
+      "id": "kg-kg-1",
+      "title": "Pariah",
+      "artist": "Korea Girl",
+      "album": "Korea Girl",
+      "genre": "Rock",
+      "x": 44.86,
+      "y": 75.37,
+      "pc1_score": -25.492434716306324,
+      "pc2_score": 4.658693159182442,
+      "pc1_normalized": 0.1797476836503115,
+      "pc2_normalized": 0.628288048222343
+    },
+    {
+      "id": "kg-kg-2",
+      "title": "Peon",
+      "artist": "Korea Girl",
+      "album": "Korea Girl",
+      "genre": "Rock",
+      "x": 25.92,
+      "y": 83.19,
+      "pc1_score": -40.33946177440704,
+      "pc2_score": -9.463692883410532,
+      "pc1_normalized": 0.006539031898707195,
+      "pc2_normalized": 0.47696805690586785
+    },
+    {
+      "id": "kg-kg-3",
+      "title": "Reunion",
+      "artist": "Korea Girl",
+      "album": "Korea Girl",
+      "genre": "Rock",
+      "x": 67.3,
+      "y": 63.24,
+      "pc1_score": -5.284498649201294,
+      "pc2_score": 20.22563954913945,
+      "pc1_normalized": 0.4154978676547337,
+      "pc2_normalized": 0.7950863630005888
+    },
+    {
+      "id": "lcc-kk-1",
+      "title": "Glide",
+      "artist": "Lily Chou-Chou",
+      "album": "Kokyu",
+      "genre": "Pop",
+      "x": 39.99,
+      "y": 62.61,
+      "pc1_score": -15.816067388831753,
+      "pc2_score": -4.979896745143955,
+      "pc1_normalized": 0.29263429267219526,
+      "pc2_normalized": 0.5250114959296298
+    },
+    {
+      "id": "lcc-kk-2",
+      "title": "Arabesque",
+      "artist": "Lily Chou-Chou",
+      "album": "Kokyu",
+      "genre": "Pop",
+      "x": 40,
+      "y": 58.15,
+      "pc1_score": -11.737524601934206,
+      "pc2_score": -6.784665078045988,
+      "pc1_normalized": 0.34021546124319973,
+      "pc2_normalized": 0.5056735789771173
+    },
+    {
+      "id": "rh-1",
+      "title": "Nude",
+      "artist": "Radiohead",
+      "album": "In Rainbows",
+      "genre": "Rock",
+      "x": 38.93,
+      "y": 59.36,
+      "pc1_score": -13.278105957627186,
+      "pc2_score": -7.2700608819948656,
+      "pc1_normalized": 0.32224270356659485,
+      "pc2_normalized": 0.5004726102019349
+    },
+    {
+      "id": "rh-2",
+      "title": "Weird Fishes",
+      "artist": "Radiohead",
+      "album": "In Rainbows",
+      "genre": "Rock",
+      "x": 39.04,
+      "y": 86.73,
+      "pc1_score": -38.23749418845907,
+      "pc2_score": 3.961944243654388,
+      "pc1_normalized": 0.03106104362286427,
+      "pc2_normalized": 0.6208224514365387
+    },
+    {
+      "id": "rh-3",
+      "title": "Creep",
+      "artist": "Radiohead",
+      "album": "Pablo Honey",
+      "genre": "Rock",
+      "x": 68.1,
+      "y": 66.53,
+      "pc1_score": -7.964745742060145,
+      "pc2_score": 22.294546391223378,
+      "pc1_normalized": 0.3842295212377355,
+      "pc2_normalized": 0.8172544983591982
+    },
+    {
+      "id": "sjb-cdl-1",
+      "title": "Seven Less Functions",
+      "artist": "Samba Jean-Baptiste",
+      "album": "Cardinal",
+      "genre": "Pop",
+      "x": 47.06,
+      "y": 42.71,
+      "pc1_score": 5.239172063393273,
+      "pc2_score": -6.614458340638802,
+      "pc1_normalized": 0.5382693025334633,
+      "pc2_normalized": 0.5074973275950054
+    },
+    {
+      "id": "sjb-cdl-2",
+      "title": "Perfect Learning",
+      "artist": "Samba Jean-Baptiste",
+      "album": "Cardinal",
+      "genre": "Pop",
+      "x": 40.4,
+      "y": 26.16,
+      "pc1_score": 17.64992840736474,
+      "pc2_score": -19.42973153205271,
+      "pc1_normalized": 0.6830558894471104,
+      "pc2_normalized": 0.3701829232022647
+    },
+    {
+      "id": "ss-fantasy",
+      "title": "Fantasy",
+      "artist": "Snow Strippers",
+      "album": "COLLIDING WALLS KILLING AND FANTASY",
+      "genre": "Electronic",
+      "x": 86.19,
+      "y": 33.7,
+      "pc1_score": 29.3847072938903,
+      "pc2_score": 25.468716820695,
+      "pc1_normalized": 0.8199563760956675,
+      "pc2_normalized": 0.8512654254345543
+    },
+    {
+      "id": "ss-genocide",
+      "title": "Genocide",
+      "artist": "Snow Strippers",
+      "album": "The Snow Strippers",
+      "genre": "Electronic",
+      "x": 62.31,
+      "y": 89.39,
+      "pc1_score": -31.203539264892978,
+      "pc2_score": 26.302310805849388,
+      "pc1_normalized": 0.11312069395048316,
+      "pc2_normalized": 0.8601973038164787
+    },
+    {
+      "id": "st-1",
+      "title": "Milk",
+      "artist": "Sweet Trip",
+      "album": "You Will Never Know Why",
+      "genre": "Pop",
+      "x": 28.23,
+      "y": 67.94,
+      "pc1_score": -25.46818978433063,
+      "pc2_score": -13.555620228460626,
+      "pc1_normalized": 0.18003053030795452,
+      "pc2_normalized": 0.4331234538442354
+    },
+    {
+      "id": "st-3",
+      "title": "Air Supply",
+      "artist": "Sweet Trip",
+      "album": "You Will Never Know Why",
+      "genre": "Pop",
+      "x": 51.07,
+      "y": 95,
+      "pc1_score": -40.89997178676553,
+      "pc2_score": 18.315515682098415,
+      "pc1_normalized": 0,
+      "pc2_normalized": 0.7746195717584927
+    },
+    {
+      "id": "tcn-tcn-1",
+      "title": "Unabomber",
+      "artist": "The Crying Nudes",
+      "album": "The Crying Nudes",
+      "genre": "Pop",
+      "x": 48.94,
+      "y": 20.15,
+      "pc1_score": 26.613681486979527,
+      "pc2_score": -14.072229247620491,
+      "pc1_normalized": 0.7876289854264331,
+      "pc2_normalized": 0.42758803850737137
+    }
+  ],
+  "extremes": {
+    "pc1": {
+      "low": [
+        {
+          "id": "st-3",
+          "title": "Air Supply",
+          "artist": "Sweet Trip",
+          "score": -40.89997178676553
+        },
+        {
+          "id": "kg-kg-2",
+          "title": "Peon",
+          "artist": "Korea Girl",
+          "score": -40.33946177440704
+        },
+        {
+          "id": "rh-2",
+          "title": "Weird Fishes",
+          "artist": "Radiohead",
+          "score": -38.23749418845907
+        },
+        {
+          "id": "ss-genocide",
+          "title": "Genocide",
+          "artist": "Snow Strippers",
+          "score": -31.203539264892978
+        },
+        {
+          "id": "bi-hot-2",
+          "title": "Jennah",
+          "artist": "Blue Iverson",
+          "score": -27.830143853186787
+        }
+      ],
+      "high": [
+        {
+          "id": "db-rch-1",
+          "title": "Felony",
+          "artist": "Dean Blunt",
+          "score": 44.81761164776519
+        },
+        {
+          "id": "db-pii-1",
+          "title": "Direct Line 2",
+          "artist": "Dean Blunt",
+          "score": 43.109635439493864
+        },
+        {
+          "id": "dbt-rinsed-1",
+          "title": "Rinsed",
+          "artist": "Dean Blunt",
+          "score": 41.40173161714596
+        },
+        {
+          "id": "cc-vanished",
+          "title": "Vanished",
+          "artist": "Crystal Castles",
+          "score": 38.21160961376721
+        },
+        {
+          "id": "ss-fantasy",
+          "title": "Fantasy",
+          "artist": "Snow Strippers",
+          "score": 29.3847072938903
+        }
+      ]
+    },
+    "pc2": {
+      "low": [
+        {
+          "id": "bi-hot-1",
+          "title": "Coy Boy",
+          "artist": "Blue Iverson",
+          "score": -53.97814844878524
+        },
+        {
+          "id": "ik-4",
+          "title": "Be Your Dog",
+          "artist": "Ivy Knight",
+          "score": -29.443617369110477
+        },
+        {
+          "id": "bi-hot-3",
+          "title": "Fake Loathe",
+          "artist": "Blue Iverson",
+          "score": -29.0419199398027
+        },
+        {
+          "id": "ia-asleep-among-endives",
+          "title": "Asleep Among Endives",
+          "artist": "Ichiko Aoba",
+          "score": -24.526211855946794
+        },
+        {
+          "id": "ik-5",
+          "title": "Gun",
+          "artist": "Ivy Knight",
+          "score": -23.00586564886416
+        }
+      ],
+      "high": [
+        {
+          "id": "cc-knights",
+          "title": "Knights",
+          "artist": "Crystal Castles",
+          "score": 39.349811193090474
+        },
+        {
+          "id": "cc-vanished",
+          "title": "Vanished",
+          "artist": "Crystal Castles",
+          "score": 31.182690519912704
+        },
+        {
+          "id": "ss-genocide",
+          "title": "Genocide",
+          "artist": "Snow Strippers",
+          "score": 26.302310805849388
+        },
+        {
+          "id": "ss-fantasy",
+          "title": "Fantasy",
+          "artist": "Snow Strippers",
+          "score": 25.468716820695
+        },
+        {
+          "id": "db-1",
+          "title": "100",
+          "artist": "Dean Blunt",
+          "score": 25.421974388169307
+        }
+      ]
+    }
+  },
+  "interpretations": {
+    "pc1": {
+      "name": "Tone",
+      "lowLabel": "Light",
+      "highLabel": "Dark",
+      "description": ""
+    },
+    "pc2": {
+      "name": "Energy",
+      "lowLabel": "Low",
+      "highLabel": "High",
+      "description": ""
+    }
+  }
+}

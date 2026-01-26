@@ -1,22 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  }
+}
 
 @layer utilities {
   .animate-fade-in {
     animation: fadeIn 1s ease-out forwards;
   }
+
+  .film-vignette::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.6) 100%);
+    mix-blend-mode: multiply;
+  }
+
+  /* film leak: blue-green with warm splash */
+  .film-leak {
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.1) 0%, rgba(251, 146, 60, 0.05) 15%, rgba(0, 0, 0, 0) 45%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero title font uses Playfair Display */
+.font-display {
+  font-family: 'Playfair Display', serif;
+}
+
+/* subtle film grain overlay */
+.film-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: cover;
+  mix-blend-mode: overlay;
 }
 
 body {
   margin: 0;
-  background-color: #010a08;
-  color: #a7f3d0;
+  background-color: #02141a;
+  color: #99f6e4;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
