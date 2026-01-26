@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import ATLAS_NODES from './data/atlas_data.json';
-import { Play, Pause, Disc, Map as MapIcon, Info, ArrowLeft, ExternalLink, Music, Film, Share2, ChevronDown, List, X, Star, SkipForward, Volume2, Clock } from 'lucide-react';
+import { Disc, ArrowLeft, ExternalLink, X, Clock, ChevronDown } from 'lucide-react';
 
 /**
  * AETHER ATLAS
@@ -944,7 +944,7 @@ const AlbumView = ({ album, onOpenTrack, onBack }) => {
 
                     <div className="flex-1">
                         <div className="flex items-center gap-3 text-slate-500 text-xs font-display uppercase tracking-[0.2em] mb-4">
-                            <Disc size={14} /> {album.genre} // {album.releaseType}
+                            <Disc size={14} /> {album.genre} {/* {album.releaseType} */}
                         </div>
                         <h1 className="text-6xl md:text-8xl font-body font-light text-charcoal mb-4 leading-tight uppercase tracking-tight">{album.title}</h1>
                         <h2 className="text-2xl md:text-3xl font-display font-light text-slate-dark mb-8 tracking-wider">{artistWithFeat(album)}</h2>
@@ -1405,168 +1405,6 @@ const AtlasMap = ({ songs, onSelectSong }) => {
         const hue = 120 + Math.floor((avgX * 2 + avgY) % 100);
         return { x: avgX, y: avgY, radius, hue };
     }, [selection, category, prepared]);
-
-    /**
-     * Compute gradient scores using PCA projections
-     * This uses the actual structure of your data, not fixed heuristics
-     */
-    function computeGradientScores(songs, mode, gradientData) {
-        if (mode === 'none' || !gradientData) return songs;
-
-        // Create lookup map for PCA scores
-        const scoreMap = new Map(
-            gradientData.songs.map(s => [s.id, {
-                pc1: s.pc1_normalized,
-                pc2: s.pc2_normalized
-            }])
-        );
-
-        return songs.map(song => {
-            const scores = scoreMap.get(song.id);
-            if (!scores) {
-                return { ...song, gradientScore: 0 };
-            }
-
-            let gradientScore = 0;
-
-            switch (mode) {
-                case 'pc1':
-                    gradientScore = scores.pc1;
-                    break;
-                case 'pc2':
-                    gradientScore = scores.pc2;
-                    break;
-                default:
-                    gradientScore = 0;
-            }
-
-            return { ...song, gradientScore };
-        });
-    }
-
-    /**
-     * Render gradient overlay based on PCA principal components
-     */
-    function renderGradientOverlay(ctx, width, height, mode, gradientData) {
-        if (mode === 'none' || !gradientData) return;
-
-        ctx.save();
-
-        const pca = gradientData.pca;
-        let gradient;
-
-        // Define colors
-        const colors = {
-            low: 'rgba(6, 78, 59, 0.25)',     // dark emerald
-            high: 'rgba(245, 158, 11, 0.25)'   // amber
-        };
-
-        if (mode === 'pc1') {
-            // Gradient along PC1 direction
-            const pc1 = pca.pc1;
-
-            // Convert PC1 vector to canvas coordinates
-            // PC1 is in data space, need to map to canvas space
-            const centerX = width / 2;
-            const centerY = height / 2;
-
-            // Scale factor to reach canvas edges
-            const scale = Math.max(width, height) / 2;
-
-            // Start and end points along PC1 axis
-            const startX = centerX - pc1.x * scale;
-            const startY = centerY - pc1.y * scale;
-            const endX = centerX + pc1.x * scale;
-            const endY = centerY + pc1.y * scale;
-
-            gradient = ctx.createLinearGradient(startX, startY, endX, endY);
-            gradient.addColorStop(0, colors.low);
-            gradient.addColorStop(1, colors.high);
-
-        } else if (mode === 'pc2') {
-            // Gradient along PC2 direction
-            const pc2 = pca.pc2;
-
-            const centerX = width / 2;
-            const centerY = height / 2;
-            const scale = Math.max(width, height) / 2;
-
-            const startX = centerX - pc2.x * scale;
-            const startY = centerY - pc2.y * scale;
-            const endX = centerX + pc2.x * scale;
-            const endY = centerY + pc2.y * scale;
-
-            gradient = ctx.createLinearGradient(startX, startY, endX, endY);
-            gradient.addColorStop(0, colors.low);
-            gradient.addColorStop(1, colors.high);
-        }
-
-        if (gradient) {
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, width, height);
-        }
-
-        ctx.restore();
-    }
-
-    /**
-     * Render axis labels from PCA interpretations
-     */
-    function renderAxisLabels(ctx, width, height, mode, gradientData, zoom) {
-        if (mode === 'none' || !gradientData) return;
-
-        const interpretations = gradientData.interpretations;
-        let axisInfo;
-
-        if (mode === 'pc1') {
-            axisInfo = interpretations.pc1;
-        } else if (mode === 'pc2') {
-            axisInfo = interpretations.pc2;
-        } else {
-            return;
-        }
-
-        ctx.save();
-
-        // Label styling
-        ctx.fillStyle = 'rgba(167, 243, 208, 0.8)';
-        ctx.font = `${11 / zoom}px 'Inter', sans-serif`;
-        ctx.letterSpacing = '0.1em';
-
-        const padding = 20 / zoom;
-
-        // Get PC vector for positioning
-        const pca = gradientData.pca;
-        const pc = mode === 'pc1' ? pca.pc1 : pca.pc2;
-
-        // Determine label positions based on PC direction
-        // If PC points more right, put low label on left
-        // If PC points more up, put low label on bottom
-
-        const isHorizontal = Math.abs(pc.x) > Math.abs(pc.y);
-
-        if (isHorizontal) {
-            // Horizontal-ish axis
-            ctx.textAlign = 'left';
-            ctx.fillText(`← ${axisInfo.lowLabel}`, padding, height / 2);
-
-            ctx.textAlign = 'right';
-            ctx.fillText(`${axisInfo.highLabel} →`, width - padding, height / 2);
-        } else {
-            // Vertical-ish axis
-            ctx.textAlign = 'center';
-            ctx.fillText(`← ${axisInfo.lowLabel}`, width / 2, height - padding);
-            ctx.fillText(`${axisInfo.highLabel} →`, width / 2, padding * 2);
-        }
-
-        // Draw axis name in corner
-        ctx.textAlign = 'left';
-        ctx.font = `${9 / zoom}px 'Inter', sans-serif`;
-        ctx.fillStyle = 'rgba(167, 243, 208, 0.6)';
-        ctx.fillText(axisInfo.name.toUpperCase(), padding, padding * 2);
-
-        ctx.restore();
-    }
 
     if (!songs) return <div>Loading Atlas Data...</div>;
 
@@ -2333,7 +2171,7 @@ export default function AetherAtlas() {
 
                             <div className="flex flex-col gap-1 mb-10">
                                 <div className="text-xl font-body text-slate-dark italic">{INITIAL_ALBUMS[0].artist}</div>
-                                <div className="text-[10px] font-display uppercase tracking-[0.3em] text-slate-600">{INITIAL_ALBUMS[0].genre} // {INITIAL_ALBUMS[0].releaseType}</div>
+                                <div className="text-[10px] font-display uppercase tracking-[0.3em] text-slate-600">{INITIAL_ALBUMS[0].genre} {/* {INITIAL_ALBUMS[0].releaseType} */}</div>
                             </div>
 
                             <div className="flex items-center gap-8">
