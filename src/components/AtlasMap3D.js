@@ -4,6 +4,19 @@ import { OrbitControls, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { ATLAS3D_CONFIG } from './atlas3dConfig';
 
+// Track camera rotation for parallax
+function RotationTracker({ onRotation }) {
+    const { camera } = useThree();
+
+    useFrame(() => {
+        if (onRotation) {
+            onRotation(camera.rotation);
+        }
+    });
+
+    return null;
+}
+
 // calculate camera relative offset
 function CameraRelativeHtml({ starPosition, children, isSelected, ...props }) {
     const groupRef = useRef();
@@ -62,9 +75,27 @@ function createStarShape() {
     return shape;
 }
 
-const MapController = forwardRef((props, ref) => {
+const MapController = forwardRef(({ onZoom }, ref) => {
     const controlsRef = useRef();
     const { camera } = useThree();
+    const lastZoomRef = useRef(1);
+
+    // Report zoom changes back to parent
+    useFrame(() => {
+        if (controlsRef.current && onZoom) {
+            const target = controlsRef.current.target;
+            const distance = camera.position.distanceTo(target);
+            // Default distance is 100 in config. We invert it so closer = larger zoom.
+            // 100 distance = 1.0 zoom (100%)
+            const zoomLevel = 100 / distance;
+
+            // Only update if it changed by more than 0.5% to avoid excessive re-renders
+            if (Math.abs(zoomLevel - lastZoomRef.current) > 0.005) {
+                onZoom(zoomLevel);
+                lastZoomRef.current = zoomLevel;
+            }
+        }
+    });
 
     useImperativeHandle(ref, () => ({
         zoomIn: () => {
@@ -788,7 +819,7 @@ function ClusterCloud({ positions, hue }) {
 }
 
 // Main 3D Atlas Map component
-const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, onFilter }, ref) => {
+const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, onFilter, onZoom, onRotation }, ref) => {
     const [hovered, setHovered] = useState(null);
     const [selectedId, setSelectedId] = useState(null);
     const mapControllerRef = useRef();
@@ -931,7 +962,8 @@ const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, 
 
                 <ambientLight intensity={ATLAS3D_CONFIG.ambientIntensity} />
                 <directionalLight position={ATLAS3D_CONFIG.directionalPosition} intensity={ATLAS3D_CONFIG.directionalIntensity} />
-                <MapController ref={mapControllerRef} />
+                <RotationTracker onRotation={onRotation} />
+                <MapController ref={mapControllerRef} onZoom={onZoom} />
 
                 {/* Connection lines */}
                 {connections.map((edge, idx) => {

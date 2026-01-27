@@ -36,6 +36,27 @@ const COLORS = {
     }
 };
 
+// PARALLAX CONFIGURATION
+const PARALLAX_CONFIG = {
+    // How much the items move based on mouse/pan
+    // Higher = more movement
+    layers: {
+        // pan positive for 2D to move with pan (sticky effect)
+        // increase pan sensitivity for 2D visibility
+        deep: { mouse: -200, pan: 0.8, scroll: 0.1, rotation: 10 },
+        mid: { mouse: -350, pan: 1.2, scroll: 0.2, rotation: 20 },
+        streak: { mouse: -500, pan: 1.5, scroll: 0.3, rotation: 30 }
+    },
+    // Animation speeds (ms)
+    transitions: {
+        deep: 1400, // slower for "heavier" feel
+        mid: 1100,
+        streak: 800
+    },
+    // Rotation dampening factor for 3D (limit the "tilt")
+    rotationDampener: 35 // Increased from 25 for more obvious tilt
+};
+
 // Helper to display featuring artists when present
 const artistWithFeat = (obj) => {
     if (!obj) return '';
@@ -759,7 +780,7 @@ const Navigation = ({ currentView, setView, isAtlas }) => {
     );
 };
 
-const Background = ({ isAtlas }) => {
+const Background = ({ isAtlas, pan, mousePos, viewMode, rotation }) => {
     const [offset, setOffset] = useState(0);
 
     useEffect(() => {
@@ -770,74 +791,161 @@ const Background = ({ isAtlas }) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-
-
     if (!isAtlas) {
         // Light reading background - subtle and minimal
         return (
-            <div className="fixed inset-0 z-0 overflow-visible pointer-events-none bg-cream">
+            <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-cream">
                 {/* Very subtle texture */}
                 <div className="absolute inset-0 opacity-[0.02] bg-[radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.3)_1px,transparent_0)] bg-[length:20px_20px]" />
             </div>
         );
     }
 
+    // Parallax values based on mode
+    const mouseX = mousePos?.x || 0;
+    const mouseY = mousePos?.y || 0;
+
+    // Normalize mouse coords (-1 to 1)
+    const normX = (mouseX / window.innerWidth) * 2 - 1;
+    const normY = (mouseY / window.innerHeight) * 2 - 1;
+
+    // Base pan parallax (for 2D)
+    const panX = pan?.x || 0;
+    const panY = pan?.y || 0;
+
+    // Combined parallax logic
+    const is3d = viewMode === '3d';
+    const conf = PARALLAX_CONFIG.layers;
+
+    // For 3D, use camera rotation normalized to -1 to 1
+    const rotNormX = is3d ? (rotation?.y || 0) / Math.PI : normX;
+    const rotNormY = is3d ? (rotation?.x || 0) / Math.PI : normY;
+
+    // Rotation dampener for 3D
+    const rotX = is3d ? rotNormY * -PARALLAX_CONFIG.rotationDampener : 0;
+    const rotY = is3d ? rotNormX * PARALLAX_CONFIG.rotationDampener : 0;
+
+    // Deeper layer (slowest)
+    const dX = is3d ? rotNormX * conf.deep.mouse : panX * conf.deep.pan;
+    const dY = (is3d ? rotNormY * conf.deep.mouse : panY * conf.deep.pan) + (offset * conf.deep.scroll);
+
+    // Mid layer
+    const midX = is3d ? rotNormX * conf.mid.mouse : panX * conf.mid.pan;
+    const midY = (is3d ? rotNormY * conf.mid.mouse : panY * conf.mid.pan) + (offset * conf.mid.scroll);
+
+    // Light streaks layer (fastest/most reactive)
+    const sX = is3d ? rotNormX * conf.streak.mouse : panX * conf.streak.pan;
+    const sY = (is3d ? rotNormY * conf.streak.mouse : panY * conf.streak.pan) + (offset * conf.streak.scroll);
+
+    // Helper for spherical transform string
+    const getSphereTransform = (tx, ty, scale = 1.25) => {
+        return `perspective(1200px) translate3d(${tx}px, ${ty}px, 0) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale})`;
+    };
+
     return (
-        <div className="fixed inset-0 z-0 overflow-visible pointer-events-none bg-void-deeper">
+        <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-void-deeper">
 
             {/* Light Leaks / Light Flares - WKW Style (Slightly Brighter) */}
             <div
-                className="absolute top-[-10%] right-[-10%] w-[45%] h-[65%] bg-slate-700/20 rounded-full blur-[120px] mix-blend-screen opacity-50 animate-pulse-slow"
+                className="absolute top-[-10%] right-[-10%] w-[45%] h-[65%] bg-slate-700/20 rounded-full blur-[120px] mix-blend-screen opacity-50 animate-pulse-slow transition-transform ease-out"
+                style={{
+                    transform: getSphereTransform(midX, midY),
+                    transitionDuration: `${PARALLAX_CONFIG.transitions.mid}ms`
+                }}
             />
             <div
-                className="absolute bottom-[10%] left-[-10%] w-[55%] h-[55%] bg-slate-800/20 rounded-full blur-[150px] mix-blend-screen opacity-40 animate-pulse-slower"
+                className="absolute bottom-[10%] left-[-10%] w-[55%] h-[55%] bg-slate-800/20 rounded-full blur-[150px] mix-blend-screen opacity-40 animate-pulse-slower transition-transform ease-out"
+                style={{
+                    transform: getSphereTransform(dX, dY),
+                    transitionDuration: `${PARALLAX_CONFIG.transitions.deep}ms`
+                }}
             />
 
             {/* WKW Horizontal Light Streaks (Warm Splashes) */}
-            <div className="absolute top-[20%] -left-[20%] w-[140%] h-24 bg-amber-500/15 blur-[60px] rotate-[-5deg] animate-streak opacity-40 mix-blend-screen" />
-            <div className="absolute bottom-[30%] -right-[20%] w-[140%] h-32 bg-orange-900/15 blur-[80px] rotate-[5deg] animate-streak-reverse opacity-30 mix-blend-screen" />
+            <div
+                className="absolute top-[20%] -left-[20%] w-[140%] h-24 bg-amber-500/15 blur-[60px] rotate-[-5deg] animate-streak opacity-40 mix-blend-screen transition-transform ease-out"
+                style={{
+                    transform: getSphereTransform(sX, sY),
+                    transitionDuration: `${PARALLAX_CONFIG.transitions.streak}ms`
+                }}
+            />
+            <div
+                className="absolute bottom-[30%] -right-[20%] w-[140%] h-32 bg-orange-900/15 blur-[80px] rotate-[5deg] animate-streak-reverse opacity-30 mix-blend-screen transition-transform ease-out"
+                style={{
+                    transform: getSphereTransform(midX * -1.2, midY * -1.2),
+                    transitionDuration: `${PARALLAX_CONFIG.transitions.mid}ms`
+                }}
+            />
 
             {/* Dynamic Gradients - Deep Atmospheric */}
             <div
-                className="absolute top-[-20%] left-[-10%] w-[55%] h-[55%] bg-slate-800/40 rounded-full blur-[100px] transition-transform duration-1000 ease-out"
-                style={{ transform: `translateY(${offset * 0.2}px)` }}
+                className="absolute top-[-20%] left-[-10%] w-[55%] h-[55%] bg-slate-800/40 rounded-full blur-[100px] transition-transform ease-out"
+                style={{
+                    transform: getSphereTransform(dX * 0.5, dY * 1.2),
+                    transitionDuration: `${PARALLAX_CONFIG.transitions.deep}ms`
+                }}
             />
             <div
-                className="absolute bottom-[-10%] right-[10%] w-[45%] h-[45%] bg-void-deeper/70 rounded-full blur-[100px]"
+                className="absolute bottom-[-10%] right-[10%] w-[45%] h-[45%] bg-void-deeper/70 rounded-full blur-[100px] transition-transform ease-out"
+                style={{
+                    transform: getSphereTransform(midX * 0.8, midY * 0.8),
+                    transitionDuration: `${PARALLAX_CONFIG.transitions.mid}ms`
+                }}
+            />
+
+            {/* Fine Star Layer for 3D depth reference */}
+            <div
+                className="absolute inset-[-20%] opacity-20 mix-blend-screen transition-transform ease-out pointer-events-none"
+                style={{
+                    backgroundImage: 'radial-gradient(1px 1px at 10% 10%, #fff, transparent), radial-gradient(1px 1px at 25% 45%, #fff, transparent), radial-gradient(1px 1px at 75% 15%, #fff, transparent), radial-gradient(1.5px 1.5px at 35% 85%, #fff, transparent), radial-gradient(1px 1px at 85% 85%, #fff, transparent)',
+                    backgroundSize: '350px 350px',
+                    transform: getSphereTransform(dX * 0.4, dY * 0.4),
+                    transitionDuration: `${PARALLAX_CONFIG.transitions.deep}ms`
+                }}
             />
 
             {/* VISIBLE GRAIN: full-bleed SVG so noise always reaches edges */}
-            {/*
-              Use the inline SVG below instead of a CSS background-image when you need
-              the noise to reliably cover the entire viewport (no tiling gaps).
-
-              Tweakable parameters (inside the <feTurbulence> element):
-              - baseFrequency: finer grain -> larger number (0.6-0.9). coarser -> smaller (0.02-0.2).
-              - numOctaves: 1 = simple, 2-4 = more detail.
-              - opacity on the SVG: overall strength (0.02 subtle -> 0.3 strong).
-              - preserveAspectRatio='none' ensures the SVG stretches to every edge.
-
-              Performance: high baseFrequency + many octaves can be GPU/CPU heavy on some devices.
-              For best performance, lower baseFrequency or pre-render a rasterized grain image.
-            */}
             {/* Pre-rendered grain overlay */}
             <div
-                className="absolute inset-0 pointer-events-none"
+                className="absolute inset-0 pointer-events-none transition-transform ease-out"
                 style={{
-                    top: '-10%',
-                    left: 0,
-                    width: '100%',
-                    height: '120%',
-                    opacity: 0.2,
+                    top: '-15%',
+                    left: '-15%',
+                    width: '130%',
+                    height: '130%',
+                    opacity: 0.15,
                     backgroundImage: 'url(/grain_turbulence_f0.4_o4.png)',
                     backgroundRepeat: 'repeat',
-                    transform: `translateY(${offset * -0.01}px)`
+                    transform: getSphereTransform(dX * 0.1, dY * 0.1),
+                    transitionDuration: `${PARALLAX_CONFIG.transitions.deep}ms`
                 }}
                 aria-hidden="true"
             />
 
             {/* Cinematic Vignette */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(1,10,8,0.9)_100%)] pointer-events-none" />
+
+            {/* VISIBLE GRAIN: full-bleed SVG so noise always reaches edges */}
+            {/* Pre-rendered grain overlay */}
+            <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                    top: '-10%',
+                    left: '-10%',
+                    width: '120%',
+                    height: '120%',
+                    opacity: 0.2,
+                    backgroundImage: 'url(/grain_turbulence_f0.4_o4.png)',
+                    backgroundRepeat: 'repeat',
+                    transform: `translate(${panX * -0.01}px, ${panY * -0.01 + (offset * -0.01)}px)`,
+                    transition: is3d ? 'none' : 'transform 0.1s linear'
+                }}
+                aria-hidden="true"
+            />
+
+            {/* Cinematic Vignette */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(1,10,8,0.9)_100%)] pointer-events-none" />
+
 
             {/* Styles for Google Fonts */}
             <style>{`
@@ -1165,6 +1273,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
 
     // 3D mode state and data
     const [viewMode, setViewMode] = useState('2d'); // '2d' | '3d'
+    const [rotation, setRotation] = useState({ x: 0, y: 0, z: 0 }); // Camera rotation for 3D parallax
     const [atlas3dNodes, setAtlas3dNodes] = useState(null);
     const [gradientData3d, setGradientData3d] = useState(null);
     const [is3DAvailable, setIs3DAvailable] = useState(false);
@@ -1213,10 +1322,23 @@ const AtlasMap = ({ songs, onSelectSong }) => {
     }, []);
 
     // NEW: Zoom and pan state
-    const [zoom, setZoom] = useState(1);
-    const [pan, setPan] = useState({ x: 0, y: 0 });
+    const [zoom2d, setZoom2d] = useState(1);
+    const [pan2d, setPan2d] = useState({ x: 0, y: 0 });
+    const [zoom3d, setZoom3d] = useState(1);
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const [isPanning, setIsPanning] = useState(false);
     const [panStart, setPanStart] = useState({ x: 0, y: 0 });
+    const [isTransitioning, setIsTransitioning] = useState(false);
+
+    // Track mouse for parallax
+    useEffect(() => {
+        const handleGlobalMouseMove = (e) => {
+            setMousePos({ x: e.clientX, y: e.clientY });
+        };
+        window.addEventListener('mousemove', handleGlobalMouseMove);
+        return () => window.removeEventListener('mousemove', handleGlobalMouseMove);
+    }, []);
+
     const mapRef = useRef(null);
     const atlas3DRef = useRef(null);
     const zoomRef = useRef(1);
@@ -1225,14 +1347,34 @@ const AtlasMap = ({ songs, onSelectSong }) => {
     const MIN_ZOOM = 0.5;
     const MAX_ZOOM = 4;
 
+    const toggleViewMode = () => {
+        if (!is3DAvailable || isTransitioning) return;
+
+        // Force close dropdowns when switching
+        setIsGradientOpen(false);
+        setIsCategoryOpen(false);
+        setIsSelectionOpen(false);
+
+        setIsTransitioning(true);
+        // We'll switch the actual mode halfway through or at the end
+        // Let's do it at 350ms so it's hidden by the blur/opacity
+        setTimeout(() => {
+            setViewMode(v => v === '2d' ? '3d' : '2d');
+        }, 350);
+
+        setTimeout(() => {
+            setIsTransitioning(false);
+        }, 700);
+    };
+
     // Keep refs synced
     useEffect(() => {
-        zoomRef.current = zoom;
-    }, [zoom]);
+        zoomRef.current = zoom2d;
+    }, [zoom2d]);
 
     useEffect(() => {
-        panRef.current = pan;
-    }, [pan]);
+        panRef.current = pan2d;
+    }, [pan2d]);
 
     // Wheel zoom handler (2D only)
     useEffect(() => {
@@ -1262,8 +1404,8 @@ const AtlasMap = ({ songs, onSelectSong }) => {
             const newPanX = mouseX - contentX * newZoom;
             const newPanY = mouseY - contentY * newZoom;
 
-            setZoom(newZoom);
-            setPan({ x: newPanX, y: newPanY });
+            setZoom2d(newZoom);
+            setPan2d({ x: newPanX, y: newPanY });
         };
 
         mapEl.addEventListener('wheel', wheelHandler, { passive: false });
@@ -1274,13 +1416,13 @@ const AtlasMap = ({ songs, onSelectSong }) => {
         if (viewMode !== '2d') return; // Only pan in 2D mode
         if (e.button !== 0) return; // left click only
         setIsPanning(true);
-        setPanStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+        setPanStart({ x: e.clientX - pan2d.x, y: e.clientY - pan2d.y });
     };
 
     // Handle pan move
     const handleMouseMove = (e) => {
         if (!isPanning) return;
-        setPan({
+        setPan2d({
             x: e.clientX - panStart.x,
             y: e.clientY - panStart.y
         });
@@ -1296,48 +1438,12 @@ const AtlasMap = ({ songs, onSelectSong }) => {
         if (viewMode === '3d') {
             atlas3DRef.current?.reset();
         } else {
-            setZoom(1);
-            setPan({ x: 0, y: 0 });
+            setZoom2d(1);
+            setPan2d({ x: 0, y: 0 });
         }
     };
 
     // Attach wheel listener (need passive: false to preventDefault) - 2D only
-    useEffect(() => {
-        const mapEl = mapRef.current;
-        if (!mapEl) return;
-
-        const wheelHandler = (e) => {
-            // Only handle wheel events in 2D mode
-            if (viewMode !== '2d') return;
-
-            e.preventDefault();
-
-            const rect = mapEl.getBoundingClientRect();
-
-            // Mouse position relative to container
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-
-            // Point in content space before zoom
-            const contentX = (mouseX - pan.x) / zoom;
-            const contentY = (mouseY - pan.y) / zoom;
-
-            // New zoom level
-            const delta = e.deltaY > 0 ? 0.9 : 1.1;
-            const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom * delta));
-
-            // Adjust pan so the point under mouse stays in place
-            const newPanX = mouseX - contentX * newZoom;
-            const newPanY = mouseY - contentY * newZoom;
-
-            setZoom(newZoom);
-            setPan({ x: newPanX, y: newPanY });
-        };
-
-        mapEl.addEventListener('wheel', wheelHandler, { passive: false });
-        return () => mapEl.removeEventListener('wheel', wheelHandler);
-    }, [zoom, pan, viewMode]);
-
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -1479,6 +1585,13 @@ const AtlasMap = ({ songs, onSelectSong }) => {
     return (
         // REMOVED overflow-hidden here to fix cutoff
         <div className="h-screen w-full pt-20 px-4 md:px-12 flex flex-col animate-fade-in overflow-visible relative">
+            <Background
+                isAtlas={true}
+                pan={pan2d}
+                mousePos={mousePos}
+                viewMode={viewMode}
+                rotation={rotation}
+            />
             {/* UI CONTROLS */}
             <div className="absolute top-24 left-8 z-20 flex gap-4 items-start" ref={dropdownRef}>
                 {/* Category Selector */}
@@ -1664,25 +1777,29 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                             </div>
                         </div>
                     )}
+                </div>
 
-                    {/* 2D / 3D Toggle (experimental) */}
-                    <div className="relative">
-                        <button
-                            onClick={() => { if (is3DAvailable) setViewMode(v => v === '2d' ? '3d' : '2d'); }}
-                            disabled={!is3DAvailable}
-                            title={is3DAvailable ? `Switch to ${viewMode === '2d' ? '3D' : '2D'} view` : '3D data not available. Run: node scripts/run_pipeline.js --3d'}
-                            className={`flex items-center gap-2 px-4 py-2 text-xs font-display uppercase tracking-widest ${is3DAvailable ? 'bg-emerald-950/50 border border-emerald-800 text-emerald-300 hover:text-white' : 'bg-slate-900/50 border border-slate-800 text-slate-500 cursor-not-allowed'}`}
-                        >
-                            {viewMode === '2d' ? '2D View' : '3D View'} <span className="ml-1 text-[9px] bg-amber-600 text-black px-1 rounded">Experimental</span>
-                        </button>
-                    </div>
+                {/* 2D / 3D Toggle */}
+                <div className="relative">
+                    <button
+                        onClick={toggleViewMode}
+                        disabled={!is3DAvailable || isTransitioning}
+                        className={`flex items-center gap-3 px-6 py-3 bg-emerald-950/50 border border-emerald-800/60 text-xs font-display uppercase tracking-widest transition-all duration-200 shadow-lg ${is3DAvailable && !isTransitioning ? 'text-emerald-300 hover:text-white hover:border-emerald-600' : 'text-slate-500 cursor-not-allowed'}`}
+                    >
+                        <span className={`transition-all duration-200 ${viewMode === '2d' ? 'text-emerald-300 font-bold' : 'text-emerald-800'}`}>2D</span>
+                        <div className={`w-8 h-4 rounded-full border border-emerald-800/60 relative transition-colors ${viewMode === '3d' ? 'bg-emerald-600/30' : 'bg-transparent'}`}>
+                            <div className={`absolute top-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 transition-all duration-300 ${viewMode === '3d' ? 'translate-x-4' : 'translate-x-0'} left-0.5`} />
+                        </div>
+                        <span className={`transition-all duration-200 ${viewMode === '3d' ? 'text-emerald-300 font-bold' : 'text-emerald-800'}`}>3D</span>
+                        <span className="ml-1 text-[9px] bg-amber-600/80 text-black px-1 rounded font-bold">Experimental</span>
+                    </button>
                 </div>
             </div>
 
             {/* Map container with zoom/pan */}
             <div
                 ref={mapRef}
-                className={`flex-grow relative overflow-hidden ${isPanning ? 'cursor-grabbing' : 'cursor-grab'}`}
+                className={`flex-grow relative overflow-hidden transition-all duration-700 ease-in-out ${isPanning ? 'cursor-grabbing' : 'cursor-grab'} ${isTransitioning ? 'opacity-0 scale-95 blur-md' : 'opacity-100 scale-100'}`}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
@@ -1693,7 +1810,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                     <div
                         className="absolute inset-0 origin-top-left transition-transform duration-75"
                         style={{
-                            transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+                            transform: `translate(${pan2d.x}px, ${pan2d.y}px) scale(${zoom2d})`,
                         }}
                     >
                         {/* Map Grid - scales with zoom, fades at edges (Slightly more visible) */}
@@ -1701,7 +1818,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                             className="absolute inset-0 opacity-[0.12]"
                             style={{
                                 backgroundImage: `radial-gradient(circle, #fff 1px, transparent 2px)`,
-                                backgroundSize: `${60 / zoom}px ${60 / zoom}px`,
+                                backgroundSize: `${60 / zoom2d}px ${60 / zoom2d}px`,
                                 maskImage: `radial-gradient(ellipse 80% 80% at center, black 40%, transparent 100%)`,
                                 WebkitMaskImage: `radial-gradient(ellipse 80% 80% at center, black 40%, transparent 100%)`
                             }}
@@ -1899,7 +2016,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                                     glowFilter = 'drop-shadow(0 0 6px rgba(94, 234, 212, 0.5))';
                                 }
 
-                                const scaledStrokeWidth = strokeWidth / zoom;
+                                const scaledStrokeWidth = strokeWidth / zoom2d;
 
                                 return (
                                     <line
@@ -1919,7 +2036,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                             {/* NEW: Filter-specific connections */}
                             {filterConnections.map((edge, i) => {
                                 const isHoveredConnection = hoveredNode && (edge.start.id === hoveredNode || edge.end.id === hoveredNode);
-                                const scaledStrokeWidth = (isHoveredConnection ? 2.0 : 1.0) / zoom;
+                                const scaledStrokeWidth = (isHoveredConnection ? 2.0 : 1.0) / zoom2d;
 
                                 return (
                                     <line
@@ -1974,8 +2091,8 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                                         left: `${song.displayX}%`,
                                         top: `${song.displayY}%`,
                                         opacity: ((isDimmed && selectedNode !== song.id) ? 0.25 : 1) * (0.6 + 0.4 * depthFactor),
-                                        width: `${(40 * depthFactor) / zoom}px`,
-                                        height: `${(40 * depthFactor) / zoom}px`,
+                                        width: `${(40 * depthFactor) / zoom2d}px`,
+                                        height: `${(40 * depthFactor) / zoom2d}px`,
                                     }}
                                     onMouseEnter={() => setHoveredNode(song.id)}
                                     onMouseLeave={() => setHoveredNode(null)}
@@ -1994,7 +2111,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                                 >
                                     <div
                                         style={{
-                                            transform: `rotate(${rotation}deg) scale(${nodeScale / zoom})`,
+                                            transform: `rotate(${rotation}deg) scale(${nodeScale / zoom2d})`,
                                         }}
                                         className="transition-all duration-300 ease-out"
                                     >
@@ -2012,7 +2129,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                                     {/* Tooltip */}
                                     <div
                                         className={`absolute top-8 left-1/2 w-max max-w-[280px] bg-emerald-950/80 backdrop-blur-sm border border-emerald-800/60 px-4 py-3 shadow-2xl transition-all duration-300 z-50 ${selectedNode === song.id ? 'pointer-events-auto' : 'pointer-events-none'} ${(isHovered || selectedNode === song.id) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
-                                        style={{ transform: `translateX(-50%) scale(${1 / zoom})`, transformOrigin: 'top center' }}
+                                        style={{ transform: `translateX(-50%) scale(${1 / zoom2d})`, transformOrigin: 'top center' }}
                                     >
                                         <div className="text-[10px] text-emerald-400 font-display uppercase tracking-widest mb-1 flex flex-col">
                                             <span className="font-medium normal-case">{song.featuring ? `${song.artist} (feat. ${song.featuring})` : (song.artist || 'Unknown Artist')}</span>
@@ -2128,6 +2245,8 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                                     setIsCategoryOpen(false);
                                     setIsSelectionOpen(false);
                                 }}
+                                onZoom={setZoom3d}
+                                onRotation={setRotation}
                             />
                         </Suspense>
                     </div>
@@ -2140,7 +2259,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                             if (viewMode === '3d') {
                                 atlas3DRef.current?.zoomIn();
                             } else {
-                                setZoom(z => Math.min(MAX_ZOOM, z * 1.2));
+                                setZoom2d(z => Math.min(MAX_ZOOM, z * 1.2));
                             }
                         }}
                         className="w-10 h-10 bg-slate-900/80 border border-slate-cool-700 text-slate-200 hover:text-white hover:border-slate-cool-600 transition-colors flex items-center justify-center text-lg font-bold"
@@ -2152,7 +2271,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                             if (viewMode === '3d') {
                                 atlas3DRef.current?.zoomOut();
                             } else {
-                                setZoom(z => Math.max(MIN_ZOOM, z / 1.2));
+                                setZoom2d(z => Math.max(MIN_ZOOM, z / 1.2));
                             }
                         }}
                         className="w-10 h-10 bg-slate-900/80 border border-slate-cool-700 text-slate-200 hover:text-white hover:border-slate-cool-600 transition-colors flex items-center justify-center text-lg font-bold"
@@ -2169,7 +2288,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
 
                 {/* Zoom indicator */}
                 <div className="absolute top-24 right-8 text-xs text-emerald-600 font-display">
-                    {Math.round(zoom * 100)}%
+                    {Math.round((viewMode === '3d' ? zoom3d : zoom2d) * 100)}%
                 </div>
             </div>
 
@@ -2274,41 +2393,40 @@ export default function AetherAtlas() {
                     </header>
 
                     <section
-                        className="relative group cursor-pointer aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-sm border border-warm-gray"
+                        className="relative group cursor-pointer aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-sm border border-warm-gray bg-warm-gray"
                         onClick={() => handleOpenAlbum(INITIAL_ALBUMS[0].id)}
                     >
                         <div
                             className="absolute inset-0 bg-cover bg-center transition-transform duration-[2s] ease-out group-hover:scale-105"
                             style={{
                                 backgroundImage: `url(${INITIAL_ALBUMS[0].coverImage})`,
-                                filter: 'grayscale(0.3) brightness(0.6) contrast(1.1)'
+                                filter: 'grayscale(0.2) brightness(0.7) contrast(1.1)'
                             }}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-r from-cream via-cream/40 to-transparent"></div>
-                        <div className="absolute inset-0 bg-cream/20 mix-blend-multiply group-hover:bg-transparent transition-colors duration-700"></div>
+                        {/* Gradient removed — using blend mode on text for contrast */}
 
-                        <div className="relative h-full flex flex-col justify-center p-8 md:p-16 max-w-2xl">
-                            <div className="flex items-center gap-4 text-[10px] font-display tracking-[0.4em] text-terracotta/60 mb-8 uppercase">
-                                <span className="w-12 h-[1px] bg-terracotta"></span>
-                                Featured Article
+                        <div className="relative z-20 h-full flex flex-col justify-center p-8 md:p-16 max-w-2xl mix-blend-difference">
+                            <div className="flex items-center gap-4 text-[10px] font-display tracking-[0.4em] mb-8 uppercase">
+                                <span className="w-12 h-[1px] bg-terracotta mix-blend-normal"></span>
+                                <span className="mix-blend-normal text-terracotta/60">Featured Article</span>
                             </div>
 
-                            <h2 className="text-4xl md:text-7xl font-display font-light text-charcoal mb-6 leading-tight uppercase tracking-wide group-hover:text-terracotta transition-colors duration-500">
+                            <h2 className="text-4xl md:text-7xl font-display font-light text-white opacity-95 mb-6 leading-tight uppercase tracking-wide group-hover:text-terracotta transition-colors duration-500">
                                 {INITIAL_ALBUMS[0].title}
                             </h2>
 
                             <div className="flex flex-col gap-1 mb-10">
-                                <div className="text-xl font-body text-slate-dark italic">{INITIAL_ALBUMS[0].artist}</div>
-                                <div className="text-[10px] font-display uppercase tracking-[0.3em] text-slate-600">{INITIAL_ALBUMS[0].genre} {/* {INITIAL_ALBUMS[0].releaseType} */}</div>
+                                <div className="text-xl font-body text-white opacity-90 italic">{INITIAL_ALBUMS[0].artist}</div>
+                                <div className="text-[10px] font-display uppercase tracking-[0.3em] text-white/80">{INITIAL_ALBUMS[0].genre} {/* {INITIAL_ALBUMS[0].releaseType} */}</div>
                             </div>
 
                             <div className="flex items-center gap-8">
-                                <button className="group/btn relative overflow-hidden text-[10px] font-display tracking-[0.2em] uppercase text-charcoal px-8 py-3 border border-warm-gray hover:border-terracotta transition-all duration-500">
+                                <button className="group/btn relative overflow-hidden text-[10px] font-display tracking-[0.2em] uppercase text-white px-8 py-3 border border-warm-gray hover:border-terracotta transition-all duration-500">
                                     <span className="relative z-10">Enter the Aether</span>
                                     <div className="absolute inset-0 bg-rust/10 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500"></div>
                                 </button>
                                 <div className="hidden sm:block h-[1px] w-12 bg-warm-gray"></div>
-                                <span className="text-[10px] font-display tracking-[0.2em] uppercase text-slate-600 font-bold group-hover:text-terracotta transition-colors">
+                                <span className="text-[10px] font-display tracking-[0.2em] uppercase font-bold group-hover:text-terracotta transition-colors mix-blend-normal text-terracotta/80">
                                     REF_{INITIAL_ALBUMS[0].id.split('-').map(s => s[0]).join('').toUpperCase()}
                                 </span>
                             </div>
@@ -2343,7 +2461,7 @@ export default function AetherAtlas() {
 
     return (
         <div className={`min-h-screen ${theme.bg} ${theme.text} font-sans selection:bg-slate-700 selection:text-white relative z-10 transition-colors duration-500`}>
-            <Background isAtlas={isAtlasView} />
+            {currentView !== 'atlas' && <Background isAtlas={false} />}
             <Navigation currentView={currentView} setView={setCurrentView} isAtlas={isAtlasView} />
             {renderContent()}
         </div>
