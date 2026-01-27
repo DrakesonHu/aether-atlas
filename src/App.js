@@ -1581,7 +1581,8 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                 <div className="relative">
                     <button
                         onClick={() => { setIsGradientOpen(!isGradientOpen); setIsCategoryOpen(false); setIsSelectionOpen(false); }}
-                        disabled={!activeGradientData}
+                        disabled={!activeGradientData || viewMode === '3d'}
+                        title={viewMode === '3d' ? 'Gradient view not available in 3D mode yet' : ''}
                         className="flex items-center gap-2 px-6 py-3 bg-[#021a15] border border-emerald-900 text-xs font-display uppercase tracking-widest text-emerald-600 hover:text-white hover:border-teal-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {selectedGradient === 'none'
