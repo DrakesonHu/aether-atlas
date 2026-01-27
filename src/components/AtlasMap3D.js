@@ -187,30 +187,13 @@ function LineBloomSprite({ points, isHighlighted, highlightedEnd }) {
     const targetIntensity = isHighlighted ? ATLAS3D_CONFIG.lineBloomIntensity : 0;
 
     // Calculate line properties
-    const { midpoint, length, quaternion } = useMemo(() => {
+    const { midpoint, length } = useMemo(() => {
         const start = new THREE.Vector3(...points[0]);
         const end = new THREE.Vector3(...points[1]);
         const mid = start.clone().add(end).multiplyScalar(0.5);
         const len = start.distanceTo(end);
 
-        // Create quaternion that aligns the plane with the line direction
-        const dir = end.clone().sub(start).normalize();
-        const quat = new THREE.Quaternion();
-        // Default plane faces +Z, we want it to face perpendicular to line
-        // Use lookAt approach: create a matrix that looks along the line
-        const up = new THREE.Vector3(0, 1, 0);
-        // If line is nearly vertical, use different up vector
-        if (Math.abs(dir.y) > 0.99) {
-            up.set(1, 0, 0);
-        }
-        const matrix = new THREE.Matrix4();
-        matrix.lookAt(start, end, up);
-        quat.setFromRotationMatrix(matrix);
-        // Rotate 90 degrees around X to lay the plane along the line
-        const rotX = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2);
-        quat.multiply(rotX);
-
-        return { midpoint: mid, length: len, quaternion: quat };
+        return { midpoint: mid, length: len };
     }, [points]);
 
     useFrame(({ camera }, delta) => {
@@ -363,12 +346,15 @@ function ConnectionLine({ points, isHighlighted, highlightedEnd, isDimmed, isFil
     }), []);
 
     // Create curve for TubeGeometry
+    const startPoint = points[0];
+    const endPoint = points[1];
+
     const curve = useMemo(() => {
         return new THREE.LineCurve3(
-            new THREE.Vector3(...points[0]),
-            new THREE.Vector3(...points[1])
+            new THREE.Vector3(...startPoint),
+            new THREE.Vector3(...endPoint)
         );
-    }, [points[0][0], points[0][1], points[0][2], points[1][0], points[1][1], points[1][2]]);
+    }, [startPoint, endPoint]);
 
     // Target radius based on highlight state
     const targetRadius = isHighlighted ? ATLAS3D_CONFIG.lineHighlightRadius :
