@@ -1,0 +1,929 @@
+{
+  "metadata": {
+    "generated": "2026-01-26T23:45:08.579379",
+    "numSongs": 42,
+    "method": "PCA on 3D atlas coordinates"
+  },
+  "pca": {
+    "pc1": {
+      "x": 0.30322101731329093,
+      "y": 0.7569214688485333,
+      "z": -0.5789014636841672,
+      "variance": 673.0303956665942,
+      "variancePercent": 38.91209296662525
+    },
+    "pc2": {
+      "x": 0.21472982416091912,
+      "y": -0.6461515500893589,
+      "z": -0.7323791893090214,
+      "variance": 600.3416928776653,
+      "variancePercent": 34.70950482386422
+    },
+    "pc3": {
+      "x": 0.9284116098344062,
+      "y": -0.09776535333796482,
+      "z": 0.35846034426612555,
+      "variance": 456.24547852891135,
+      "variancePercent": 26.378402209510515
+    },
+    "mean": {
+      "x": 48.12047619047619,
+      "y": 45.766904761904755,
+      "z": 49.57761904761905
+    }
+  },
+  "songs": [
+    {
+      "id": "bi-hot-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 64.0,
+      "y": 43.68,
+      "z": 88.79,
+      "pc1_score": -19.464722381628004,
+      "pc2_score": -23.960067670609476,
+      "pc3_score": 29.002844820519023,
+      "pc1_normalized": 0.3071380719755668,
+      "pc2_normalized": 0.28440903767744463,
+      "pc3_normalized": 0.8240999249856128
+    },
+    {
+      "id": "bi-hot-2",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 52.63,
+      "y": 16.68,
+      "z": 30.39,
+      "pc1_score": -9.54137952823515,
+      "pc2_score": 33.815490736740415,
+      "pc3_score": 0.1523852516851436,
+      "pc1_normalized": 0.4064615633942716,
+      "pc2_normalized": 0.8401329942504074,
+      "pc3_normalized": 0.5038248667024887
+    },
+    {
+      "id": "bi-hot-3",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 50.28,
+      "y": 47.78,
+      "z": 67.35,
+      "pc1_score": -8.109889335498814,
+      "pc2_score": -13.853172394678232,
+      "pc3_score": 8.178809803839581,
+      "pc1_normalized": 0.42078945732827944,
+      "pc2_normalized": 0.38162391514879035,
+      "pc3_normalized": 0.5929279045627021
+    },
+    {
+      "id": "bo-always-let-you-down",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 30.27,
+      "y": 65.74,
+      "z": 63.59,
+      "pc1_score": 1.5936371920343486,
+      "pc2_score": -27.00105226394119,
+      "pc3_score": -13.502383149337366,
+      "pc1_normalized": 0.5179127904658712,
+      "pc2_normalized": 0.2551588142842124,
+      "pc3_normalized": 0.3522403924570821
+    },
+    {
+      "id": "bo-benzo",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 66.35,
+      "y": 36.56,
+      "z": 29.8,
+      "pc1_score": 10.007963493585699,
+      "pc2_score": 24.348194830144088,
+      "pc3_score": 10.735125711137435,
+      "pc1_normalized": 0.6021324207410231,
+      "pc2_normalized": 0.7490702112277612,
+      "pc3_normalized": 0.621306108530182
+    },
+    {
+      "id": "bo-minetta-creek",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 43.04,
+      "y": 54.16,
+      "z": 30.22,
+      "pc1_score": 16.01856081699972,
+      "pc2_score": 7.662976087870566,
+      "pc3_score": -12.476265788258978,
+      "pc1_normalized": 0.6622929453236528,
+      "pc2_normalized": 0.5885806195847662,
+      "pc3_normalized": 0.36363153847472557
+    },
+    {
+      "id": "bo-orlando",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 33.58,
+      "y": 51.98,
+      "z": 31.93,
+      "pc1_score": 10.510079688226261,
+      "pc2_score": 5.787873916784646,
+      "pc3_score": -20.432943958320624,
+      "pc1_normalized": 0.607158139824439,
+      "pc2_normalized": 0.5705446329804055,
+      "pc3_normalized": 0.2753027699649366
+    },
+    {
+      "id": "bo-youre-not-good-enough",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 57.95,
+      "y": 54.46,
+      "z": 10.77,
+      "pc1_score": 32.026296094452505,
+      "pc2_score": 24.91552753314353,
+      "pc3_score": -5.635031987605512,
+      "pc1_normalized": 0.8225155820855548,
+      "pc2_normalized": 0.7545271965533064,
+      "pc3_normalized": 0.4395775229400722
+    },
+    {
+      "id": "cc-knights",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 26.05,
+      "y": 88.3,
+      "z": 21.6,
+      "pc1_score": 41.69826529629336,
+      "pc2_score": -11.731788932830401,
+      "pc3_score": -34.677616369877654,
+      "pc1_normalized": 0.919323055556308,
+      "pc2_normalized": 0.4020287999015192,
+      "pc3_normalized": 0.1171696464370246
+    },
+    {
+      "id": "cc-vanished",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 70.53,
+      "y": 95.0,
+      "z": 65.75,
+      "pc1_score": 34.698410366017725,
+      "pc2_score": -38.84436294774471,
+      "pc3_score": 21.78912836754181,
+      "pc1_normalized": 0.8492609765400921,
+      "pc2_normalized": 0.14124193224004233,
+      "pc3_normalized": 0.744018931755577
+    },
+    {
+      "id": "cn-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 66.55,
+      "y": 64.2,
+      "z": 28.53,
+      "pc1_score": 31.72512195490071,
+      "pc2_score": 7.461633520928853,
+      "pc3_score": 7.763329029624992,
+      "pc1_normalized": 0.8195011072752765,
+      "pc2_normalized": 0.5866439721336327,
+      "pc3_normalized": 0.5883155645457395
+    },
+    {
+      "id": "db-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 27.27,
+      "y": 90.19,
+      "z": 77.36,
+      "pc1_score": 11.21923089851014,
+      "pc2_score": -53.528508572894,
+      "pc3_score": -13.741981927409277,
+      "pc1_normalized": 0.6142560880854036,
+      "pc2_normalized": 0.0,
+      "pc3_normalized": 0.34958055570722163
+    },
+    {
+      "id": "db-bm-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 76.24,
+      "y": 82.55,
+      "z": 45.72,
+      "pc1_score": 38.601526405306245,
+      "pc2_score": -14.904113691313647,
+      "pc3_score": 21.127576613103425,
+      "pc1_normalized": 0.888327561073341,
+      "pc2_normalized": 0.37151525896974674,
+      "pc3_normalized": 0.7366749057027323
+    },
+    {
+      "id": "db-bm2-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 51.65,
+      "y": 59.3,
+      "z": 63.75,
+      "pc1_score": 3.109304048618492,
+      "pc2_score": -18.366093311094712,
+      "pc3_score": 7.03401959950131,
+      "pc1_normalized": 0.5330832150140948,
+      "pc2_normalized": 0.3382156238833129,
+      "pc3_normalized": 0.580219346193238
+    },
+    {
+      "id": "db-pii-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 81.36,
+      "y": 42.98,
+      "z": 87.84,
+      "pc1_score": -14.180694158763288,
+      "pc2_score": -19.084291608269794,
+      "pc3_score": 44.84796878752807,
+      "pc1_normalized": 0.3600263113122189,
+      "pc2_normalized": 0.3313075123857817,
+      "pc3_normalized": 0.9999999999888988
+    },
+    {
+      "id": "db-rch-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 82.66,
+      "y": 84.8,
+      "z": 38.71,
+      "pc1_score": 46.309377901792786,
+      "pc2_score": -9.84541109084537,
+      "pc3_score": 24.35520008992436,
+      "pc1_normalized": 0.9654760314304021,
+      "pc2_normalized": 0.4201732434488813,
+      "pc3_normalized": 0.7725054370912688
+    },
+    {
+      "id": "dbt-rinsed-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 95.0,
+      "y": 59.89,
+      "z": 40.49,
+      "pc1_score": 30.16576686106402,
+      "pc2_score": 7.596355095056245,
+      "pc3_score": 38.88519371972334,
+      "pc1_normalized": 0.8038934038461393,
+      "pc2_normalized": 0.5879398143249267,
+      "pc3_normalized": 0.9338059718551726
+    },
+    {
+      "id": "dh-fucking-your-girl",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 46.1,
+      "y": 76.77,
+      "z": 72.46,
+      "pc1_score": 9.60761371462451,
+      "pc2_score": -37.22513415413049,
+      "pc3_score": 3.295564040664064,
+      "pc1_normalized": 0.5981252894322892,
+      "pc2_normalized": 0.15681675759161678,
+      "pc3_normalized": 0.5387179597373735
+    },
+    {
+      "id": "dh-neon-kitchen",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 63.62,
+      "y": 53.79,
+      "z": 26.15,
+      "pc1_score": 24.334917367027856,
+      "pc2_score": 15.30197524312306,
+      "pc3_score": 5.207684721705014,
+      "pc1_normalized": 0.7455319889236822,
+      "pc2_normalized": 0.6620576218299644,
+      "pc3_normalized": 0.559944816145107
+    },
+    {
+      "id": "ia-asleep-among-endives",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 42.39,
+      "y": 5.04,
+      "z": 50.92,
+      "pc1_score": -33.34177569235613,
+      "pc2_score": 24.10211662385853,
+      "pc3_score": -0.8573700523817087,
+      "pc1_normalized": 0.16824159265521776,
+      "pc2_normalized": 0.7467032664816938,
+      "pc3_normalized": 0.49261535934299205
+    },
+    {
+      "id": "ia-dawn-in-the-adan",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 20.48,
+      "y": 12.08,
+      "z": 39.72,
+      "pc1_score": -28.17292464773399,
+      "pc2_score": 23.051126184124747,
+      "pc3_score": -25.901892367133428,
+      "pc1_normalized": 0.21997701487733315,
+      "pc2_normalized": 0.736594137611467,
+      "pc3_normalized": 0.21459081609810543
+    },
+    {
+      "id": "ia-iam-pod-0",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 55.16,
+      "y": 13.3,
+      "z": 11.42,
+      "pc1_score": -0.3508641530519192,
+      "pc2_score": 50.4359826523617,
+      "pc3_score": -3.968279211879894,
+      "pc1_normalized": 0.4984501289902273,
+      "pc2_normalized": 0.9999999999903812,
+      "pc3_normalized": 0.45808049829529823
+    },
+    {
+      "id": "ik-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 69.88,
+      "y": 6.09,
+      "z": 47.62,
+      "pc1_score": -22.30108755396505,
+      "pc2_score": 31.74343168716814,
+      "pc3_score": 23.379092344883034,
+      "pc1_normalized": 0.27874867779489404,
+      "pc2_normalized": 0.8202025446792851,
+      "pc3_normalized": 0.7616694584064981
+    },
+    {
+      "id": "ik-2",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 55.7,
+      "y": 18.98,
+      "z": 16.75,
+      "pc1_score": 1.0266443379203167,
+      "pc2_score": 42.978214873883964,
+      "pc3_score": -2.111650514590501,
+      "pc1_normalized": 0.5122377159761484,
+      "pc2_normalized": 0.9282662023204868,
+      "pc3_normalized": 0.47869132644573925
+    },
+    {
+      "id": "ik-3",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 42.99,
+      "y": 29.0,
+      "z": 84.52,
+      "pc1_score": -34.475093868145315,
+      "pc2_score": -15.85877738256907,
+      "pc3_score": 9.401486614883115,
+      "pc1_normalized": 0.15689812505859305,
+      "pc2_normalized": 0.36233266518224083,
+      "pc3_normalized": 0.6065010986390078
+    },
+    {
+      "id": "ik-4",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 52.54,
+      "y": 5.0,
+      "z": 85.22,
+      "pc1_score": -50.1506794297471,
+      "pc2_score": 1.1868642077960025,
+      "pc3_score": 20.865108209899137,
+      "pc1_normalized": 0.0,
+      "pc2_normalized": 0.5262890448010187,
+      "pc3_normalized": 0.7337611884035965
+    },
+    {
+      "id": "ik-5",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 76.15,
+      "y": 24.85,
+      "z": 65.28,
+      "pc1_score": -16.423444868474625,
+      "pc2_score": 8.034168121783416,
+      "pc3_score": 33.69656478966433,
+      "pc1_normalized": 0.33757844932041586,
+      "pc2_normalized": 0.5921509927913741,
+      "pc3_normalized": 0.876205903855586
+    },
+    {
+      "id": "kg-kg-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 27.26,
+      "y": 42.67,
+      "z": 44.27,
+      "pc1_score": -5.596860078036203,
+      "pc2_score": 1.40889316334624,
+      "pc3_score": -20.966909244653625,
+      "pc1_normalized": 0.4459425578082453,
+      "pc2_normalized": 0.5284246677712408,
+      "pc3_normalized": 0.26937510830001776
+    },
+    {
+      "id": "kg-kg-2",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 5.12,
+      "y": 63.54,
+      "z": 72.46,
+      "pc1_score": -12.832454607740244,
+      "pc2_score": -37.47617734056273,
+      "pc3_score": -33.45730810568863,
+      "pc1_normalized": 0.3735209432578047,
+      "pc2_normalized": 0.15440205634630505,
+      "pc3_normalized": 0.13071654677336175
+    },
+    {
+      "id": "kg-kg-3",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 14.14,
+      "y": 65.13,
+      "z": 69.38,
+      "pc1_score": -7.1108793879579615,
+      "pc2_score": -34.31096738820153,
+      "pc3_score": -26.342540157129314,
+      "pc1_normalized": 0.43078862367955073,
+      "pc2_normalized": 0.1848471623149652,
+      "pc3_normalized": 0.2096990917119983
+    },
+    {
+      "id": "lcc-kk-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 17.83,
+      "y": 29.78,
+      "z": 55.29,
+      "pc1_score": -24.59244613455765,
+      "pc2_score": -0.3579342640248049,
+      "pc3_score": -24.511402327053005,
+      "pc1_normalized": 0.25581429593597727,
+      "pc2_normalized": 0.5114301400576781,
+      "pc3_normalized": 0.2300269403500028
+    },
+    {
+      "id": "lcc-kk-2",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 41.59,
+      "y": 28.61,
+      "z": 19.69,
+      "pc1_score": 2.3353792254097065,
+      "pc2_score": 31.572742811044343,
+      "pc3_score": -15.099145269856162,
+      "pc1_normalized": 0.5253369427475453,
+      "pc2_normalized": 0.8185607449252487,
+      "pc3_normalized": 0.33451439817982304
+    },
+    {
+      "id": "rh-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 47.61,
+      "y": 17.62,
+      "z": 41.84,
+      "pc1_score": -16.980464613613968,
+      "pc2_score": 23.744422844780306,
+      "pc3_score": -0.49576951997412655,
+      "pc1_normalized": 0.3320031964349952,
+      "pc2_normalized": 0.7432627285166709,
+      "pc3_normalized": 0.49662956339113673
+    },
+    {
+      "id": "rh-2",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 29.28,
+      "y": 28.98,
+      "z": 80.9,
+      "pc1_score": -36.55176914635082,
+      "pc2_score": -16.138587575514833,
+      "pc3_score": -4.622707695123204,
+      "pc1_normalized": 0.1361125246594535,
+      "pc2_normalized": 0.35964126363113996,
+      "pc3_normalized": 0.4508155491837317
+    },
+    {
+      "id": "rh-3",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 22.48,
+      "y": 66.98,
+      "z": 25.7,
+      "pc1_score": 22.1047045475291,
+      "pc2_score": -1.7251780333467366,
+      "pc3_score": -34.43800107232997,
+      "pc1_normalized": 0.7232096196261593,
+      "pc2_normalized": 0.4982790751777814,
+      "pc3_normalized": 0.1198296665730822
+    },
+    {
+      "id": "sjb-cdl-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 74.01,
+      "y": 36.46,
+      "z": 22.09,
+      "pc1_score": 16.718274624325588,
+      "pc2_score": 31.704283987798224,
+      "pc3_score": 15.092805923510964,
+      "pc1_normalized": 0.6692964339024756,
+      "pc2_normalized": 0.819825995927801,
+      "pc3_normalized": 0.6696816389326448
+    },
+    {
+      "id": "sjb-cdl-2",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 39.42,
+      "y": 24.78,
+      "z": 95.0,
+      "pc1_score": -44.818688837904645,
+      "pc2_score": -21.573937217405003,
+      "pc3_score": 10.256291366769492,
+      "pc1_normalized": 0.05336829832624476,
+      "pc2_normalized": 0.3073604360352896,
+      "pc3_normalized": 0.615990467121264
+    },
+    {
+      "id": "ss-fantasy",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 57.91,
+      "y": 73.49,
+      "z": 5.0,
+      "pc1_score": 49.7586442514052,
+      "pc2_score": 16.836502264289646,
+      "pc3_score": -9.600959312435906,
+      "pc1_normalized": 0.9999999999899909,
+      "pc2_normalized": 0.6768177288921635,
+      "pc3_normalized": 0.39555092426228794
+    },
+    {
+      "id": "ss-genocide",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 29.73,
+      "y": 43.85,
+      "z": 63.99,
+      "pc1_score": -15.370673695882882,
+      "pc2_score": -13.265700613255634,
+      "pc3_score": -11.720257696373443,
+      "pc1_normalized": 0.34811571585162554,
+      "pc2_normalized": 0.3872746115980626,
+      "pc3_normalized": 0.3720241443225963
+    },
+    {
+      "id": "st-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 39.1,
+      "y": 13.85,
+      "z": 69.63,
+      "pc1_score": -38.50214108429204,
+      "pc2_score": 4.00024571411007,
+      "pc3_score": 1.9336360295748323,
+      "pc1_normalized": 0.1165911039745727,
+      "pc2_normalized": 0.5533500295000288,
+      "pc3_normalized": 0.5235989086148665
+    },
+    {
+      "id": "st-3",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 5.0,
+      "y": 41.13,
+      "z": 33.81,
+      "pc1_score": -7.456909675320411,
+      "pc2_score": 5.284766984834157,
+      "pc3_score": -45.23228823645072,
+      "pc1_normalized": 0.42732518028298355,
+      "pc2_normalized": 0.5657054140700221,
+      "pc3_normalized": 0.0
+    },
+    {
+      "id": "tcn-tcn-1",
+      "title": "",
+      "artist": "",
+      "album": "",
+      "genre": "",
+      "x": 70.16,
+      "y": 62.19,
+      "z": 60.56,
+      "pc1_score": 12.756123793212259,
+      "pc2_score": -13.92253263173857,
+      "pc3_score": 22.792888128180508,
+      "pc1_normalized": 0.6296389656593878,
+      "pc2_normalized": 0.38095676200599865,
+      "pc3_normalized": 0.7551618813184358
+    }
+  ],
+  "extremes": {
+    "pc1": {
+      "low": [
+        {
+          "id": "ik-4",
+          "title": "",
+          "artist": "",
+          "score": -50.1506794297471
+        },
+        {
+          "id": "sjb-cdl-2",
+          "title": "",
+          "artist": "",
+          "score": -44.818688837904645
+        },
+        {
+          "id": "st-1",
+          "title": "",
+          "artist": "",
+          "score": -38.50214108429204
+        },
+        {
+          "id": "rh-2",
+          "title": "",
+          "artist": "",
+          "score": -36.55176914635082
+        },
+        {
+          "id": "ik-3",
+          "title": "",
+          "artist": "",
+          "score": -34.475093868145315
+        }
+      ],
+      "high": [
+        {
+          "id": "ss-fantasy",
+          "title": "",
+          "artist": "",
+          "score": 49.7586442514052
+        },
+        {
+          "id": "db-rch-1",
+          "title": "",
+          "artist": "",
+          "score": 46.309377901792786
+        },
+        {
+          "id": "cc-knights",
+          "title": "",
+          "artist": "",
+          "score": 41.69826529629336
+        },
+        {
+          "id": "db-bm-1",
+          "title": "",
+          "artist": "",
+          "score": 38.601526405306245
+        },
+        {
+          "id": "cc-vanished",
+          "title": "",
+          "artist": "",
+          "score": 34.698410366017725
+        }
+      ]
+    },
+    "pc2": {
+      "low": [
+        {
+          "id": "db-1",
+          "title": "",
+          "artist": "",
+          "score": -53.528508572894
+        },
+        {
+          "id": "cc-vanished",
+          "title": "",
+          "artist": "",
+          "score": -38.84436294774471
+        },
+        {
+          "id": "kg-kg-2",
+          "title": "",
+          "artist": "",
+          "score": -37.47617734056273
+        },
+        {
+          "id": "dh-fucking-your-girl",
+          "title": "",
+          "artist": "",
+          "score": -37.22513415413049
+        },
+        {
+          "id": "kg-kg-3",
+          "title": "",
+          "artist": "",
+          "score": -34.31096738820153
+        }
+      ],
+      "high": [
+        {
+          "id": "ia-iam-pod-0",
+          "title": "",
+          "artist": "",
+          "score": 50.4359826523617
+        },
+        {
+          "id": "ik-2",
+          "title": "",
+          "artist": "",
+          "score": 42.978214873883964
+        },
+        {
+          "id": "bi-hot-2",
+          "title": "",
+          "artist": "",
+          "score": 33.815490736740415
+        },
+        {
+          "id": "ik-1",
+          "title": "",
+          "artist": "",
+          "score": 31.74343168716814
+        },
+        {
+          "id": "sjb-cdl-1",
+          "title": "",
+          "artist": "",
+          "score": 31.704283987798224
+        }
+      ]
+    },
+    "pc3": {
+      "low": [
+        {
+          "id": "st-3",
+          "title": "",
+          "artist": "",
+          "score": -45.23228823645072
+        },
+        {
+          "id": "cc-knights",
+          "title": "",
+          "artist": "",
+          "score": -34.677616369877654
+        },
+        {
+          "id": "rh-3",
+          "title": "",
+          "artist": "",
+          "score": -34.43800107232997
+        },
+        {
+          "id": "kg-kg-2",
+          "title": "",
+          "artist": "",
+          "score": -33.45730810568863
+        },
+        {
+          "id": "kg-kg-3",
+          "title": "",
+          "artist": "",
+          "score": -26.342540157129314
+        }
+      ],
+      "high": [
+        {
+          "id": "db-pii-1",
+          "title": "",
+          "artist": "",
+          "score": 44.84796878752807
+        },
+        {
+          "id": "dbt-rinsed-1",
+          "title": "",
+          "artist": "",
+          "score": 38.88519371972334
+        },
+        {
+          "id": "ik-5",
+          "title": "",
+          "artist": "",
+          "score": 33.69656478966433
+        },
+        {
+          "id": "bi-hot-1",
+          "title": "",
+          "artist": "",
+          "score": 29.002844820519023
+        },
+        {
+          "id": "db-rch-1",
+          "title": "",
+          "artist": "",
+          "score": 24.35520008992436
+        }
+      ]
+    }
+  },
+  "interpretations": {
+    "pc1": {
+      "name": "AXIS_1_NAME",
+      "lowLabel": "LOW_END_LABEL",
+      "highLabel": "HIGH_END_LABEL",
+      "description": "Manually interpret by examining extremes"
+    },
+    "pc2": {
+      "name": "AXIS_2_NAME",
+      "lowLabel": "LOW_END_LABEL",
+      "highLabel": "HIGH_END_LABEL",
+      "description": "Manually interpret by examining extremes"
+    },
+    "pc3": {
+      "name": "AXIS_3_NAME",
+      "lowLabel": "LOW_END_LABEL",
+      "highLabel": "HIGH_END_LABEL",
+      "description": "Manually interpret by examining extremes"
+    }
+  }
+}

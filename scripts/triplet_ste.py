@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import json
 import sys
+import argparse
 
 
 def logistic_triplet_embedding(triplets, n_items, n_dims=2, n_iter=300, verbose=True):
@@ -82,8 +83,15 @@ def tste_embedding(triplets, n_items, n_dims=2, n_iter=1000):
         return logistic_triplet_embedding(triplets, n_items, n_dims=n_dims, n_iter=n_iter)
 
 def main():
-    triplet_path = 'data/triplets.csv'
-    output_path = 'src/data/atlas_data.json'
+    parser = argparse.ArgumentParser(description='Compute t-STE embedding from triplets')
+    parser.add_argument('--triplets', default='data/triplets.csv')
+    parser.add_argument('--dims', type=int, default=2, help='Number of embedding dimensions (2 or 3)')
+    parser.add_argument('--output', default=None, help='Output JSON path')
+    args = parser.parse_args()
+
+    triplet_path = args.triplets
+    n_dims = args.dims
+    output_path = args.output or (f'src/data/atlas_data.json' if n_dims == 2 else 'src/data/atlas_nodes_3d.json')
     column_names = ['participant', 'anchor', 'optionA', 'optionB', 'chosen', 'detail', 'timestamp']
     df = pd.read_csv(triplet_path, names=column_names, header=0)
     items = sorted(set(df['anchor']) | set(df['optionA']) | set(df['optionB']))
@@ -102,19 +110,35 @@ def main():
             triplets.append([anchor, b, a])
         # skip 'equal' or ambiguous
 
-    X = tste_embedding(triplets, len(items), n_dims=2, n_iter=1000)
-    # Normalize to [5,95] for both axes
-    min_x, max_x = np.min(X[:,0]), np.max(X[:,0])
-    min_y, max_y = np.min(X[:,1]), np.max(X[:,1])
-    norm_x = 5 + 90 * (X[:,0] - min_x) / (max_x - min_x + 1e-8)
-    norm_y = 5 + 90 * (X[:,1] - min_y) / (max_y - min_y + 1e-8)
+    X = tste_embedding(triplets, len(items), n_dims=n_dims, n_iter=1000)
+    # Normalize to [5,95] for each axis
     atlas = []
-    for i, item in enumerate(items):
-        atlas.append({
-            'id': item,
-            'x': float(f'{norm_x[i]:.2f}'),
-            'y': float(f'{norm_y[i]:.2f}')
-        })
+    if n_dims == 2:
+        min_x, max_x = np.min(X[:,0]), np.max(X[:,0])
+        min_y, max_y = np.min(X[:,1]), np.max(X[:,1])
+        norm_x = 5 + 90 * (X[:,0] - min_x) / (max_x - min_x + 1e-8)
+        norm_y = 5 + 90 * (X[:,1] - min_y) / (max_y - min_y + 1e-8)
+        for i, item in enumerate(items):
+            atlas.append({
+                'id': item,
+                'x': float(f'{norm_x[i]:.2f}'),
+                'y': float(f'{norm_y[i]:.2f}')
+            })
+    else:
+        # 3D normalization
+        min_x, max_x = np.min(X[:,0]), np.max(X[:,0])
+        min_y, max_y = np.min(X[:,1]), np.max(X[:,1])
+        min_z, max_z = np.min(X[:,2]), np.max(X[:,2])
+        norm_x = 5 + 90 * (X[:,0] - min_x) / (max_x - min_x + 1e-8)
+        norm_y = 5 + 90 * (X[:,1] - min_y) / (max_y - min_y + 1e-8)
+        norm_z = 5 + 90 * (X[:,2] - min_z) / (max_z - min_z + 1e-8)
+        for i, item in enumerate(items):
+            atlas.append({
+                'id': item,
+                'x': float(f'{norm_x[i]:.2f}'),
+                'y': float(f'{norm_y[i]:.2f}'),
+                'z': float(f'{norm_z[i]:.2f}')
+            })
     with open(output_path, 'w') as f:
         json.dump(atlas, f, indent=2)
     print(f"✓ t-STE embedding complete. Output written to {output_path}")
