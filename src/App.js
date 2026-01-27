@@ -114,7 +114,7 @@ const INITIAL_ALBUMS = [
                             {
                                 text: "When she's quiet in bed you can't play dumb",
                                 timestamp: "01:12",
-                                annotation: "This line actually took me a while to understand. But I've landed on a very dark interpretation now after sitting on it. Being \"quiet in bed\" has sequel implications. But why is she quiet? Either she's numb or distressed, or both. So sex has become something entirely separate from love or even something pleasurable. It's become an act of ownership. An entirely asymmetrical exchange. But notice the tone. Ivy takes an almost accusatory or sarcastic tone throughout the song. To me, she sounds almost like a self-loathing internal monologue. We will see more of this later."
+                                annotation: "This line actually took me a while to understand. But I've landed on a very dark interpretation now after sitting on it. Being \"quiet in bed\" has sexual implications. But why is she quiet? Either she's numb or distressed, or both. So sex has become something entirely separate from love or even something pleasurable. It's become an act of ownership. An entirely asymmetrical exchange. But notice the tone. Ivy takes an almost accusatory or sarcastic tone throughout the song. To me, she sounds almost like a self-loathing internal monologue. We will see more of this later."
                             },
                             {
                                 text: "buried under dirt, she looks pretty with her dress undone",

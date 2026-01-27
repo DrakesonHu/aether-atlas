@@ -17,44 +17,22 @@ function RotationTracker({ onRotation }) {
     return null;
 }
 
-// calculate camera relative offset
+// Position label at star with fixed screen-space offset (no camera-relative flipping)
 function CameraRelativeHtml({ starPosition, children, isSelected, ...props }) {
-    const groupRef = useRef();
-    const { camera } = useThree();
-
-    useFrame(() => {
-        if (groupRef.current) {
-            // Get camera's right and up vectors
-            const right = new THREE.Vector3();
-            const up = new THREE.Vector3();
-            camera.matrixWorld.extractBasis(right, up, new THREE.Vector3());
-
-            // Calculate offset in camera space
-            const offset = ATLAS3D_CONFIG.tooltipOffset;
-            const worldOffset = right.multiplyScalar(offset[0])
-                .add(up.clone().multiplyScalar(offset[1]));
-
-            // Update position
-            groupRef.current.position.set(
-                starPosition[0] + worldOffset.x,
-                starPosition[1] + worldOffset.y,
-                starPosition[2] + worldOffset.z
-            );
-        }
-    });
+    const offset = ATLAS3D_CONFIG.tooltipOffset;
 
     return (
-        <group ref={groupRef}>
-            <Html
-                style={{
-                    pointerEvents: 'auto',
-                    transformOrigin: 'top left'
-                }}
-                {...props}
-            >
-                {children}
-            </Html>
-        </group>
+        <Html
+            position={starPosition}
+            style={{
+                pointerEvents: 'auto',
+                transform: `translate(${offset[0] * 10}px, ${-offset[1] * 10}px)`,
+                transformOrigin: 'top left'
+            }}
+            {...props}
+        >
+            {children}
+        </Html>
     );
 }
 
@@ -539,10 +517,50 @@ function ConnectionLine({ points, isHighlighted, highlightedEnd, isDimmed, isFil
 
 // Hit area sphere for pointer events
 function HitArea({ position, scale, onPointerOver, onPointerOut, onClick }) {
+    const { camera } = useThree();
+    const meshRef = useRef();
+
+    const handlePointerOver = (e) => {
+        e.stopPropagation();
+        if (!ATLAS3D_CONFIG.enableBackfaceCulling) {
+            onPointerOver && onPointerOver(e);
+            return;
+        }
+
+        // Ensure position is a Vector3
+        const nodePos = new THREE.Vector3(
+            Array.isArray(position) ? position[0] : position.x,
+            Array.isArray(position) ? position[1] : position.y,
+            Array.isArray(position) ? (position[2] || 0) : (position.z || 0)
+        );
+
+        // Nodes near the center should always be hoverable (embedded nodes)
+        const distFromCenter = nodePos.length();
+        if (distFromCenter <= ATLAS3D_CONFIG.centerNodeRadius) {
+            onPointerOver && onPointerOver(e);
+            return;
+        }
+
+        // Vector from camera to node
+        const cameraToNode = nodePos.clone().sub(camera.position).normalize();
+        // Camera forward direction in world space
+        const cameraForward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+
+        const dot = cameraForward.dot(cameraToNode);
+        if (dot > ATLAS3D_CONFIG.backfaceDotThreshold) {
+            onPointerOver && onPointerOver(e);
+        }
+    };
+
+    const handlePointerOutLocal = (e) => {
+        e.stopPropagation();
+        onPointerOut && onPointerOut(e);
+    };
+
     return (
-        <mesh position={position} scale={[scale, scale, scale]} onPointerOver={onPointerOver} onPointerOut={onPointerOut} onClick={onClick}>
+        <mesh ref={meshRef} position={position} scale={[scale, scale, scale]} onPointerOver={handlePointerOver} onPointerOut={handlePointerOutLocal} onClick={onClick} renderOrder={999}>
             <sphereGeometry args={[1, 8, 8]} />
-            <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+            <meshBasicMaterial transparent opacity={0} depthWrite={false} depthTest={false} />
         </mesh>
     );
 }

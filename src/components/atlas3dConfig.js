@@ -22,6 +22,10 @@ export const ATLAS3D_CONFIG = {
     // Hit area sensitivity (multiplier for invisible hit sphere)
     hitSensitivityMultiplier: 2,        // Hit area = nodeScale * this value
     hitSensitivityMinimum: 2.5,         // Minimum hit area size
+    // Backface culling for hover (prevents hovering nodes on the far side)
+    enableBackfaceCulling: true,
+    backfaceDotThreshold: -0.2,         // dot(cameraDir, camera->node) must be > this to allow hover
+    centerNodeRadius: 20,               // nodes within this radius from origin are always hoverable
 
     // Label/Tooltip sizing / distance / offset
     labelDistanceFactor: 20,
@@ -71,8 +75,9 @@ export const ATLAS3D_CONFIG = {
     dampingFactor: 0.1,
 
     // Lighting
-    ambientIntensity: 0.8,
-    directionalIntensity: 0.5,
+    // Increased baseline brightness by 150% per request
+    ambientIntensity: 1.5,          // was 0.8
+    directionalIntensity: 1,     // was 0.5
     directionalPosition: [10, 10, 10],
 
     // Fog (Distance Fading) - aids depth perception
@@ -96,7 +101,7 @@ export const ATLAS3D_CONFIG = {
 
     // Bloom post-processing (requires @react-three/postprocessing)
     enableBloom: true,                       // Enable/disable bloom effect
-    bloomIntensity: 0.5,                     // Strength of bloom effect
+    bloomIntensity: 0.6,                     // Strength of bloom effect (slightly increased to match brighter base)
     bloomLuminanceThreshold: 0.2,            // Only pixels brighter than this will bloom
     bloomLuminanceSmoothing: 0.9,            // Smoothness of bloom transition
     bloomMipmapBlur: true                    // Better performance and quality for blur
