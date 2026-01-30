@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useMemo, useRef, Suspense, lazy } from 'react';
 import ATLAS_NODES from './data/atlas_data.json';
-import { Disc, ArrowLeft, ExternalLink, X, Clock, ChevronDown } from 'lucide-react';
+import { Disc, ArrowLeft, ExternalLink, X, Clock, ChevronDown, Compass } from 'lucide-react';
 
-// Lazy load 3D component at module level to prevent re-import
+// Lazy load 3D components at module level to prevent re-import
 const AtlasMap3D = lazy(() => import('./components/AtlasMap3D'));
+const MiniAtlasPreview = lazy(() => import('./components/MiniAtlasPreview'));
 
 /**
  * AETHER ATLAS
@@ -25,7 +26,7 @@ const COLORS = {
     },
     // Reading theme (light)
     reading: {
-        bg: 'bg-cream',
+        bg: 'bg-cream/80',
         text: 'text-charcoal',
         accent: 'text-terracotta',
         muted: 'text-slate-500',
@@ -114,7 +115,7 @@ const INITIAL_ALBUMS = [
                             {
                                 text: "When she's quiet in bed you can't play dumb",
                                 timestamp: "01:12",
-                                annotation: "This line actually took me a while to understand. But I've landed on a very dark interpretation now after sitting on it. Being \"quiet in bed\" has sexual implications. But why is she quiet? Either she's numb or distressed, or both. So sex has become something entirely separate from love or even something pleasurable. It's become an act of ownership. An entirely asymmetrical exchange. But notice the tone. Ivy takes an almost accusatory or sarcastic tone throughout the song. To me, she sounds almost like a self-loathing internal monologue. We will see more of this later."
+                                annotation: "This line actually took me a while to understand. But I've landed on a very dark interpretation now after sitting on it. Being \"quiet in bed\" has sequel implications. But why is she quiet? Either she's numb or distressed, or both. So sex has become something entirely separate from love or even something pleasurable. It's become an act of ownership. An entirely asymmetrical exchange. But notice the tone. Ivy takes an almost accusatory or sarcastic tone throughout the song. To me, she sounds almost like a self-loathing internal monologue. We will see more of this later."
                             },
                             {
                                 text: "buried under dirt, she looks pretty with her dress undone",
@@ -2366,7 +2367,7 @@ export default function AetherAtlas() {
         return (
             <div className="min-h-screen pt-32 pb-20 px-6 max-w-6xl mx-auto animate-fade-in">
                 {/* Hero Header Integration */}
-                <div className="relative mb-32">
+                <div className="relative mb-16">
                     {/* Vertical Decoration */}
                     <div className="absolute -left-24 top-0 h-full hidden xl:flex items-center">
                         <div className="rotate-180 [writing-mode:vertical-lr] text-[40px] font-display tracking-[0.5em] text-slate-400 uppercase whitespace-nowrap opacity-50">
@@ -2391,6 +2392,80 @@ export default function AetherAtlas() {
                             </div>
                         </div>
                     </header>
+
+                    {/* Atlas Preview + Description Section */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                        {/* 3D Atlas Preview */}
+                        <div
+                            className="relative aspect-square lg:aspect-[4/3] bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 rounded-sm border border-warm-gray overflow-hidden cursor-pointer group"
+                            onClick={() => setCurrentView('atlas')}
+                        >
+                            <Suspense fallback={
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="text-emerald-400/50 text-xs font-display uppercase tracking-widest animate-pulse">Loading Atlas...</div>
+                                </div>
+                            }>
+                                <MiniAtlasPreview songs={ATLAS_NODES} className="w-full h-full" />
+                            </Suspense>
+
+                            {/* HUD / Visual Effects Overlay - Minimalist */}
+                            {/* Simple Vignette on Hover */}
+                            <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-black/20" />
+
+                            {/* Center Action - Elegant & Clean */}
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-95 group-hover:scale-100">
+                                <div className="text-[10px] font-display text-emerald-100 tracking-[0.4em] uppercase font-light border-b border-emerald-500/30 pb-2">
+                                    Enter The Atlas
+                                </div>
+                            </div>
+
+                            {/* Static corner label + node count - moved to bottom-left */}
+                            <div className="absolute bottom-4 left-4 text-[9px] font-display text-emerald-100 tracking-widest uppercase group-hover:text-emerald-200 transition-colors duration-500">
+                                <div>Atlas Preview</div>
+                                <div className="text-[9px] text-amber-400/90 tracking-widest mt-1">{ATLAS_NODES.length} nodes</div>
+                            </div>
+                        </div>
+
+                        {/* Description Panel */}
+                        <div className="flex flex-col justify-center">
+                            <div className="text-[10px] font-display tracking-[0.4em] text-terracotta uppercase mb-4">What is Aether Atlas?</div>
+                            <h2 className="text-2xl md:text-3xl font-display font-light text-charcoal mb-4 leading-tight">Music criticism meets data visualization</h2>
+                            <div className="space-y-4 text-sm font-body text-slate-600 leading-relaxed">
+                                <p>
+                                    Aether Atlas is a personal journal of thoughts and feelings about songs that hold a special place in my heart.
+                                    Each review explores the emotional and sonic textures that make music meaningful.
+                                </p>
+                                <p>
+                                    The Atlas maps songs in a psychological space—tracks that feel similar appear closer together,
+                                    creating a navigable constellation of sound. Built using similarity rankings and dimensionality reduction.
+                                </p>
+                            </div>
+                            <div className="flex gap-4 mt-6">
+                                <button
+                                    onClick={() => setCurrentView('atlas')}
+                                    className="text-[10px] font-display tracking-[0.2em] uppercase text-white bg-charcoal px-6 py-3 hover:bg-terracotta transition-colors"
+                                >
+                                    Explore Atlas
+                                </button>
+                                <button
+                                    onClick={() => setCurrentView('about')}
+                                    className="text-[10px] font-display tracking-[0.2em] uppercase text-charcoal px-6 py-3 border border-warm-gray hover:border-terracotta hover:text-terracotta transition-colors"
+                                >
+                                    Learn More
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="flex items-center gap-6 mb-8">
+                        <div className="h-[1px] flex-1 bg-warm-gray"></div>
+                        <div className="flex flex-col items-center">
+                            <span className="text-[10px] font-display tracking-[0.5em] text-terracotta uppercase font-bold">Featured Review</span>
+                            <div className="w-1 h-1 bg-terracotta rotate-45 mt-2"></div>
+                        </div>
+                        <div className="h-[1px] flex-1 bg-warm-gray"></div>
+                    </div>
 
                     <section
                         className="relative group cursor-pointer aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-sm border border-warm-gray bg-warm-gray"

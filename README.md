@@ -74,6 +74,11 @@ Work in progress.
 
 ---
 
+### Immediate plans:
+ - revamp landing page for clarity and aethetics
+ - create a logo/site icon
+ - develop PCA gradient feature (may pull feature until developed)
+
 ### Phase 1: Analytics & Monetization (Weeks 1-2)
 
 **Validate audience interest before building complex features**
