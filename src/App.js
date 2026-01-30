@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef, Suspense, lazy } from 'react';
 import ATLAS_NODES from './data/atlas_data.json';
-import { Disc, ArrowLeft, ExternalLink, X, Clock, ChevronDown, Compass } from 'lucide-react';
+import { Disc, ArrowLeft, ExternalLink, X, Clock, ChevronDown} from 'lucide-react';
 
 // Lazy load 3D components at module level to prevent re-import
 const AtlasMap3D = lazy(() => import('./components/AtlasMap3D'));
