@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo, useRef, Suspense, lazy } from 'react';
 import ATLAS_NODES from './data/atlas_data.json';
-import { Disc, ArrowLeft, ExternalLink, X, Clock, ChevronDown} from 'lucide-react';
+import { Disc, ArrowLeft, ExternalLink, X, Clock, ChevronDown } from 'lucide-react';
+import CookieConsent from './components/CookieConsent';
+import { trackPageView, trackAlbumView, trackTrackView, trackAtlasInteraction, trackViewModeChange, trackGradientAxisChange } from './analytics';
 
 // Lazy load 3D components at module level to prevent re-import
 const AtlasMap3D = lazy(() => import('./components/AtlasMap3D'));
@@ -1360,7 +1362,9 @@ const AtlasMap = ({ songs, onSelectSong }) => {
         // We'll switch the actual mode halfway through or at the end
         // Let's do it at 350ms so it's hidden by the blur/opacity
         setTimeout(() => {
-            setViewMode(v => v === '2d' ? '3d' : '2d');
+            const newMode = viewMode === '2d' ? '3d' : '2d';
+            trackViewModeChange(newMode);
+            setViewMode(newMode);
         }, 350);
 
         setTimeout(() => {
@@ -1712,6 +1716,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                                 onClick={() => {
                                     setSelectedGradient('none');
                                     setIsGradientOpen(false);
+                                    trackGradientAxisChange('None');
                                 }}
                                 className={`px-6 py-4 text-xs font-display uppercase tracking-widest cursor-pointer border-b border-emerald-900/30 transition-colors ${selectedGradient === 'none'
                                     ? 'bg-emerald-900/40 text-white'
@@ -1726,6 +1731,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                                 onClick={() => {
                                     setSelectedGradient('pc1');
                                     setIsGradientOpen(false);
+                                    trackGradientAxisChange(activeGradientData.interpretations.pc1.name);
                                 }}
                                 className={`px-6 py-4 cursor-pointer border-b border-emerald-900/30 transition-colors ${selectedGradient === 'pc1'
                                     ? 'bg-emerald-900/40 text-white'
@@ -1748,6 +1754,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                                 onClick={() => {
                                     setSelectedGradient('pc2');
                                     setIsGradientOpen(false);
+                                    trackGradientAxisChange(activeGradientData.interpretations.pc2.name);
                                 }}
                                 className={`px-6 py-4 cursor-pointer transition-colors ${selectedGradient === 'pc2'
                                     ? 'bg-emerald-900/40 text-white'
@@ -2321,12 +2328,21 @@ export default function AetherAtlas() {
     const [activeTrackId, setActiveTrackId] = useState(null);
 
     const handleOpenAlbum = (albumId) => {
+        const album = INITIAL_ALBUMS.find(a => a.id === albumId);
+        if (album) {
+            trackAlbumView(albumId, album.title);
+        }
         setActiveAlbumId(albumId);
         setActiveTrackId(null);
         setCurrentView('album');
     };
 
     const handleOpenTrack = (albumId, trackId) => {
+        const album = INITIAL_ALBUMS.find(a => a.id === albumId);
+        const track = album?.tracks.find(t => t.id === trackId);
+        if (album && track) {
+            trackTrackView(album.title, track.title);
+        }
         setActiveAlbumId(albumId);
         setActiveTrackId(trackId);
         setCurrentView('track');
@@ -2347,6 +2363,7 @@ export default function AetherAtlas() {
         }
 
         if (currentView === 'atlas') {
+            trackAtlasInteraction('Open Atlas Map');
             return <AtlasMap songs={ATLAS_NODES} onSelectSong={(albumId, trackId) => handleOpenTrack(albumId, trackId)} />;
         }
 
@@ -2534,11 +2551,17 @@ export default function AetherAtlas() {
     const isAtlasView = currentView === 'atlas';
     const theme = isAtlasView ? COLORS.atlas : COLORS.reading;
 
+    // Track page views when currentView changes
+    useEffect(() => {
+        trackPageView(currentView);
+    }, [currentView]);
+
     return (
         <div className={`min-h-screen ${theme.bg} ${theme.text} font-sans selection:bg-slate-700 selection:text-white relative z-10 transition-colors duration-500`}>
             {currentView !== 'atlas' && <Background isAtlas={false} />}
             <Navigation currentView={currentView} setView={setCurrentView} isAtlas={isAtlasView} />
             {renderContent()}
+            <CookieConsent />
         </div>
     );
 }
