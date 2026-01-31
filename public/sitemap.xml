@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Homepage -->
+  <url>
+    <loc>https://aetheratlas.com/</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Atlas Map -->
+  <url>
+    <loc>https://aetheratlas.com/atlas</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- About Page -->
+  <url>
+    <loc>https://aetheratlas.com/about</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Album: Feet of Mud - Ivy Knight -->
+  <url>
+    <loc>https://aetheratlas.com/album/ivy-knight-feet-of-mud</loc>
+    <lastmod>2023-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Track: Something Good - Ivy Knight -->
+  <url>
+    <loc>https://aetheratlas.com/track/ivy-knight-feet-of-mud/ik-1</loc>
+    <lastmod>2023-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Track: Cut the String - Ivy Knight -->
+  <url>
+    <loc>https://aetheratlas.com/track/ivy-knight-feet-of-mud/ik-2</loc>
+    <lastmod>2023-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Track: Gun - Ivy Knight -->
+  <url>
+    <loc>https://aetheratlas.com/track/ivy-knight-feet-of-mud/ik-3</loc>
+    <lastmod>2023-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Track: Salvation - Ivy Knight -->
+  <url>
+    <loc>https://aetheratlas.com/track/ivy-knight-feet-of-mud/ik-4</loc>
+    <lastmod>2023-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Track: Be Your Dog - Ivy Knight -->
+  <url>
+    <loc>https://aetheratlas.com/track/ivy-knight-feet-of-mud/ik-5</loc>
+    <lastmod>2023-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>

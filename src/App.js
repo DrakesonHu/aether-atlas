@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef, Suspense, lazy } from 'rea
 import ATLAS_NODES from './data/atlas_data.json';
 import { Disc, ArrowLeft, ExternalLink, X, Clock, ChevronDown } from 'lucide-react';
 import CookieConsent from './components/CookieConsent';
+import SEO, { generateAlbumStructuredData, generateTrackStructuredData } from './components/SEO';
 import {
     trackPageView,
     trackAlbumView,
@@ -1040,8 +1041,20 @@ const PostPreview = ({ album, onClick }) => (
 const AlbumView = ({ album, onOpenTrack, onBack }) => {
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
+    const description = album.overview?.[0]?.value
+        ? album.overview[0].value.substring(0, 160) + '...'
+        : `In-depth review and analysis of ${album.title} by ${album.artist}.`;
+
     return (
         <div className="min-h-screen pt-32 pb-20 px-6 max-w-4xl mx-auto animate-fade-in">
+            <SEO
+                title={`${album.title} - ${album.artist}`}
+                description={description}
+                path={`/album/${album.id}`}
+                image={album.coverImage || '/graphics/og-image.jpg'}
+                type="music.album"
+                structuredData={generateAlbumStructuredData(album)}
+            />
             <button onClick={onBack} className="mb-12 flex items-center gap-2 text-xs font-display uppercase tracking-widest text-slate-600 hover:text-terracotta transition-colors">
                 <ArrowLeft size={14} /> Index
             </button>
@@ -1193,8 +1206,20 @@ const LyricLine = ({ line }) => {
 const TrackView = ({ track, album, onBack }) => {
     useEffect(() => { window.scrollTo(0, 0); }, [track]);
 
+    const description = track.content?.[0]?.value
+        ? track.content[0].value.substring(0, 160) + '...'
+        : `Deep dive analysis of "${track.title}" from ${album.title} by ${album.artist}.`;
+
     return (
         <div className="min-h-screen pt-32 pb-20 px-6 max-w-4xl mx-auto animate-fade-in">
+            <SEO
+                title={`${track.title} - ${album.artist}`}
+                description={description}
+                path={`/track/${album.id}/${track.id}`}
+                image={album.coverImage || '/graphics/og-image.jpg'}
+                type="article"
+                structuredData={generateTrackStructuredData(track, album)}
+            />
             <button onClick={onBack} className="mb-8 flex items-center gap-2 text-xs font-display uppercase tracking-widest text-slate-600 hover:text-terracotta transition-colors">
                 <ArrowLeft size={14} /> Back to {album.title}
             </button>
@@ -2381,12 +2406,26 @@ export default function AetherAtlas() {
 
         if (currentView === 'atlas') {
             trackAtlasInteraction('Open Atlas Map');
-            return <AtlasMap songs={ATLAS_NODES} onSelectSong={(albumId, trackId) => handleOpenTrack(albumId, trackId)} />;
+            return (
+                <>
+                    <SEO
+                        title="Atlas Map"
+                        description="Explore the Aether Atlas - an interactive 3D visualization mapping musical similarity. Discover connections between songs based on sonic and emotional characteristics."
+                        path="/atlas"
+                    />
+                    <AtlasMap songs={ATLAS_NODES} onSelectSong={(albumId, trackId) => handleOpenTrack(albumId, trackId)} />
+                </>
+            );
         }
 
         if (currentView === 'about') {
             return (
                 <div className="min-h-screen pt-32 px-6 max-w-2xl mx-auto animate-fade-in">
+                    <SEO
+                        title="About"
+                        description="Learn about Aether Atlas - a digital journal exploring music through deep analysis and an interactive sonic map using triplet similarity comparisons and cognitive science methodology."
+                        path="/about"
+                    />
                     <h1 className="text-4xl font-display font-light text-charcoal mb-8 uppercase tracking-widest">About the Aether</h1>
                     <div className="prose prose-lg max-w-none font-body text-charcoal leading-relaxed space-y-6">
                         <p>Aether Atlas is a digital journal of my own thoughts and feelings for songs that I enjoy or hold a special place in my heart. In its current state, many reviews will likely be informal and not terribly well thought out or polished. This project started as a google doc titled "Songs/Albums". And I enjoyed writing it, so I figured that I wanted to turn it into something more.</p>
@@ -2400,6 +2439,11 @@ export default function AetherAtlas() {
 
         return (
             <div className="min-h-screen pt-32 pb-20 px-6 max-w-6xl mx-auto animate-fade-in">
+                <SEO
+                    title="Home"
+                    description="Explore the Aether Atlas - an interactive 3D visualization mapping the relationships between albums and tracks across sonic dimensions."
+                    path="/"
+                />
                 {/* Hero Header Integration */}
                 <div className="relative mb-16">
                     {/* Vertical Decoration */}
