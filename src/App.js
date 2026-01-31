@@ -2,7 +2,16 @@ import React, { useState, useEffect, useMemo, useRef, Suspense, lazy } from 'rea
 import ATLAS_NODES from './data/atlas_data.json';
 import { Disc, ArrowLeft, ExternalLink, X, Clock, ChevronDown } from 'lucide-react';
 import CookieConsent from './components/CookieConsent';
-import { trackPageView, trackAlbumView, trackTrackView, trackAtlasInteraction, trackViewModeChange, trackGradientAxisChange } from './analytics';
+import {
+    trackPageView,
+    trackAlbumView,
+    trackTrackView,
+    trackAtlasInteraction,
+    trackViewModeChange,
+    trackGradientAxisChange,
+    trackFilterSelect,
+    trackNodeInteraction
+} from './analytics';
 
 // Lazy load 3D components at module level to prevent re-import
 const AtlasMap3D = lazy(() => import('./components/AtlasMap3D'));
@@ -1657,6 +1666,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                                             key={opt}
                                             onClick={() => {
                                                 setSelection(opt);
+                                                trackFilterSelect(category, opt);
                                             }}
                                             className={`px-6 py-4 text-xs font-display uppercase tracking-widest cursor-pointer border-b border-emerald-800/40 transition-colors ${selection === opt
                                                 ? 'bg-emerald-900 text-white'
@@ -1688,6 +1698,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                             setSelection(null);
                             setIsCategoryOpen(false);
                             setIsSelectionOpen(false);
+                            trackFilterSelect('clear', 'all');
                         }}
                         className="flex items-center gap-2 px-6 py-3 bg-orange-950/20 border border-orange-900/40 text-xs font-display uppercase tracking-widest text-orange-400/80 hover:text-white hover:bg-orange-900/30 hover:border-orange-700 transition-all shadow-lg"
                     >
@@ -2252,6 +2263,7 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                                     setSelection(value);
                                     setIsCategoryOpen(false);
                                     setIsSelectionOpen(false);
+                                    trackFilterSelect(type, value);
                                 }}
                                 onZoom={setZoom3d}
                                 onRotation={setRotation}
@@ -2553,8 +2565,14 @@ export default function AetherAtlas() {
 
     // Track page views when currentView changes
     useEffect(() => {
-        trackPageView(currentView);
-    }, [currentView]);
+        let path = `/${currentView}`;
+        if (currentView === 'album' && activeAlbumId) {
+            path = `/album/${activeAlbumId}`;
+        } else if (currentView === 'track' && activeAlbumId && activeTrackId) {
+            path = `/track/${activeAlbumId}/${activeTrackId}`;
+        }
+        trackPageView(currentView, path);
+    }, [currentView, activeAlbumId, activeTrackId]);
 
     return (
         <div className={`min-h-screen ${theme.bg} ${theme.text} font-sans selection:bg-slate-700 selection:text-white relative z-10 transition-colors duration-500`}>

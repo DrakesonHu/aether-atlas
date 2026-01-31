@@ -1,8 +1,14 @@
-import React, { useMemo, useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import React, { useMemo, useState, useRef, forwardRef, useImperativeHandle, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { ATLAS3D_CONFIG } from './atlas3dConfig';
+import {
+    trackNodeInteraction,
+    trackAtlasMovement,
+    trackFilterSelect,
+    trackTrackView
+} from '../analytics';
 
 // Track camera rotation for parallax
 function RotationTracker({ onRotation }) {
@@ -1092,16 +1098,22 @@ const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, 
                     const opacity = isDimmed ? 0.25 : 1;
                     const hitScale = Math.max(nodeScale * ATLAS3D_CONFIG.hitSensitivityMultiplier, ATLAS3D_CONFIG.hitSensitivityMinimum);
 
-                    const handlePointerOver = (e) => { e.stopPropagation(); setHovered(id); };
+                    const handlePointerOver = (e) => {
+                        e.stopPropagation();
+                        setHovered(id);
+                        trackNodeInteraction('hover', song);
+                    };
                     const handlePointerOut = (e) => { e.stopPropagation(); setHovered(null); };
                     const handleClick = (e) => {
                         e.stopPropagation();
                         if (selectedId === id) {
                             if (song.published && onSelectSong) {
+                                trackTrackView(song.album, song.title, song.trackId);
                                 onSelectSong(song.linkedAlbumId, song.trackId);
                             }
                         } else {
                             setSelectedId(id);
+                            trackNodeInteraction('select', song);
                         }
                     };
 
@@ -1183,6 +1195,7 @@ const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, 
                                                         onClick={(e) => {
                                                             e.stopPropagation();
                                                             onFilter && onFilter('artist', song.artist);
+                                                            trackFilterSelect('artist', song.artist);
                                                             setSelectedId(null);
                                                         }}
                                                         className="w-full px-3 py-1.5 bg-slate-900/80 border border-slate-700 text-[9px] font-display uppercase tracking-widest text-slate-200 hover:bg-slate-800 hover:text-white hover:border-slate-600 transition-all flex items-center justify-between"
@@ -1197,6 +1210,7 @@ const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, 
                                                         onClick={(e) => {
                                                             e.stopPropagation();
                                                             onFilter && onFilter('album', song.album);
+                                                            trackFilterSelect('album', song.album);
                                                             setSelectedId(null);
                                                         }}
                                                         className="w-full px-3 py-1.5 bg-slate-900/80 border border-slate-700 text-[9px] font-display uppercase tracking-widest text-slate-200 hover:bg-slate-800 hover:text-white hover:border-slate-600 transition-all flex items-center justify-between"
@@ -1211,6 +1225,7 @@ const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, 
                                                         onClick={(e) => {
                                                             e.stopPropagation();
                                                             onFilter && onFilter('genre', song.genre);
+                                                            trackFilterSelect('genre', song.genre);
                                                             setSelectedId(null);
                                                         }}
                                                         className="w-full px-3 py-1.5 bg-slate-900/80 border border-slate-700 text-[9px] font-display uppercase tracking-widest text-slate-200 hover:bg-slate-800 hover:text-white hover:border-slate-600 transition-all flex items-center justify-between"
@@ -1227,6 +1242,7 @@ const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, 
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (onSelectSong) {
+                                                        trackTrackView(song.album, song.title, song.trackId);
                                                         onSelectSong(song.linkedAlbumId, song.trackId);
                                                     }
                                                 }}

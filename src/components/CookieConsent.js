@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ReactGA from 'react-ga4';
+import { initializeAnalytics } from '../analytics';
 
 const CookieConsent = () => {
     const [showBanner, setShowBanner] = useState(false);
@@ -9,17 +9,13 @@ const CookieConsent = () => {
         if (consent === null) {
             setShowBanner(true);
         } else if (consent === 'accepted') {
-            initializeGA();
+            initializeAnalytics();
         }
     }, []);
 
-    const initializeGA = () => {
-        ReactGA.initialize('G-C0HBWJFK1V');
-    };
-
     const handleAccept = () => {
         localStorage.setItem('analytics_consent', 'accepted');
-        initializeGA();
+        initializeAnalytics();
         setShowBanner(false);
     };
 
