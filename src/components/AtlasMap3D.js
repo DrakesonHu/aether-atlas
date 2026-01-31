@@ -1,11 +1,10 @@
-import React, { useMemo, useState, useRef, forwardRef, useImperativeHandle, useEffect } from 'react';
+import React, { useMemo, useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { ATLAS3D_CONFIG } from './atlas3dConfig';
 import {
     trackNodeInteraction,
-    trackAtlasMovement,
     trackFilterSelect,
     trackTrackView
 } from '../analytics';

@@ -2113,18 +2113,23 @@ const AtlasMap = ({ songs, onSelectSong }) => {
                                         width: `${(40 * depthFactor) / zoom2d}px`,
                                         height: `${(40 * depthFactor) / zoom2d}px`,
                                     }}
-                                    onMouseEnter={() => setHoveredNode(song.id)}
+                                    onMouseEnter={() => {
+                                        setHoveredNode(song.id);
+                                        trackNodeInteraction('hover', song);
+                                    }}
                                     onMouseLeave={() => setHoveredNode(null)}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         if (selectedNode === song.id) {
                                             // Second click - navigate if published
                                             if (song.published) {
+                                                trackTrackView(song.album, song.title, song.trackId);
                                                 onSelectSong(song.linkedAlbumId, song.trackId);
                                             }
                                         } else {
                                             // First click - select
                                             setSelectedNode(song.id);
+                                            trackNodeInteraction('select', song);
                                         }
                                     }}
                                 >
