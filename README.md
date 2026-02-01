@@ -36,11 +36,58 @@ implementation deeply. The map is meant to be explored.
 
 ---
 
+## Tech Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Styling:** Tailwind CSS
+- **3D:** Three.js / React Three Fiber
+- **Analytics:** Google Analytics 4
+- **Fonts:** Cormorant Garamond (serif)
+
+---
+
 ## Running Locally
+
 ```bash
 npm install
-npm start
+npm run dev
 # Open http://localhost:3000
+```
+
+### Production Build
+
+```bash
+npm run build
+npm start
+```
+
+### Environment Variables
+
+Copy `.env.example` to `.env.local`:
+
+```
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_ENABLE_GA_IN_DEV=false
+```
+
+---
+
+## Project Structure
+
+```
+app/
+├── layout.js          # Root layout with metadata
+├── page.js            # Home page
+├── globals.css        # Tailwind + custom styles
+├── icon.jpg           # Favicon
+├── album/[albumId]/   # Album pages
+├── track/[trackId]/   # Track analysis pages
+├── atlas/             # Interactive atlas visualization
+└── about/             # About page
+
+components/            # Reusable React components
+lib/                   # Data, utils, analytics
+public/                # Static assets
 ```
 
 ---
@@ -183,11 +230,11 @@ Work in progress.
 
 ## Tech Stack Evolution
 
-**Current:** React, Tailwind, Canvas, Node.js, custom statistics
+**Current:** Next.js 14 (App Router), Tailwind, Three.js / R3F, GA4
 
-**Adding:** Firebase (auth + database), Cloud Functions (atlas regeneration), Google Analytics
+**Adding:** Firebase (auth + database), Cloud Functions (atlas regeneration)
 
-**Future:** Three.js, advanced sampling algorithms
+**Future:** Advanced sampling algorithms, personal atlases
 
 ---
 
