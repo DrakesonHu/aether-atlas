@@ -29,6 +29,8 @@ export default function AtlasPageClient() {
     // Read URL params for initial state
     const initialView = searchParams.get('view');
     const initialSelect = searchParams.get('select');
+    const initialFilter = searchParams.get('filter');
+    const initialFilterValue = searchParams.get('value');
 
     // Load atlas nodes
     const [atlasNodes, setAtlasNodes] = useState([]);
@@ -45,8 +47,8 @@ export default function AtlasPageClient() {
             });
     }, []);
 
-    const [category, setCategory] = useState(null);
-    const [selection, setSelection] = useState(null);
+    const [category, setCategory] = useState(initialFilter || null);
+    const [selection, setSelection] = useState(initialFilterValue || null);
     const [hoveredNode, setHoveredNode] = useState(null);
     const [selectedNode, setSelectedNode] = useState(initialSelect || null);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);

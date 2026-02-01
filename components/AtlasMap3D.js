@@ -60,37 +60,13 @@ function createStarShape() {
     return shape;
 }
 
-const MapController = forwardRef(({ onZoom, autoRotate = true, autoRotateSpeed = 0.5, focusPosition = null }, ref) => {
+const MapController = forwardRef(({ onZoom, autoRotate = true, autoRotateSpeed = 0.5 }, ref) => {
     const controlsRef = useRef();
     const { camera } = useThree();
     const lastZoomRef = useRef(1);
-    const hasFocusedRef = useRef(false);
 
-    // Focus on initial position once when provided
+    // Report zoom changes back to parent
     useFrame(() => {
-        if (focusPosition && !hasFocusedRef.current && controlsRef.current) {
-            hasFocusedRef.current = true;
-
-            // Calculate camera position to view the node from a good angle
-            const nodePos = new THREE.Vector3(...focusPosition);
-            const distance = 80; // Good viewing distance
-
-            // Position camera at an angle that shows the node clearly
-            // Offset from node position, looking toward center
-            const offsetDir = nodePos.clone().normalize();
-            if (offsetDir.length() < 0.1) {
-                offsetDir.set(0, 0, 1); // Default direction if node is at center
-            }
-
-            // Camera positioned behind and above the node relative to center
-            const cameraPos = nodePos.clone().add(offsetDir.multiplyScalar(distance));
-
-            camera.position.copy(cameraPos);
-            controlsRef.current.target.copy(nodePos);
-            controlsRef.current.update();
-        }
-
-        // Report zoom changes back to parent
         if (controlsRef.current && onZoom) {
             const target = controlsRef.current.target;
             const distance = camera.position.distanceTo(target);
@@ -901,14 +877,6 @@ const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, 
         };
     }, [songs]);
 
-    // Calculate focus position for initially selected node
-    const initialFocusPosition = useMemo(() => {
-        if (!initialSelectedId || !ids.length || !positions.length) return null;
-        const idx = ids.indexOf(initialSelectedId);
-        if (idx === -1) return null;
-        return positions[idx];
-    }, [initialSelectedId, ids, positions]);
-
     // Compute 3 nearest-neighbor connections per node
     const connections = useMemo(() => {
         const edges = [];
@@ -1024,7 +992,6 @@ const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, 
                     onZoom={onZoom}
                     autoRotate={autoRotate && !hovered && !selectedId}
                     autoRotateSpeed={autoRotateSpeed}
-                    focusPosition={initialFocusPosition}
                 />
 
                 {/* Connection lines */}

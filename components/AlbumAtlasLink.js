@@ -5,7 +5,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Stars } from '@react-three/drei';
 import * as THREE from 'three';
 import Link from 'next/link';
-import { SONG_DATABASE } from '@/lib/data';
+import { SONG_DATABASE, INITIAL_ALBUMS } from '@/lib/data';
 import { slugify } from '@/lib/utils';
 
 // Simplified star shape
@@ -232,9 +232,11 @@ export default function AlbumAtlasLink({ albumId, trackTitle, className = '' }) 
         });
     }, [atlasNodes, highlightedIds]);
 
-    // Build atlas link - 3D view with node pre-selected
-    const firstHighlightId = highlightedIds[0] || '';
-    const atlasHref = `/atlas?view=3d&select=${firstHighlightId}`;
+    // Build atlas link - albums use filter by album title, tracks use selection
+    const albumTitle = albumId ? INITIAL_ALBUMS.find(a => a.id === albumId)?.title : null;
+    const atlasHref = albumId && albumTitle
+        ? `/atlas?view=3d&filter=album&value=${encodeURIComponent(albumTitle)}`
+        : `/atlas?view=3d&select=${highlightedIds[0] || ''}`;
 
     if (!atlasNodes.length) {
         return (
