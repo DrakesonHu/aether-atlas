@@ -17,7 +17,7 @@ export const metadata = {
     openGraph: {
         title: 'Aether Atlas',
         description: 'Mapping the phenomenology of sound and the textures of memory.',
-        url: 'https://aetheratlas.com',
+        url: 'https://aetheratlas.net',
         siteName: 'Aether Atlas',
         locale: 'en_US',
         type: 'website',
