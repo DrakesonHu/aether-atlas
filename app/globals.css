@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@200;300;400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 400;
+        margin: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+@layer utilities {
+    .animate-fade-in {
+        animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    .animate-fade-in-slow {
+        animation: fadeIn 1s ease-out forwards;
+    }
+
+    .film-vignette::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.6) 100%);
+        mix-blend-mode: multiply;
+    }
+
+    .film-leak {
+        background: linear-gradient(135deg, rgba(13, 148, 136, 0.1) 0%, rgba(251, 146, 60, 0.05) 15%, rgba(0, 0, 0, 0) 45%);
+        mix-blend-mode: screen;
+        pointer-events: none;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse-slow {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(1.05);
+    }
+}
+
+@keyframes pulse-slower {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.3;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes streak {
+    0% {
+        transform: translateX(-10%) rotate(-5deg);
+        opacity: 0.2;
+    }
+
+    50% {
+        transform: translateX(10%) rotate(-5deg);
+        opacity: 0.4;
+    }
+
+    100% {
+        transform: translateX(-10%) rotate(-5deg);
+        opacity: 0.2;
+    }
+}
+
+@keyframes streak-reverse {
+    0% {
+        transform: translateX(10%) rotate(5deg);
+        opacity: 0.1;
+    }
+
+    50% {
+        transform: translateX(-10%) rotate(5deg);
+        opacity: 0.3;
+    }
+
+    100% {
+        transform: translateX(10%) rotate(5deg);
+        opacity: 0.1;
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 8s infinite ease-in-out;
+}
+
+.animate-pulse-slower {
+    animation: pulse-slower 12s infinite ease-in-out;
+}
+
+.animate-streak {
+    animation: streak 20s infinite ease-in-out;
+}
+
+.animate-streak-reverse {
+    animation: streak-reverse 25s infinite ease-in-out;
+}
+
+/* Font families */
+.font-display {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+}
+
+.font-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+}
+
+/* Film grain overlay */
+.film-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: cover;
+    mix-blend-mode: overlay;
+}
