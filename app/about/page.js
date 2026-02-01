@@ -20,7 +20,10 @@ export default function AboutPage() {
                 <h1 className="text-4xl font-display font-light text-charcoal mb-8 uppercase tracking-widest">About the Aether</h1>
                 <div className="prose prose-lg max-w-none font-body text-charcoal leading-relaxed space-y-6">
                     <p>
-                        Aether Atlas is a digital journal of my own thoughts and feelings for songs that I enjoy or hold a special place in my heart. 
+                        The aether was a medium no one could find for a phenomenon everyone could observe. In All About Lily Chou-Chou, it's the name for what music transmits that language can't capture. This project tries to map it anyway.
+                    </p>
+                    <p>
+                        Aether Atlas is also a digital journal of my own thoughts and feelings for songs that I enjoy or hold a special place in my heart. 
                         In its current state, many reviews will likely be informal and not terribly well thought out or polished. 
                         This project started as a google doc titled "Songs/Albums". And I enjoyed writing it, so I figured that I wanted to turn it into something more.
                     </p>

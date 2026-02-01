@@ -60,21 +60,42 @@ function createStarShape() {
     return shape;
 }
 
-const MapController = forwardRef(({ onZoom }, ref) => {
+const MapController = forwardRef(({ onZoom, autoRotate = true, autoRotateSpeed = 0.5, focusPosition = null }, ref) => {
     const controlsRef = useRef();
     const { camera } = useThree();
     const lastZoomRef = useRef(1);
+    const hasFocusedRef = useRef(false);
 
-    // Report zoom changes back to parent
+    // Focus on initial position once when provided
     useFrame(() => {
+        if (focusPosition && !hasFocusedRef.current && controlsRef.current) {
+            hasFocusedRef.current = true;
+
+            // Calculate camera position to view the node from a good angle
+            const nodePos = new THREE.Vector3(...focusPosition);
+            const distance = 80; // Good viewing distance
+
+            // Position camera at an angle that shows the node clearly
+            // Offset from node position, looking toward center
+            const offsetDir = nodePos.clone().normalize();
+            if (offsetDir.length() < 0.1) {
+                offsetDir.set(0, 0, 1); // Default direction if node is at center
+            }
+
+            // Camera positioned behind and above the node relative to center
+            const cameraPos = nodePos.clone().add(offsetDir.multiplyScalar(distance));
+
+            camera.position.copy(cameraPos);
+            controlsRef.current.target.copy(nodePos);
+            controlsRef.current.update();
+        }
+
+        // Report zoom changes back to parent
         if (controlsRef.current && onZoom) {
             const target = controlsRef.current.target;
             const distance = camera.position.distanceTo(target);
-            // Default distance is 100 in config. We invert it so closer = larger zoom.
-            // 100 distance = 1.0 zoom (100%)
             const zoomLevel = 100 / distance;
 
-            // Only update if it changed by more than 0.5% to avoid excessive re-renders
             if (Math.abs(zoomLevel - lastZoomRef.current) > 0.005) {
                 onZoom(zoomLevel);
                 lastZoomRef.current = zoomLevel;
@@ -126,6 +147,8 @@ const MapController = forwardRef(({ onZoom }, ref) => {
             enableZoom={ATLAS3D_CONFIG.enableZoom}
             enableRotate={ATLAS3D_CONFIG.enableRotate}
             dampingFactor={ATLAS3D_CONFIG.dampingFactor}
+            autoRotate={autoRotate}
+            autoRotateSpeed={autoRotateSpeed}
         />
     );
 });
@@ -844,9 +867,9 @@ function ClusterCloud({ positions, hue }) {
 }
 
 // Main 3D Atlas Map component
-const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, onFilter, onZoom, onRotation }, ref) => {
+const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, onFilter, onZoom, onRotation, initialSelectedId = null, autoRotate = true, autoRotateSpeed = 0.5 }, ref) => {
     const [hovered, setHovered] = useState(null);
-    const [selectedId, setSelectedId] = useState(null);
+    const [selectedId, setSelectedId] = useState(initialSelectedId);
     const mapControllerRef = useRef();
 
     useImperativeHandle(ref, () => ({
@@ -877,6 +900,14 @@ const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, 
             ids: songs.map(s => s.id)
         };
     }, [songs]);
+
+    // Calculate focus position for initially selected node
+    const initialFocusPosition = useMemo(() => {
+        if (!initialSelectedId || !ids.length || !positions.length) return null;
+        const idx = ids.indexOf(initialSelectedId);
+        if (idx === -1) return null;
+        return positions[idx];
+    }, [initialSelectedId, ids, positions]);
 
     // Compute 3 nearest-neighbor connections per node
     const connections = useMemo(() => {
@@ -988,7 +1019,13 @@ const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, 
                 <ambientLight intensity={ATLAS3D_CONFIG.ambientIntensity} />
                 <directionalLight position={ATLAS3D_CONFIG.directionalPosition} intensity={ATLAS3D_CONFIG.directionalIntensity} />
                 <RotationTracker onRotation={onRotation} />
-                <MapController ref={mapControllerRef} onZoom={onZoom} />
+                <MapController
+                    ref={mapControllerRef}
+                    onZoom={onZoom}
+                    autoRotate={autoRotate && !hovered && !selectedId}
+                    autoRotateSpeed={autoRotateSpeed}
+                    focusPosition={initialFocusPosition}
+                />
 
                 {/* Connection lines */}
                 {connections.map((edge, idx) => {

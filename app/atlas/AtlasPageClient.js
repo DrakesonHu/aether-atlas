@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useMemo, Suspense } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ChevronDown, X, ArrowLeft } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Background from '@/components/Background';
@@ -24,6 +24,11 @@ const AtlasMap3D = dynamic(() => import('@/components/AtlasMap3D'), {
 
 export default function AtlasPageClient() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+
+    // Read URL params for initial state
+    const initialView = searchParams.get('view');
+    const initialSelect = searchParams.get('select');
 
     // Load atlas nodes
     const [atlasNodes, setAtlasNodes] = useState([]);
@@ -43,7 +48,7 @@ export default function AtlasPageClient() {
     const [category, setCategory] = useState(null);
     const [selection, setSelection] = useState(null);
     const [hoveredNode, setHoveredNode] = useState(null);
-    const [selectedNode, setSelectedNode] = useState(null);
+    const [selectedNode, setSelectedNode] = useState(initialSelect || null);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const [isSelectionOpen, setIsSelectionOpen] = useState(false);
     const dropdownRef = useRef(null);
@@ -56,8 +61,8 @@ export default function AtlasPageClient() {
     // Similarity dropdown state
     const [isSimilarityDropdownOpen, setIsSimilarityDropdownOpen] = useState(false);
 
-    // 3D mode state and data
-    const [viewMode, setViewMode] = useState('2d');
+    // 3D mode state and data - use URL param for initial view
+    const [viewMode, setViewMode] = useState(initialView === '3d' ? '3d' : '2d');
     const [rotation, setRotation] = useState({ x: 0, y: 0, z: 0 });
     const [atlas3dNodes, setAtlas3dNodes] = useState(null);
     const [gradientData3d, setGradientData3d] = useState(null);
@@ -914,6 +919,9 @@ export default function AtlasPageClient() {
                                 }}
                                 onZoom={setZoom3d}
                                 onRotation={setRotation}
+                                initialSelectedId={initialSelect}
+                                autoRotate={true}
+                                autoRotateSpeed={0.3}
                             />
                         </Suspense>
                     </div>

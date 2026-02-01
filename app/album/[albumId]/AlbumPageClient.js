@@ -1,11 +1,18 @@
 'use client';
 
 import { useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { ArrowLeft, Disc, ExternalLink } from 'lucide-react';
 import Background from '@/components/Background';
 import { artistWithFeat, slugify } from '@/lib/utils';
 import { trackAlbumView } from '@/lib/analytics';
+
+// Dynamic import for 3D component to avoid SSR issues
+const AlbumAtlasLink = dynamic(() => import('@/components/AlbumAtlasLink'), {
+    ssr: false,
+    loading: () => <div className="w-16 h-16 bg-slate-900/20 animate-pulse" />
+});
 
 export default function AlbumPageClient({ album }) {
     useEffect(() => {
@@ -26,22 +33,29 @@ export default function AlbumPageClient({ album }) {
 
                 <header className="mb-16 border-b border-warm-gray pb-12 relative">
                     <div className="flex gap-12 items-start mb-8">
-                        {/* Large Album Cover */}
-                        <div className="relative flex-shrink-0 w-64 h-64 overflow-hidden border border-warm-gray shadow-[0_0_40px_rgba(0,0,0,0.1)] bg-white/50">
-                            {album.coverImage ? (
-                                <>
-                                    <img
-                                        src={album.coverImage}
-                                        alt={`${album.title} cover`}
-                                        className="w-full h-full object-cover opacity-90 grayscale-[20%]"
-                                    />
-                                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(245,243,239,0.4)_100%)] pointer-events-none" />
-                                </>
-                            ) : (
-                                <div className="w-full h-full flex items-center justify-center">
-                                    <Disc className="text-slate-400" size={80} />
-                                </div>
-                            )}
+                        {/* Album Cover with Atlas Link overlay */}
+                        <div className="flex-shrink-0 relative">
+                            {/* Large Album Cover */}
+                            <div className="relative w-64 h-64 overflow-hidden border border-warm-gray shadow-[0_0_40px_rgba(0,0,0,0.1)] bg-white/50">
+                                {album.coverImage ? (
+                                    <>
+                                        <img
+                                            src={album.coverImage}
+                                            alt={`${album.title} cover`}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </>
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center">
+                                        <Disc className="text-slate-400" size={80} />
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Mini Atlas Preview - positioned as corner badge */}
+                            <div className="absolute -bottom-3 -right-3">
+                                <AlbumAtlasLink albumId={album.id} className="w-16 h-16 border border-warm-gray shadow-lg" />
+                            </div>
                         </div>
 
                         <div className="flex-1">

@@ -30,11 +30,12 @@ export function generateMetadata({ params }) {
         : `Deep dive analysis of "${track.title}" from ${album.title} by ${album.artist}.`;
 
     return {
-        title: `${track.title} - ${album.artist} | Aether Atlas`,
-        description,
+        title: `${track.title} by ${album.artist} - Song Review & Analysis`,
+        description: `Song review: ${description}`,
+        keywords: `${track.title}, ${album.artist}, ${album.title}, song review, track review, music analysis, ${album.artist} ${track.title}`,
         openGraph: {
-            title: `${track.title} - ${album.artist}`,
-            description,
+            title: `${track.title} - ${album.artist} Review`,
+            description: `Song review: ${description}`,
             url: `https://aetheratlas.net/track/${slugify(track.title)}`,
             siteName: 'Aether Atlas',
             images: album.coverImage ? [
@@ -49,8 +50,8 @@ export function generateMetadata({ params }) {
         },
         twitter: {
             card: 'summary_large_image',
-            title: `${track.title} - ${album.artist}`,
-            description,
+            title: `${track.title} - ${album.artist} Review`,
+            description: `Song review: ${description}`,
             images: album.coverImage ? [album.coverImage] : [],
         },
     };

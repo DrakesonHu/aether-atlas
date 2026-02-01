@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import AtlasPageClient from './AtlasPageClient';
 
 export const metadata = {
@@ -13,5 +14,9 @@ export const metadata = {
 };
 
 export default function AtlasPage() {
-    return <AtlasPageClient />;
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-slate-900" />}>
+            <AtlasPageClient />
+        </Suspense>
+    );
 }
