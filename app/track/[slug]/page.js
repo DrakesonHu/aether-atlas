@@ -1,31 +1,22 @@
 import { INITIAL_ALBUMS } from '@/lib/data';
+import { slugify, getTrackBySlug } from '@/lib/utils';
 import TrackPageClient from './TrackPageClient';
 
-// Generate all static paths for tracks
+// Generate all static paths for tracks using slugified titles
 export function generateStaticParams() {
     const params = [];
     INITIAL_ALBUMS.filter(album => album.published).forEach(album => {
         album.tracks.filter(track => track.published).forEach(track => {
-            params.push({ trackId: track.id });
+            params.push({ slug: slugify(track.title) });
         });
     });
     return params;
 }
 
-// Find the track and its parent album
-function findTrackWithAlbum(trackId) {
-    for (const album of INITIAL_ALBUMS) {
-        const track = album.tracks.find(t => t.id === trackId);
-        if (track) {
-            return { track, album };
-        }
-    }
-    return { track: null, album: null };
-}
-
 // Generate metadata for SEO
 export function generateMetadata({ params }) {
-    const { track, album } = findTrackWithAlbum(params.trackId);
+    const result = getTrackBySlug(INITIAL_ALBUMS, params.slug);
+    const { track, album } = result || { track: null, album: null };
 
     if (!track || !album) {
         return {
@@ -44,7 +35,7 @@ export function generateMetadata({ params }) {
         openGraph: {
             title: `${track.title} - ${album.artist}`,
             description,
-            url: `https://aetheratlas.com/track/${track.id}`,
+            url: `https://aetheratlas.net/track/${slugify(track.title)}`,
             siteName: 'Aether Atlas',
             images: album.coverImage ? [
                 {
@@ -66,7 +57,8 @@ export function generateMetadata({ params }) {
 }
 
 export default function TrackPage({ params }) {
-    const { track, album } = findTrackWithAlbum(params.trackId);
+    const result = getTrackBySlug(INITIAL_ALBUMS, params.slug);
+    const { track, album } = result || { track: null, album: null };
 
     if (!track || !album) {
         return (

@@ -6,27 +6,28 @@ import { ChevronDown, X, ArrowLeft } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Background from '@/components/Background';
 import { SONG_DATABASE, INITIAL_ALBUMS } from '@/lib/data';
-import { 
-    trackAtlasInteraction, 
-    trackFilterSelect, 
-    trackGradientAxisChange, 
-    trackViewModeChange, 
+import { slugify } from '@/lib/utils';
+import {
+    trackAtlasInteraction,
+    trackFilterSelect,
+    trackGradientAxisChange,
+    trackViewModeChange,
     trackNodeInteraction,
-    trackTrackView 
+    trackTrackView
 } from '@/lib/analytics';
 
 // Dynamic import for 3D component
-const AtlasMap3D = dynamic(() => import('@/components/AtlasMap3D'), { 
+const AtlasMap3D = dynamic(() => import('@/components/AtlasMap3D'), {
     ssr: false,
     loading: () => <div className="absolute inset-0 flex items-center justify-center text-emerald-300 bg-transparent">Loading 3D...</div>
 });
 
 export default function AtlasPageClient() {
     const router = useRouter();
-    
+
     // Load atlas nodes
     const [atlasNodes, setAtlasNodes] = useState([]);
-    
+
     useEffect(() => {
         // Load atlas nodes from JSON file
         fetch('/data/atlas_nodes_3d.json')
@@ -75,7 +76,7 @@ export default function AtlasPageClient() {
             .catch(err => {
                 console.warn('Gradient axes not found.');
             });
-            
+
         fetch('/data/atlas_nodes_3d.json')
             .then(res => {
                 if (!res.ok) throw new Error('3D nodes not found');
@@ -97,7 +98,7 @@ export default function AtlasPageClient() {
             .then(data => {
                 setGradientData3d(data);
             })
-            .catch(() => {});
+            .catch(() => { });
     }, []);
 
     // Zoom and pan state
@@ -253,7 +254,7 @@ export default function AtlasPageClient() {
             dx = Math.max(pad, Math.min(100 - pad, dx));
             dy = Math.max(pad, Math.min(100 - pad, dy));
             const meta = SONG_DATABASE.find(d => d.id === s.id) || {};
-            
+
             let published = false;
             if (meta.linkedAlbumId && meta.trackId) {
                 const album = INITIAL_ALBUMS.find(a => a.id === meta.linkedAlbumId);
@@ -337,8 +338,8 @@ export default function AtlasPageClient() {
         return { x: avgX, y: avgY, radius, hue };
     }, [selection, category, prepared]);
 
-    const onSelectSong = (albumId, trackId) => {
-        router.push(`/track/${trackId}`);
+    const onSelectSong = (albumId, trackTitle) => {
+        router.push(`/track/${slugify(trackTitle)}`);
     };
 
     if (!atlasNodes.length) return <div className="h-screen flex items-center justify-center text-emerald-400">Loading Atlas Data...</div>;
@@ -352,7 +353,7 @@ export default function AtlasPageClient() {
                 viewMode={viewMode}
                 rotation={rotation}
             />
-            
+
             {/* UI CONTROLS */}
             <div className="absolute top-24 left-8 z-20 flex gap-4 items-start" ref={dropdownRef}>
                 {/* Category Selector */}
@@ -781,7 +782,7 @@ export default function AtlasPageClient() {
                                         if (selectedNode === song.id) {
                                             if (song.published) {
                                                 trackTrackView(song.trackId, song.title, song.linkedAlbumId, song.album);
-                                                onSelectSong(song.linkedAlbumId, song.trackId);
+                                                onSelectSong(song.linkedAlbumId, song.title);
                                             }
                                         } else {
                                             setSelectedNode(song.id);
@@ -874,7 +875,7 @@ export default function AtlasPageClient() {
                                             <button
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    onSelectSong(song.linkedAlbumId, song.trackId);
+                                                    onSelectSong(song.linkedAlbumId, song.title);
                                                 }}
                                                 className="mt-3 w-full px-4 py-2 bg-slate-900/80 border border-slate-700 text-[10px] font-display uppercase tracking-widest text-slate-200 hover:bg-slate-800 hover:text-white transition-all pointer-events-auto flex items-center justify-center gap-2"
                                             >

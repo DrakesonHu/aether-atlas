@@ -1110,7 +1110,7 @@ const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, 
                         if (selectedId === id) {
                             if (song.published && onSelectSong) {
                                 trackTrackView(song.album, song.title, song.trackId);
-                                onSelectSong(song.linkedAlbumId, song.trackId);
+                                onSelectSong(song.linkedAlbumId, song.title);
                             }
                         } else {
                             setSelectedId(id);
@@ -1244,7 +1244,7 @@ const AtlasMap3D = forwardRef(({ songs = [], onSelectSong, selection, category, 
                                                     e.stopPropagation();
                                                     if (onSelectSong) {
                                                         trackTrackView(song.album, song.title, song.trackId);
-                                                        onSelectSong(song.linkedAlbumId, song.trackId);
+                                                        onSelectSong(song.linkedAlbumId, song.title);
                                                     }
                                                 }}
                                                 className="mt-3 w-full px-4 py-2 bg-slate-900/80 border border-slate-700 text-[10px] font-display uppercase tracking-widest text-slate-200 hover:bg-slate-800 hover:text-white transition-all flex items-center justify-center gap-2"
